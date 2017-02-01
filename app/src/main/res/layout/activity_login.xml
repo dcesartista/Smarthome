@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="id.ac.ugm.smartcity.smarthome.LoginActivity"
+    tools:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_home"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="username"
+        android:textSize="16sp"
+        android:layout_marginTop="45dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"/>
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/edit_text_white"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="password"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"/>
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/edit_text_white"/>
+
+    <TextView
+        android:layout_width="132dp"
+        android:layout_height="29dp"
+        android:text="Sign In"
+        android:layout_marginTop="19.5dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_accent"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="forgot password"
+        android:layout_marginTop="9dp"
+        android:textSize="12sp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="doesn't have an account?"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Register"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</LinearLayout>
