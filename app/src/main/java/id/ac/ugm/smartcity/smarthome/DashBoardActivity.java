@@ -10,17 +10,22 @@ import butterknife.ButterKnife;
 
 public class DashBoardActivity extends AppCompatActivity {
     @BindView(R.id.tabDashboard)
-    TabLayout tab;
+    TabLayout tabLayout;
     @BindView(R.id.viewPagerDashboard)
     ViewPager pager;
+    DashboardFragmentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
-        pager.setAdapter(new DashboardFragmentAdapter(getSupportFragmentManager(),
-                DashBoardActivity.this));
-        tab.setupWithViewPager(pager);
+        adapter = new DashboardFragmentAdapter(getSupportFragmentManager(), DashBoardActivity.this, this);
+        pager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(pager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(adapter.getTabView(i));
+        }
     }
 }
