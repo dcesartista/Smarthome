@@ -14,6 +14,17 @@ import android.view.ViewGroup;
 public class ProfileFragment extends Fragment {
 
 
+    public static final String PROFILE_ARG = "PROFILE_ARG";
+
+    public static ProfileFragment newInstance(int page) {
+        Bundle args = new Bundle();
+        args.putInt(PROFILE_ARG, page);
+        ProfileFragment fragment = new ProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     public ProfileFragment() {
         // Required empty public constructor
     }

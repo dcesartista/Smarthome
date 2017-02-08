@@ -11,19 +11,20 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DeviceFragment extends Fragment {
-    public static final String DEVICE_ARG = "DEVICE_ARG";
+public class HomeFragment extends Fragment {
 
-    public static DeviceFragment newInstance(int page) {
+    public static final String HOME_ARG = "HOME_ARG";
+
+    public static HomeFragment newInstance(int page) {
         Bundle args = new Bundle();
-        args.putInt(DEVICE_ARG, page);
-        DeviceFragment fragment = new DeviceFragment();
+        args.putInt(HOME_ARG, page);
+        HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
 
-    public DeviceFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -32,7 +33,7 @@ public class DeviceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
 }

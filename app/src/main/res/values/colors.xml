@@ -6,4 +6,8 @@
 
     <color name="textPrimary">#000000</color>
     <color name="textSecondary">#6b6b6b</color>
+
+    <color name="red">#ed3125</color>
+    <color name="yellow">#FCFC60</color>
+    <color name="green">#86C725</color>
 </resources>
