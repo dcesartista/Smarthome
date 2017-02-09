@@ -3,17 +3,34 @@ package id.ac.ugm.smartcity.smarthome;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
+import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
+import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AlertFragment extends Fragment {
-
     public static final String ALERT_ARG = "ALERT_ARG";
+
+    @BindView(R.id.recycler_alert)
+    RecyclerView rvAlert;
+
+    private List<DisplayableItem> displayableItems;
+    private LinearLayoutManager layoutManager;
+    private AlertAdapter adapter;
 
     public static AlertFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -32,8 +49,21 @@ public class AlertFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alert, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_alert, container, false);
+        ButterKnife.bind(this,rootView);
+        setupRecyclerView();
+        displayableItems.add(new AlertDay("Hari Ini"));
+        displayableItems.add(new AlertDay("Kemarin"));
+        return rootView;
+    }
+
+    private void setupRecyclerView() {
+        displayableItems = new ArrayList<>();
+
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rvAlert.setLayoutManager(layoutManager);
+        adapter = new AlertAdapter(displayableItems, getContext());
+        rvAlert.setAdapter(adapter);
     }
 
 }
