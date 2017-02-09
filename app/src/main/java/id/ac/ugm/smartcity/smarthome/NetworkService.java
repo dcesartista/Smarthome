@@ -1,5 +1,8 @@
 package id.ac.ugm.smartcity.smarthome;
 
+import java.util.List;
+
+import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.http.GET;
 import rx.Observable;
@@ -10,7 +13,10 @@ import rx.Observable;
 
 public interface NetworkService {
 
-    @GET("v1/city")
-    Observable<Alert> getAlertList();
+    @GET("alerts")
+    Observable<List<Alert>> getAlertList();
+
+    @GET("alerts")
+    Observable<List<Device>> getDeviceList();
 
 }

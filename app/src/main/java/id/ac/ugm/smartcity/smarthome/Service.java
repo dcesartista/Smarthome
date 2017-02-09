@@ -4,6 +4,8 @@ package id.ac.ugm.smartcity.smarthome;
  * Created by dito on 09/02/17.
  */
 
+import java.util.List;
+
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import rx.Observable;
 import rx.Subscriber;
@@ -19,18 +21,18 @@ public class Service {
         this.networkService = networkService;
     }
 
-    public Subscription getCityList(final GetCityListCallback callback) {
+    public Subscription getAlertList(final GetAlertListCallback callback) {
 
         return networkService.getAlertList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Alert>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Alert>>>() {
                     @Override
-                    public Observable<? extends Alert> call(Throwable throwable) {
+                    public Observable<? extends List<Alert>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<Alert>() {
+                .subscribe(new Subscriber<List<Alert>>() {
                     @Override
                     public void onCompleted() {
 
@@ -43,15 +45,15 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(Alert cityListResponse) {
-                        callback.onSuccess(cityListResponse);
-
+                    public void onNext(List<Alert> alerts) {
+                        callback.onSuccess(alerts);
                     }
+
                 });
     }
 
-    public interface GetCityListCallback{
-        void onSuccess(Alert cityListResponse);
+    public interface GetAlertListCallback{
+        void onSuccess(List<Alert> alertList);
 
         void onError(NetworkError networkError);
     }

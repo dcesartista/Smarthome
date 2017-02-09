@@ -18,10 +18,12 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[] { "Home", "Alert", "Device", "History", "Profile" };
     private int[] tabIcon = { R.drawable.ic_home, R.drawable.ic_alert, R.drawable.ic_router, R.drawable.ic_history, R.drawable.ic_profile};
     private Context context;
+    private Service service;
 
-    public DashboardFragmentAdapter(FragmentManager fm, DashBoardActivity dashBoardActivity, Context context) {
+    public DashboardFragmentAdapter(FragmentManager fm, DashBoardActivity dashBoardActivity, Context context, Service service) {
         super(fm);
         this.context = context;
+        this.service = service;
     }
 
     public View getTabView(int position) {
@@ -41,7 +43,7 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 return HomeFragment.newInstance(position + 1);
             case 1:
-                return AlertFragment.newInstance(position + 1);
+                return AlertFragment.newInstance(position + 1, service);
             case 2:
                 return DeviceFragment.newInstance(position + 1);
             case 3:

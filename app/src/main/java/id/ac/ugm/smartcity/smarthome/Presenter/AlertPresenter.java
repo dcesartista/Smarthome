@@ -4,19 +4,23 @@ package id.ac.ugm.smartcity.smarthome.Presenter;
  * Created by dito on 09/02/17.
  */
 
-import id.ac.ugm.smartcity.smarthome.DashBoardView;
+import android.util.Log;
+
+import java.util.List;
+
+import id.ac.ugm.smartcity.smarthome.AlertView;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import id.ac.ugm.smartcity.smarthome.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Service;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-public class DashBoardPresenter {
+public class AlertPresenter {
     private final Service service;
-    private final DashBoardView view;
+    private final AlertView view;
     private CompositeSubscription subscriptions;
 
-    public DashBoardPresenter(Service service, DashBoardView view) {
+    public AlertPresenter(Service service, AlertView view) {
         this.service = service;
         this.view = view;
         this.subscriptions = new CompositeSubscription();
@@ -25,16 +29,17 @@ public class DashBoardPresenter {
     public void getAlertList() {
         view.showLoading();
 
-        Subscription subscription = service.getCityList(new Service.GetCityListCallback() {
+        Subscription subscription = service.getAlertList(new Service.GetAlertListCallback() {
             @Override
-            public void onSuccess(Alert alert) {
+            public void onSuccess(List<Alert> alertList) {
                 view.hideLoading();
-                view.getAlertSuccess(alert);
+                view.getAlertSuccess(alertList);
             }
 
             @Override
             public void onError(NetworkError networkError) {
                 view.hideLoading();
+                Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
         });

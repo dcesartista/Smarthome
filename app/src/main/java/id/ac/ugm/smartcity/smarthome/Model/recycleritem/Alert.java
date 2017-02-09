@@ -3,11 +3,13 @@ package id.ac.ugm.smartcity.smarthome.Model.recycleritem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
+
 /**
  * Created by dito on 09/02/17.
  */
 
-public class Alert {
+public class Alert implements DisplayableItem {
 
     @SerializedName("id")
     @Expose

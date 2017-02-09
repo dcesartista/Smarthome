@@ -10,6 +10,7 @@ import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.adapter.delegates.AlertDayDelegate;
+import id.ac.ugm.smartcity.smarthome.adapter.delegates.AlertLogDelegate;
 
 /**
  * Created by dito on 09/02/17.
@@ -23,6 +24,7 @@ public class AlertAdapter extends RecyclerView.Adapter {
         this.items = items;
         delegatesManager = new AdapterDelegatesManager<>();
         delegatesManager.addDelegate(new AlertDayDelegate(context));
+        delegatesManager.addDelegate(new AlertLogDelegate(context));
     }
 
     @Override public int getItemViewType(int position) {
