@@ -3,7 +3,6 @@ package id.ac.ugm.smartcity.smarthome;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,9 +94,8 @@ public class AlertFragment extends Fragment implements AlertView {
     public void getAlertSuccess(List<Alert> alertList) {
         for (Alert alert : alertList){
             displayableItems.add(alert);
-            Log.d("DATA",alert.getWarning());
+            Log.d("DATA ALERT",alert.getWarning());
         }
         adapter.notifyDataSetChanged();
-        Log.d("SDAD","AHAHA");
     }
 }

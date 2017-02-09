@@ -3,6 +3,8 @@ package id.ac.ugm.smartcity.smarthome;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import id.ac.ugm.smartcity.smarthome.R;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override

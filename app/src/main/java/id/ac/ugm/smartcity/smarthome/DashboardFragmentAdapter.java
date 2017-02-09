@@ -45,7 +45,7 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
             case 1:
                 return AlertFragment.newInstance(position + 1, service);
             case 2:
-                return DeviceFragment.newInstance(position + 1);
+                return DeviceFragment.newInstance(position + 1, service);
             case 3:
                 return HistoryFragment.newInstance(position + 1);
             case 4:

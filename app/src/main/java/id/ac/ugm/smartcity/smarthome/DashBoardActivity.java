@@ -1,6 +1,5 @@
 package id.ac.ugm.smartcity.smarthome;
 
-import android.app.ProgressDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -9,16 +8,16 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 
 public class DashBoardActivity extends BaseActivity {
     @BindView(R.id.tabDashboard)
     TabLayout tabLayout;
     @BindView(R.id.viewPagerDashboard)
     ViewPager pager;
+
     DashboardFragmentAdapter adapter;
     @Inject
-    public  Service service;
+    public Service service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

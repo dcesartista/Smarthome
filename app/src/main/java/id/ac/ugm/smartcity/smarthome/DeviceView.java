@@ -4,19 +4,18 @@ import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
-import retrofit2.http.GET;
-import rx.Observable;
 
 /**
  * Created by dito on 09/02/17.
  */
 
-public interface NetworkService {
+public interface DeviceView {
+    void showLoading();
 
-    @GET("alerts")
-    Observable<List<Alert>> getAlertList();
+    void hideLoading();
 
-    @GET("devices")
-    Observable<List<Device>> getDeviceList();
+    void onFailure(String appErrorMessage);
+
+    void getDeviceSuccess(List<Device> deviceList);
 
 }
