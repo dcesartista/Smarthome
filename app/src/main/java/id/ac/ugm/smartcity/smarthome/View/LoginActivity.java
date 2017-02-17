@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome;
+package id.ac.ugm.smartcity.smarthome.View;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

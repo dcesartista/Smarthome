@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome;
+package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
 import android.os.Bundle;
@@ -16,10 +16,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
+import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.adapter.DeviceAdapter;
-
-import static id.ac.ugm.smartcity.smarthome.R.layout.device;
 
 
 /**

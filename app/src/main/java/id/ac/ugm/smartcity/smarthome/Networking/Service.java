@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome;
+package id.ac.ugm.smartcity.smarthome.Networking;
 
 /**
  * Created by dito on 09/02/17.

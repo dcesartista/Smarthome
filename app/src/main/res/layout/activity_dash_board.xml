@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="id.ac.ugm.smartcity.smarthome.DashBoardActivity">
+    tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity">
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="48dp"

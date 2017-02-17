@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome;
+package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
+import id.ac.ugm.smartcity.smarthome.R;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;

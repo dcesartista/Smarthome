@@ -5,9 +5,9 @@ import android.util.Log;
 import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
-import id.ac.ugm.smartcity.smarthome.NetworkError;
-import id.ac.ugm.smartcity.smarthome.Service;
-import id.ac.ugm.smartcity.smarthome.DeviceView;
+import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.DeviceView;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

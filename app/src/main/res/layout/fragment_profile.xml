@@ -1,7 +1,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="id.ac.ugm.smartcity.smarthome.ProfileFragment"
+    tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout

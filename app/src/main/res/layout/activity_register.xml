@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="id.ac.ugm.smartcity.smarthome.LoginActivity"
+    tools:context="id.ac.ugm.smartcity.smarthome.View.LoginActivity"
     tools:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView

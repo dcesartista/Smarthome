@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome;
+package id.ac.ugm.smartcity.smarthome.View.Dashboard.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.AlertFragment;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.DeviceFragment;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HistoryFragment;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HomeFragment;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileFragment;
 
 /**
  * Created by dito on 08/02/17.

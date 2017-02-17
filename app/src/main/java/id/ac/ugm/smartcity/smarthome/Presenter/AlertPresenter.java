@@ -8,10 +8,10 @@ import android.util.Log;
 
 import java.util.List;
 
-import id.ac.ugm.smartcity.smarthome.AlertView;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.AlertView;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
-import id.ac.ugm.smartcity.smarthome.NetworkError;
-import id.ac.ugm.smartcity.smarthome.Service;
+import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

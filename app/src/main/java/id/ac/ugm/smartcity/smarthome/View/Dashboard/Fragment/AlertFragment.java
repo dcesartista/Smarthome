@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome;
+package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
 import android.app.ProgressDialog;
@@ -19,7 +19,9 @@ import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.AlertPresenter;
+import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
 
 

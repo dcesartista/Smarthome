@@ -7,6 +7,8 @@ package id.ac.ugm.smartcity.smarthome;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import id.ac.ugm.smartcity.smarthome.Networking.NetworkModule;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 
 @Singleton
 @Component(modules = {NetworkModule.class,})
