@@ -7,6 +7,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
 import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.User_Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import rx.Observable;
 import rx.Subscriber;
@@ -83,6 +84,35 @@ public class Service {
                 });
     }
 
+    public Subscription signIn(final SignInCallback callback){
+
+        return networkService.signIn()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends User>>() {
+                    @Override
+                    public Observable<? extends User> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        callback.onSuccess(user);
+                    }
+                });
+    }
+
     public interface GetAlertListCallback{
         void onSuccess(List<Alert> alertList);
 
@@ -91,6 +121,12 @@ public class Service {
 
     public interface GetDeviceListCallback{
         void onSuccess(List<Device> deviceList);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface SignInCallback{
+        void onSuccess(User user);
 
         void onError(NetworkError networkError);
     }
