@@ -5,10 +5,12 @@ package id.ac.ugm.smartcity.smarthome.Networking;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
+import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -84,18 +86,18 @@ public class Service {
                 });
     }
 
-    public Subscription signIn(final SignInCallback callback){
+    public Subscription signIn(final SignInCallback callback, Map<String, String> loginParams){
 
-        return networkService.signIn()
+        return networkService.signIn(loginParams)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends User>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<User>>>() {
                     @Override
-                    public Observable<? extends User> call(Throwable throwable) {
+                    public Observable<? extends Response<User>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<User>() {
+                .subscribe(new Subscriber<Response<User>>() {
                     @Override
                     public void onCompleted() {
 
@@ -107,8 +109,8 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(User user) {
-                        callback.onSuccess(user);
+                    public void onNext(Response<User> response) {
+                        callback.onSuccess(response);
                     }
                 });
     }
@@ -126,7 +128,7 @@ public class Service {
     }
 
     public interface SignInCallback{
-        void onSuccess(User user);
+        void onSuccess(Response<User> response);
 
         void onError(NetworkError networkError);
     }

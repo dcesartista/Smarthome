@@ -10,15 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".View.LoginActivity">
-
-        </activity>
-        <activity android:name=".View.RegisterActivity" />
-        <activity android:name=".View.Dashboard.DashBoardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".View.RegisterActivity" />
+        <activity android:name=".View.Dashboard.DashBoardActivity">
         </activity>
     </application>
 
