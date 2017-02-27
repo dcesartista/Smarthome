@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome.Model.User_Model;
+package id.ac.ugm.smartcity.smarthome.Model.User_Model.Login;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by dito on 18/02/17.
  */
 
-public class Data {
+public class LoginData {
     @SerializedName("id")
     @Expose
     private Integer id;

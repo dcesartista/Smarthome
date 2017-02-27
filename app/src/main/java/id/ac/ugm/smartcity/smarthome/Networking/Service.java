@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
-import id.ac.ugm.smartcity.smarthome.Model.User_Model.User;
+import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
+import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
 import rx.Observable;
@@ -91,13 +92,13 @@ public class Service {
         return networkService.signIn(loginParams)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<User>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<LoginUser>>>() {
                     @Override
-                    public Observable<? extends Response<User>> call(Throwable throwable) {
+                    public Observable<? extends Response<LoginUser>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<Response<User>>() {
+                .subscribe(new Subscriber<Response<LoginUser>>() {
                     @Override
                     public void onCompleted() {
 
@@ -109,11 +110,43 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(Response<User> response) {
+                    public void onNext(Response<LoginUser> response) {
                         callback.onSuccess(response);
                     }
                 });
     }
+
+    public Subscription register(final RegisterCallBack callback, Map<String, String> loginParams){
+
+        return networkService.register(loginParams)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<RegisterUser>>>() {
+                    @Override
+                    public Observable<? extends Response<RegisterUser>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<RegisterUser>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<RegisterUser> response) {
+                        callback.onSuccess(response);
+                    }
+                });
+    }
+
+
+
 
     public interface GetAlertListCallback{
         void onSuccess(List<Alert> alertList);
@@ -128,7 +161,13 @@ public class Service {
     }
 
     public interface SignInCallback{
-        void onSuccess(Response<User> response);
+        void onSuccess(Response<LoginUser> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface RegisterCallBack{
+        void onSuccess(Response<RegisterUser> response);
 
         void onError(NetworkError networkError);
     }
