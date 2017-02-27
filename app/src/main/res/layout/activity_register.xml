@@ -55,12 +55,13 @@
         android:textSize="16sp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:inputType="textPassword"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/edit_text_white"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="email"
+        android:text="confirm password"
         android:layout_marginTop="16dp"
         android:textSize="16sp"
         android:layout_gravity="center_horizontal"
@@ -75,6 +76,7 @@
         android:textSize="16sp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:inputType="textPassword"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/edit_text_white"/>
 
