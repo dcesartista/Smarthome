@@ -35,7 +35,10 @@ public class LoginPresenter {
             @Override
             public void onSuccess(Response<LoginUser> response) {
                 view.hideLoading();
-                view.loginSuccess(response);
+                if (response.body() != null)
+                    view.loginSuccess(response);
+                else
+                    view.loginFailed(response);
             }
 
             @Override
