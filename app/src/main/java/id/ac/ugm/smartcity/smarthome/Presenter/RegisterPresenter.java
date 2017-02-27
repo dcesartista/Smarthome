@@ -2,6 +2,12 @@ package id.ac.ugm.smartcity.smarthome.Presenter;
 
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
@@ -34,8 +40,21 @@ public class RegisterPresenter {
         Subscription subscription = service.register(new Service.RegisterCallBack() {
             @Override
             public void onSuccess(Response<RegisterUser> response) {
+                Log.e("HMM",String.valueOf(response.code()));
                 view.hideLoading();
-                view.registerSuccess(response);
+                if(response.code() == 200)
+                    view.registerSuccess(response);
+                else{
+                    try {
+                        JsonElement jelement = new JsonParser().parse(response.errorBody().string());
+                        JsonObject jobject = jelement.getAsJsonObject();
+                        jobject = jobject.getAsJsonObject("errors");
+                        JsonArray messages = jobject.getAsJsonArray("full_messages");
+                        view.registerFailed(messages.get(messages.size()-1).getAsString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override

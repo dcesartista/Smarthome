@@ -12,7 +12,7 @@ public interface RegisterView {
 
     void hideLoading();
 
-    void onFailure(String appErrorMessage);
+    void registerFailed(String appErrorMessage);
 
     void registerSuccess(Response<RegisterUser> response);
 }
