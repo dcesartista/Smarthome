@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     }
 
     @Override
-    public void loginFailed(Response<LoginUser> response) {
+    public void loginFailed() {
         Toast.makeText(this,"invalid username or password",Toast.LENGTH_SHORT).show();
     }
 

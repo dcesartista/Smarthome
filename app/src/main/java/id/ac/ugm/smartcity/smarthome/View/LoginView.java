@@ -13,7 +13,7 @@ public interface LoginView {
 
     void hideLoading();
 
-    void loginFailed(Response<LoginUser> response);
+    void loginFailed();
 
     void loginSuccess(Response<LoginUser> response);
 

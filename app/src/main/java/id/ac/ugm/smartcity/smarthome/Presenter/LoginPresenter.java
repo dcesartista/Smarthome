@@ -38,7 +38,7 @@ public class LoginPresenter {
                 if (response.body() != null)
                     view.loginSuccess(response);
                 else
-                    view.loginFailed(response);
+                    view.loginFailed();
             }
 
             @Override
