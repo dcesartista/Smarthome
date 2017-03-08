@@ -22,6 +22,7 @@ import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.LoginPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity implements LoginView {
@@ -82,13 +83,15 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void loginSuccess(Response<LoginUser> response) {
-        Log.e(TAG,response.body().getData().getUid());
-        Log.e(TAG,response.body().getData().getEmail());
-        Log.e(TAG,response.headers().toString());
-        Log.e(TAG,response.headers().get("Access-Token"));
-        Toast.makeText(this,"SUCCESS",Toast.LENGTH_SHORT).show();
         SharedPreferences.Editor editor = getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
         editor.putString(App.USER_EMAIL, response.body().getData().getEmail());
         editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+        editor.putString(App.CLIENT, response.headers().get("Client"));
+        editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+        editor.putString(App.UID, response.headers().get("Uid"));
+        editor.commit();
+
+        Intent intent = new Intent(this, DashBoardActivity.class);
+        startActivity(intent);
     }
 }
