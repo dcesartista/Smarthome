@@ -4,6 +4,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
  * Created by dito on 09/02/17.
  */
 
+import java.security.Key;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +27,8 @@ public class Service {
         this.networkService = networkService;
     }
 
-    public Subscription getDeviceList(final GetDeviceListCallback callback){
-        return networkService.getDeviceList()
+    public Subscription getDeviceList(final GetDeviceListCallback callback, Map<String, String> headers){
+        return networkService.getDeviceList(headers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Device>>>() {
@@ -56,9 +57,9 @@ public class Service {
                 });
     }
 
-    public Subscription getAlertList(final GetAlertListCallback callback) {
+    public Subscription getAlertList(final GetAlertListCallback callback, Map<String, String> headers) {
 
-        return networkService.getAlertList()
+        return networkService.getAlertList(headers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Alert>>>() {

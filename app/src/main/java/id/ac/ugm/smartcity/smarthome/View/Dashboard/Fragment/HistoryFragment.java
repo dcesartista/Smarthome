@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.R;
 import lecho.lib.hellocharts.model.Axis;
@@ -54,22 +55,6 @@ public class HistoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @OnItemSelected(R.id.spr_device)
-    void onItemSelected(int position) {
-        switch (position){
-            case 0:
-                generateChart(data1);
-                break;
-            case 1:
-                generateChart(data2);
-                break;
-            case 2:
-                generateChart(data3);
-                break;
-        }
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,6 +72,26 @@ public class HistoryFragment extends Fragment {
         spinnerDevice.setAdapter(deviceAdapter);
 
         return rootView;
+    }
+
+    @OnClick(R.id.temperature)
+    void showTempGraph(){
+
+    }
+
+    @OnItemSelected(R.id.spr_device)
+    void onItemSelected(int position) {
+        switch (position){
+            case 0:
+                generateChart(data1);
+                break;
+            case 1:
+                generateChart(data2);
+                break;
+            case 2:
+                generateChart(data3);
+                break;
+        }
     }
 
     private void generateDummyData(){

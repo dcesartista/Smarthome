@@ -63,7 +63,7 @@ public class AlertFragment extends Fragment implements AlertView {
         setupRecyclerView();
         progressDialog = new ProgressDialog(getContext());
         displayableItems.add(new AlertDay("Hari Ini"));
-        AlertPresenter presenter = new AlertPresenter(service, this);
+        AlertPresenter presenter = new AlertPresenter(service, this, getContext());
         presenter.getAlertList();
         return rootView;
     }

@@ -3,4 +3,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <!-- STRING FOR AUTH -->
+    <string name="access_token">access-token</string>
+    <string name="token_type">token-type</string>
+    <string name="client">client</string>
+    <string name="expiry">expiry</string>
+    <string name="uid">uid</string>
+
+    <string name="bearer">Bearer</string>
 </resources>

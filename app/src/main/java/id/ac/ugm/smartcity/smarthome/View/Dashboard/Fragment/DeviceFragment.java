@@ -58,7 +58,7 @@ public class DeviceFragment extends Fragment implements DeviceView {
         View rootView = inflater.inflate(R.layout.fragment_device, container, false);
         ButterKnife.bind(this, rootView);
         setupRecycleView();
-        DevicePresenter presenter = new DevicePresenter(service, this);
+        DevicePresenter presenter = new DevicePresenter(service, this, getContext());
         presenter.getDeviceList();
 
         return rootView;

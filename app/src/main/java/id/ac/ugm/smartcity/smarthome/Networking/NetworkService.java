@@ -9,7 +9,9 @@ import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -20,10 +22,20 @@ import rx.Observable;
 public interface NetworkService {
 
     @GET("alerts")
-    Observable<List<Alert>> getAlertList();
+    Observable<List<Alert>> getAlertList(
+            @HeaderMap Map<String, String> headers
+    );
+
+    @GET("temperatures_daily")
+    Observable<List<Alert>> getTemperaturesDaily(
+            @Query("start_date")
+            @HeaderMap Map<String, String> headers
+    );
 
     @GET("devices")
-    Observable<List<Device>> getDeviceList();
+    Observable<List<Device>> getDeviceList(
+            @HeaderMap Map<String, String> headers
+    );
 
     @POST("auth/sign_in")
     Observable<Response<LoginUser>> signIn(
