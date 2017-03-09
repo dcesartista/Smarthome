@@ -4,11 +4,11 @@ package id.ac.ugm.smartcity.smarthome.Networking;
  * Created by dito on 09/02/17.
  */
 
-import java.security.Key;
 import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
@@ -52,6 +52,285 @@ public class Service {
                     @Override
                     public void onNext(List<Device> devices) {
                         callback.onSuccess(devices);
+                    }
+
+                });
+    }
+
+    public Subscription getTemperatureDaily(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getTemperatureMonthly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getTemperatureYearly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getHumiditiesDaily(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getHumiditiesMonthly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getHumiditiesYearly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getCarbondioxideDaily(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getCarbondioxideMonthly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
+                    }
+
+                });
+    }
+
+    public Subscription getCarbondioxideYearly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
+
+        return networkService.getTemperaturesDaily(headers, startDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
+                    @Override
+                    public Observable<? extends List<HistoryData>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<HistoryData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(List<HistoryData> histories) {
+                        callback.onSuccess(histories);
                     }
 
                 });
@@ -151,6 +430,12 @@ public class Service {
 
     public interface GetAlertListCallback{
         void onSuccess(List<Alert> alertList);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetHistoryCallback{
+        void onSuccess(List<HistoryData> temperatureHistories);
 
         void onError(NetworkError networkError);
     }

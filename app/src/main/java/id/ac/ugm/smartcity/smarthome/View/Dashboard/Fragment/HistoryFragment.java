@@ -3,10 +3,10 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -16,6 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -29,11 +32,14 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements HistoryView {
     @BindView(R.id.chart_history)
     ColumnChartView chartView;
     @BindView(R.id.spr_device)
     Spinner spinnerDevice;
+
+    private Service service;
+    private HistoryPresenter presenter;
 
     private ColumnChartData chartData;
     private double[] data1 = new double[7];
@@ -42,10 +48,11 @@ public class HistoryFragment extends Fragment {
 
     public static final String HISTORY_ARG = "HISTORY_ARG";
 
-    public static HistoryFragment newInstance(int page) {
+    public static HistoryFragment newInstance(int page, Service service) {
         Bundle args = new Bundle();
         args.putInt(HISTORY_ARG, page);
         HistoryFragment fragment = new HistoryFragment();
+        fragment.service = service;
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,16 +67,18 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this,rootView);
-        generateDummyData();
-        generateChart(data1);
-        ArrayList<String> deviceData = new ArrayList<>();
+        presenter = new HistoryPresenter(service, this, getContext());
+        presenter.getTemperatureDaily("2016-12-01");
+        //generateDummyData();
+        //generateChart(data1);
+        /*ArrayList<String> deviceData = new ArrayList<>();
         deviceData.add(0, "Semua Device");
         deviceData.add(1, "Device 1");
         deviceData.add(2, "Device 2");
         ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 deviceData);
-        spinnerDevice.setAdapter(deviceAdapter);
+        spinnerDevice.setAdapter(deviceAdapter);*/
 
         return rootView;
     }
@@ -82,7 +91,7 @@ public class HistoryFragment extends Fragment {
     @OnItemSelected(R.id.spr_device)
     void onItemSelected(int position) {
         switch (position){
-            case 0:
+            /*case 0:
                 generateChart(data1);
                 break;
             case 1:
@@ -90,7 +99,7 @@ public class HistoryFragment extends Fragment {
                 break;
             case 2:
                 generateChart(data3);
-                break;
+                break;*/
         }
     }
 
@@ -102,41 +111,35 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void generateChart(double[] data){
+    private void generateChart(List<HistoryData> histories){
         int numSubcolumns = 1;
-        int numColumns = 7;
+        int numColumns = histories.size();
         List<Column> columns = new ArrayList<>();
         List<SubcolumnValue> values;
-        for (int i = 0; i < numColumns; ++i) {
-
+        List<AxisValue> axisValues = new ArrayList<>();
+        int i = 0;
+        for (HistoryData h : histories) {
+            Log.e("SIZE", String.valueOf(h.getValue()));
             values = new ArrayList<>();
-            for (int j = 0; j < numSubcolumns; ++j) {
-                float value = (float) (data[i]);
-                int color;
-                if (value >= 40)
-                    values.add(new SubcolumnValue(value, ChartUtils.COLOR_RED ));
-                else if (value >=20)
-                    values.add(new SubcolumnValue(value, ChartUtils.COLOR_ORANGE ));
-                else
-                    values.add(new SubcolumnValue(value, ChartUtils.COLOR_GREEN ));
-
-            }
+            float value = (float) (h.getValue());
+            int color;
+            /*if (value >= 40)
+                values.add(new SubcolumnValue(value, ChartUtils.COLOR_RED ));
+            else if (value >=20)
+                values.add(new SubcolumnValue(value, ChartUtils.COLOR_ORANGE ));
+            else*/
+                values.add(new SubcolumnValue(value, ChartUtils.COLOR_GREEN ));
 
             Column column = new Column(values);
             column.setHasLabels(true);
             columns.add(column);
+            axisValues.add(new AxisValue(i, h.getDate().toCharArray()));
+            i++;
         }
 
         chartData = new ColumnChartData(columns);
 
-        List<AxisValue> axisValues = new ArrayList<>();
-        axisValues.add(new AxisValue(0, "1 Jan".toCharArray()));
-        axisValues.add(new AxisValue(1, "2 Jan".toCharArray()));
-        axisValues.add(new AxisValue(2, "3 Jan".toCharArray()));
-        axisValues.add(new AxisValue(3, "4 Jan".toCharArray()));
-        axisValues.add(new AxisValue(4, "5 Jan".toCharArray()));
-        axisValues.add(new AxisValue(5, "6 Jan".toCharArray()));
-        axisValues.add(new AxisValue(6, "7 Jan".toCharArray()));
+
         Axis axisX = new Axis(axisValues);
         axisX.setTextColor(R.color.textPrimary);
         axisX.setLineColor(R.color.textPrimary);
@@ -149,4 +152,24 @@ public class HistoryFragment extends Fragment {
         chartView.setColumnChartData(chartData);
     }
 
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void onFailure(String appErrorMessage) {
+
+    }
+
+    @Override
+    public void showHistoryData(List<HistoryData> hostories) {
+        Log.e("SIZE", String.valueOf(hostories.size()));
+        generateChart(hostories);
+    }
 }
