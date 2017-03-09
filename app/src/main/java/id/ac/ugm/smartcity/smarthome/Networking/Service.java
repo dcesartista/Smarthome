@@ -90,7 +90,7 @@ public class Service {
 
     public Subscription getTemperatureMonthly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getTemperaturesMonthly(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -121,7 +121,7 @@ public class Service {
 
     public Subscription getTemperatureYearly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getTemperaturesYearly(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -152,7 +152,7 @@ public class Service {
 
     public Subscription getHumiditiesDaily(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getHumiditiesDaily(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -183,7 +183,7 @@ public class Service {
 
     public Subscription getHumiditiesMonthly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getHumiditiesMonthly(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -214,7 +214,7 @@ public class Service {
 
     public Subscription getHumiditiesYearly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getHumiditiesYearly(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -245,7 +245,7 @@ public class Service {
 
     public Subscription getCarbondioxideDaily(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getCarbondioxideDaily(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -276,7 +276,7 @@ public class Service {
 
     public Subscription getCarbondioxideMonthly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getCarbondioxideMonthly(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {
@@ -307,7 +307,7 @@ public class Service {
 
     public Subscription getCarbondioxideYearly(final GetHistoryCallback callback,String startDate, Map<String, String> headers) {
 
-        return networkService.getTemperaturesDaily(headers, startDate)
+        return networkService.getCarbondioxideYearly(headers, startDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<HistoryData>>>() {

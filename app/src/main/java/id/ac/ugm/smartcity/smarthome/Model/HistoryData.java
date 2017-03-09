@@ -13,7 +13,7 @@ public class HistoryData {
     private String date;
     @SerializedName("value")
     @Expose
-    private double value;
+    private String value;
 
     public String getDate() {
         return date;
@@ -23,11 +23,11 @@ public class HistoryData {
         this.date = date;
     }
 
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

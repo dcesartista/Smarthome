@@ -8,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,6 +24,7 @@ import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
@@ -40,6 +45,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     private Service service;
     private HistoryPresenter presenter;
+    private Date date;
+    private String startDate;
 
     private ColumnChartData chartData;
     private double[] data1 = new double[7];
@@ -67,8 +74,13 @@ public class HistoryFragment extends Fragment implements HistoryView {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this,rootView);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -7);
+        date = c.getTime();
+        startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
         presenter = new HistoryPresenter(service, this, getContext());
-        presenter.getTemperatureDaily("2016-12-01");
+        presenter.getCarbondioxideDaily(startDate);
         //generateDummyData();
         //generateChart(data1);
         /*ArrayList<String> deviceData = new ArrayList<>();
@@ -119,9 +131,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
         List<AxisValue> axisValues = new ArrayList<>();
         int i = 0;
         for (HistoryData h : histories) {
-            Log.e("SIZE", String.valueOf(h.getValue()));
+            Log.e("DATA", h.getValue());
             values = new ArrayList<>();
-            float value = (float) (h.getValue());
+            float value = Float.parseFloat(h.getValue());
             int color;
             /*if (value >= 40)
                 values.add(new SubcolumnValue(value, ChartUtils.COLOR_RED ));
@@ -130,10 +142,17 @@ public class HistoryFragment extends Fragment implements HistoryView {
             else*/
                 values.add(new SubcolumnValue(value, ChartUtils.COLOR_GREEN ));
 
+            Date date = null;
+            try {
+                date = DateFormatter.formatDateType1(h.getDate());
+            } catch (ParseException e) {
+
+            }
+
             Column column = new Column(values);
             column.setHasLabels(true);
             columns.add(column);
-            axisValues.add(new AxisValue(i, h.getDate().toCharArray()));
+            axisValues.add(new AxisValue(i, DateFormatter.formatDateToString(date, "dd MMM").toCharArray()));
             i++;
         }
 
