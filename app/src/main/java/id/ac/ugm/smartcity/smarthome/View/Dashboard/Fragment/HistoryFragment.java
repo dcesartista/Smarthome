@@ -1,14 +1,17 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
@@ -32,6 +36,9 @@ import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -42,11 +49,18 @@ public class HistoryFragment extends Fragment implements HistoryView {
     ColumnChartView chartView;
     @BindView(R.id.spr_device)
     Spinner spinnerDevice;
+    @BindView(R.id.spr_range)
+    Spinner spinnerRange;
+    @BindView(R.id.graph_title)
+    TextView tvGraph;
 
     private Service service;
     private HistoryPresenter presenter;
     private Date date;
     private String startDate;
+    private ProgressDialog progressDialog;
+    int type = App.CARBONDIOXIDE;
+    int range = App.DAILY;
 
     private ColumnChartData chartData;
     private double[] data1 = new double[7];
@@ -74,45 +88,64 @@ public class HistoryFragment extends Fragment implements HistoryView {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this,rootView);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, -7);
         date = c.getTime();
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
         presenter = new HistoryPresenter(service, this, getContext());
-        presenter.getCarbondioxideDaily(startDate);
+        presenter.getHistory(startDate, type, range);
         //generateDummyData();
         //generateChart(data1);
         /*ArrayList<String> deviceData = new ArrayList<>();
         deviceData.add(0, "Semua Device");
         deviceData.add(1, "Device 1");
-        deviceData.add(2, "Device 2");
+        deviceData.add(2, "Device 2");*/
         ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                deviceData);
-        spinnerDevice.setAdapter(deviceAdapter);*/
+                getResources().getStringArray(R.array.history_range));
+        spinnerRange.setAdapter(deviceAdapter);
 
         return rootView;
     }
 
     @OnClick(R.id.temperature)
-    void showTempGraph(){
-
+    void showTemperaturaGraph(){
+        type = App.TEMPERATURE;
+        presenter.getHistory(startDate,type,range);
     }
 
-    @OnItemSelected(R.id.spr_device)
+    @OnClick(R.id.humidity)
+    void showHumidityGraph(){
+        type = App.HUMIDITIY;
+        presenter.getHistory(startDate,type,range);
+    }
+
+    @OnClick(R.id.co2)
+    void showCO2Graph(){
+        type = App.CARBONDIOXIDE;
+        presenter.getHistory(startDate,type,range);
+    }
+
+    @OnItemSelected(R.id.spr_range)
     void onItemSelected(int position) {
         switch (position){
-            /*case 0:
-                generateChart(data1);
+            case 0:
+                range = App.DAILY;
                 break;
             case 1:
-                generateChart(data2);
+                range = App.MONTHLY;
                 break;
             case 2:
-                generateChart(data3);
-                break;*/
+                range = App.YEARLY;
+                break;
         }
+        presenter.getHistory(startDate,type,range);
     }
 
     private void generateDummyData(){
@@ -123,9 +156,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
         }
     }
 
-    private void generateChart(List<HistoryData> histories){
-        int numSubcolumns = 1;
-        int numColumns = histories.size();
+    private void generateChart(List<HistoryData> histories, int range){
+
         List<Column> columns = new ArrayList<>();
         List<SubcolumnValue> values;
         List<AxisValue> axisValues = new ArrayList<>();
@@ -141,18 +173,22 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 values.add(new SubcolumnValue(value, ChartUtils.COLOR_ORANGE ));
             else*/
                 values.add(new SubcolumnValue(value, ChartUtils.COLOR_GREEN ));
+            String axisValue = h.getDate();
+            if (range == App.DAILY){
+                Date date = null;
+                try {
+                    date = DateFormatter.formatDate(h.getDate(), "yyyy-MM-dd");
+                } catch (ParseException e) {
 
-            Date date = null;
-            try {
-                date = DateFormatter.formatDateType1(h.getDate());
-            } catch (ParseException e) {
-
+                }
+                axisValue = DateFormatter.formatDateToString(date, "dd MMM");
             }
+
 
             Column column = new Column(values);
             column.setHasLabels(true);
             columns.add(column);
-            axisValues.add(new AxisValue(i, DateFormatter.formatDateToString(date, "dd MMM").toCharArray()));
+            axisValues.add(new AxisValue(i, axisValue.toCharArray()));
             i++;
         }
 
@@ -173,12 +209,13 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showLoading() {
-
+        progressDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     @Override
@@ -187,8 +224,25 @@ public class HistoryFragment extends Fragment implements HistoryView {
     }
 
     @Override
-    public void showHistoryData(List<HistoryData> hostories) {
-        Log.e("SIZE", String.valueOf(hostories.size()));
-        generateChart(hostories);
+    public void showHistoryData(Response<List<HistoryData>> response, int range, int type) {
+        List<HistoryData> histories = response.body();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+        editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+        editor.putString(App.CLIENT, response.headers().get("Client"));
+        editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+        editor.putString(App.UID, response.headers().get("Uid"));
+        editor.commit();
+        generateChart(histories, range);
+        switch (type){
+            case App.TEMPERATURE:
+                tvGraph.setText("Grafik Temperatur");
+                break;
+            case App.HUMIDITIY:
+                tvGraph.setText("Grafik Kelembaban");
+                break;
+            case App.CARBONDIOXIDE:
+                tvGraph.setText("Grafik CO2");
+                break;
+        }
     }
 }

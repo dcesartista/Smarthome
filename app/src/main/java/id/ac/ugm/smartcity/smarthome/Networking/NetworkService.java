@@ -28,55 +28,55 @@ public interface NetworkService {
     );
 
     @POST("temperatures_daily")
-    Observable<List<HistoryData>> getTemperaturesDaily(
+    Observable<Response<List<HistoryData>>> getTemperaturesDaily(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("temperatures_monthly")
-    Observable<List<HistoryData>> getTemperaturesMonthly(
+    Observable<Response<List<HistoryData>>> getTemperaturesMonthly(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("temperatures_yearly")
-    Observable<List<HistoryData>> getTemperaturesYearly(
+    Observable<Response<List<HistoryData>>> getTemperaturesYearly(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("humidities_daily")
-    Observable<List<HistoryData>> getHumiditiesDaily(
+    Observable<Response<List<HistoryData>>> getHumiditiesDaily(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("humidities_monthly")
-    Observable<List<HistoryData>> getHumiditiesMonthly(
+    Observable<Response<List<HistoryData>>> getHumiditiesMonthly(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("humidities_yearly")
-    Observable<List<HistoryData>> getHumiditiesYearly(
+    Observable<Response<List<HistoryData>>> getHumiditiesYearly(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("carbondioxide_daily")
-    Observable<List<HistoryData>> getCarbondioxideDaily(
+    Observable<Response<List<HistoryData>>> getCarbondioxideDaily(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("carbondioxide_monthly")
-    Observable<List<HistoryData>> getCarbondioxideMonthly(
+    Observable<Response<List<HistoryData>>> getCarbondioxideMonthly(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );
 
     @POST("carbondioxide_yearly")
-    Observable<List<HistoryData>> getCarbondioxideYearly(
+    Observable<Response<List<HistoryData>>> getCarbondioxideYearly(
             @HeaderMap Map<String, String> headers,
             @Query("start_date") String startDate
     );

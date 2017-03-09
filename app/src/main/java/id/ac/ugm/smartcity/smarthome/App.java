@@ -7,6 +7,14 @@ import android.app.Application;
  */
 
 public class App extends Application {
+    public static final int TEMPERATURE = 0;
+    public static final int HUMIDITIY = 1;
+    public static final int CARBONDIOXIDE = 2;
+
+    public static final int DAILY = 0;
+    public static final int MONTHLY = 1;
+    public static final int YEARLY = 2;
+
     public static final String USER_PREFERENCE = "USER";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_NAME = "USER_NAME";

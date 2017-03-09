@@ -10,8 +10,8 @@ import java.util.Date;
  */
 
 public class DateFormatter {
-    public static Date formatDateType1(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    public static Date formatDate(String date, String pattern) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
         Date dateTime;
         try {
             dateTime = format.parse(date);

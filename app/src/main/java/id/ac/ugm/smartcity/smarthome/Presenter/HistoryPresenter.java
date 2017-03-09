@@ -15,6 +15,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HistoryView;
+import retrofit2.Response;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -47,15 +48,14 @@ public class HistoryPresenter {
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
     }
 
-    public void getTemperatureDaily(String startDate) {
+    public void getHistory(String startDate, final int type, final int range) {
         view.showLoading();
 
-        Subscription subscription = service.getTemperatureDaily(new Service.GetHistoryCallback() {
+        Subscription subscription = service.getHistory(new Service.GetHistoryCallback() {
             @Override
-            public void onSuccess(List<HistoryData> temperatures) {
-                Log.e("HAHA", "SUKSES");
+            public void onSuccess(Response<List<HistoryData>> response) {
                 view.hideLoading();
-                view.showHistoryData(temperatures);
+                view.showHistoryData(response, range, type);
             }
 
             @Override
@@ -64,183 +64,7 @@ public class HistoryPresenter {
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getTemperatureMonthly(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getTemperatureMonthly(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> temperatures) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(temperatures);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getTemperatureYearly(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getTemperatureYearly(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> temperatures) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(temperatures);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getCarbondioxideDaily(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getCarbondioxideDaily(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> carbondioxides) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(carbondioxides);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getCarbondioxideMonthly(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getCarbondioxideMonthly(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> carbondioxides) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(carbondioxides);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getCarbondioxideYearly(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getCarbondioxideYearly(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> carbondioxides) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(carbondioxides);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getHumiditiesDaily(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getHumiditiesDaily(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> humidities) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(humidities);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getHumiditiesMonthly(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getHumiditiesMonthly(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> humidities) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(humidities);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getHumiditiesYearly(String startDate) {
-        view.showLoading();
-
-        Subscription subscription = service.getHumiditiesYearly(new Service.GetHistoryCallback() {
-            @Override
-            public void onSuccess(List<HistoryData> humidities) {
-                Log.e("HAHA", "SUKSES");
-                view.hideLoading();
-                view.showHistoryData(humidities);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, startDate, headers);
+        }, startDate, headers, type, range);
 
         subscriptions.add(subscription);
     }
