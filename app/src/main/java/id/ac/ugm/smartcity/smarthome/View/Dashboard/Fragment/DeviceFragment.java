@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +16,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.adapter.DeviceAdapter;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -89,7 +94,14 @@ public class DeviceFragment extends Fragment implements DeviceView {
     }
 
     @Override
-    public void getDeviceSuccess(List<Device> deviceList) {
+    public void getDeviceSuccess(Response<List<Device>> response) {
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+        editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+        editor.putString(App.CLIENT, response.headers().get("Client"));
+        editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+        editor.putString(App.UID, response.headers().get("Uid"));
+        editor.commit();
+        List<Device> deviceList = response.body();
         for (Device device : deviceList){
             deviceItemList.add(device);
             Log.d("DATA DEVICE",device.getName());

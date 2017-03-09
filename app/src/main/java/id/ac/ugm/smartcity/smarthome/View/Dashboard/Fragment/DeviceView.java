@@ -4,6 +4,7 @@ import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
+import retrofit2.Response;
 
 /**
  * Created by dito on 09/02/17.
@@ -16,6 +17,6 @@ public interface DeviceView {
 
     void onFailure(String appErrorMessage);
 
-    void getDeviceSuccess(List<Device> deviceList);
+    void getDeviceSuccess(Response<List<Device>> deviceList);
 
 }

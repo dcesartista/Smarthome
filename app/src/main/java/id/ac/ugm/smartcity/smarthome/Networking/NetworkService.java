@@ -82,7 +82,7 @@ public interface NetworkService {
     );
 
     @GET("devices")
-    Observable<List<Device>> getDeviceList(
+    Observable<Response<List<Device>>> getDeviceList(
             @HeaderMap Map<String, String> headers
     );
 

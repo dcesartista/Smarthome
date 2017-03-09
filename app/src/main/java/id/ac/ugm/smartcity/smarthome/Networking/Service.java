@@ -32,13 +32,13 @@ public class Service {
         return networkService.getDeviceList(headers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Device>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<Device>>>>() {
                     @Override
-                    public Observable<? extends List<Device>> call(Throwable throwable) {
+                    public Observable<? extends Response<List<Device>>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<List<Device>>() {
+                .subscribe(new Subscriber<Response<List<Device>>>() {
                     @Override
                     public void onCompleted() {
 
@@ -51,7 +51,7 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(List<Device> devices) {
+                    public void onNext(Response<List<Device>> devices) {
                         callback.onSuccess(devices);
                     }
 
@@ -441,7 +441,7 @@ public class Service {
     }
 
     public interface GetDeviceListCallback{
-        void onSuccess(List<Device> deviceList);
+        void onSuccess(Response<List<Device>> deviceList);
 
         void onError(NetworkError networkError);
     }

@@ -15,6 +15,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.DeviceView;
+import retrofit2.Response;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -51,7 +52,7 @@ public class DevicePresenter {
 
         Subscription subscription = service.getDeviceList(new Service.GetDeviceListCallback() {
             @Override
-            public void onSuccess(List<Device> deviceList) {
+            public void onSuccess(Response<List<Device>> deviceList) {
                 view.hideLoading();
                 view.getDeviceSuccess(deviceList);
             }
