@@ -50,7 +50,7 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return HomeFragment.newInstance(position + 1);
+                return HomeFragment.newInstance(position + 1, service);
             case 1:
                 return AlertFragment.newInstance(position + 1, service);
             case 2:

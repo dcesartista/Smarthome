@@ -48,7 +48,8 @@ public class HistoryPresenter {
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
     }
 
-    public void getHistory(String startDate, final int type, final int range) {
+    public void getHistory(String startDate, final int type, final int range, String homeId,
+                           String deviceId) {
         view.showLoading();
 
         Subscription subscription = service.getHistory(new Service.GetHistoryCallback() {
@@ -64,7 +65,7 @@ public class HistoryPresenter {
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
-        }, startDate, headers, type, range);
+        }, startDate, headers, type, range, homeId, deviceId);
 
         subscriptions.add(subscription);
     }

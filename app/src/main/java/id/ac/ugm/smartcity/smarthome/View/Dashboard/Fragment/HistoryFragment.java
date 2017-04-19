@@ -99,7 +99,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         date = c.getTime();
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
         presenter = new HistoryPresenter(service, this, getContext());
-        presenter.getHistory(startDate, type, range);
         //generateDummyData();
         //generateChart(data1);
         /*ArrayList<String> deviceData = new ArrayList<>();
@@ -111,8 +110,22 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 getResources().getStringArray(R.array.history_range));
         spinnerRange.setAdapter(deviceAdapter);
 
+        if (getUserVisibleHint()){
+            presenter.getHistory(startDate, type, range);
+        }
+
         return rootView;
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            if (null != presenter){
+                presenter.getHistory(startDate, type, range);
+            }
+        }
+    }
+
 
     @OnClick(R.id.temperature)
     void showTemperaturaGraph(){
@@ -227,11 +240,13 @@ public class HistoryFragment extends Fragment implements HistoryView {
     public void showHistoryData(Response<List<HistoryData>> response, int range, int type) {
         List<HistoryData> histories = response.body();
         SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
-        editor.putString(App.CLIENT, response.headers().get("Client"));
-        editor.putString(App.EXPIRY, response.headers().get("Expiry"));
-        editor.putString(App.UID, response.headers().get("Uid"));
-        editor.commit();
+        if(response.code() == 200) {
+            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+            editor.putString(App.CLIENT, response.headers().get("Client"));
+            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+            editor.putString(App.UID, response.headers().get("Uid"));
+            editor.commit();
+        }
         generateChart(histories, range);
         switch (type){
             case App.TEMPERATURE:

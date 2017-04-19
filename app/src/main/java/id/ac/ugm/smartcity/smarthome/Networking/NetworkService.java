@@ -3,6 +3,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
 import java.util.List;
 import java.util.Map;
 
+import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
@@ -12,6 +13,7 @@ import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -27,63 +29,89 @@ public interface NetworkService {
             @HeaderMap Map<String, String> headers
     );
 
-    @POST("temperatures_daily")
+    @GET("homes/{home_id}/devices/{device_id}/current")
+    Observable<Response<CurrentDeviceData>> getCurrentDeviceData(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
+    );
+
+    @POST("homes/{home_id}/devices/{device_id}/temperatures_daily")
     Observable<Response<List<HistoryData>>> getTemperaturesDaily(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("temperatures_monthly")
+    @POST("homes/{home_id}/devices/{device_id}/temperatures_monthly")
     Observable<Response<List<HistoryData>>> getTemperaturesMonthly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("temperatures_yearly")
+    @POST("homes/{home_id}/devices/{device_id}/temperatures_yearly")
     Observable<Response<List<HistoryData>>> getTemperaturesYearly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("humidities_daily")
+    @POST("homes/{home_id}/devices/{device_id}/humidities_daily")
     Observable<Response<List<HistoryData>>> getHumiditiesDaily(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("humidities_monthly")
+    @POST("homes/{home_id}/devices/{device_id}/humidities_monthly")
     Observable<Response<List<HistoryData>>> getHumiditiesMonthly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("humidities_yearly")
+    @POST("homes/{home_id}/devices/{device_id}/humidities_yearly")
     Observable<Response<List<HistoryData>>> getHumiditiesYearly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("carbondioxide_daily")
+    @POST("homes/{home_id}/devices/{device_id}/carbondioxide_daily")
     Observable<Response<List<HistoryData>>> getCarbondioxideDaily(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("carbondioxide_monthly")
+    @POST("homes/{home_id}/devices/{device_id}/carbondioxide_monthly")
     Observable<Response<List<HistoryData>>> getCarbondioxideMonthly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @POST("carbondioxide_yearly")
+    @POST("homes/{home_id}/devices/{device_id}/carbondioxide_yearly")
     Observable<Response<List<HistoryData>>> getCarbondioxideYearly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate
+            @Query("start_date") String startDate,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
-    @GET("devices")
+    @GET("homes/{home_id}/devices")
     Observable<Response<List<Device>>> getDeviceList(
-            @HeaderMap Map<String, String> headers
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId
     );
 
     @POST("auth/sign_in")

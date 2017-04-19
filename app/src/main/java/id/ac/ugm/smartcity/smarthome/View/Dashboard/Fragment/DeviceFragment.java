@@ -36,9 +36,12 @@ public class DeviceFragment extends Fragment implements DeviceView {
     @BindView(R.id.recycler_device)
     RecyclerView rvDevice;
 
+    //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
+    String homeId = "2";
     private Service service;
     private DeviceAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private DevicePresenter presenter;
     List<Device> deviceItemList;
 
     public static DeviceFragment newInstance(int page, Service service) {
@@ -63,10 +66,22 @@ public class DeviceFragment extends Fragment implements DeviceView {
         View rootView = inflater.inflate(R.layout.fragment_device, container, false);
         ButterKnife.bind(this, rootView);
         setupRecycleView();
-        DevicePresenter presenter = new DevicePresenter(service, this, getContext());
-        presenter.getDeviceList();
+        presenter = new DevicePresenter(service, this, getContext());
+        if (getUserVisibleHint()){
+            presenter.getDeviceList(homeId);
+        }
 
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            if (null != presenter){
+                presenter.getDeviceList(homeId);
+            }
+        }
     }
 
     private void setupRecycleView(){
@@ -96,11 +111,14 @@ public class DeviceFragment extends Fragment implements DeviceView {
     @Override
     public void getDeviceSuccess(Response<List<Device>> response) {
         SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
-        editor.putString(App.CLIENT, response.headers().get("Client"));
-        editor.putString(App.EXPIRY, response.headers().get("Expiry"));
-        editor.putString(App.UID, response.headers().get("Uid"));
-        editor.commit();
+        /*if(response.code() == 200) {
+            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+            editor.putString(App.CLIENT, response.headers().get("Client"));
+            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+            editor.putString(App.UID, response.headers().get("Uid"));
+            editor.commit();
+        }*/
+        deviceItemList.clear();
         List<Device> deviceList = response.body();
         for (Device device : deviceList){
             deviceItemList.add(device);

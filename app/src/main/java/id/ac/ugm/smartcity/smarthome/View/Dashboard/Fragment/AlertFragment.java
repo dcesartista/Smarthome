@@ -64,7 +64,6 @@ public class AlertFragment extends Fragment implements AlertView {
         progressDialog = new ProgressDialog(getContext());
         displayableItems.add(new AlertDay("Hari Ini"));
         AlertPresenter presenter = new AlertPresenter(service, this, getContext());
-        presenter.getAlertList();
         return rootView;
     }
 
