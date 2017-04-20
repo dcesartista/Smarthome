@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
@@ -54,6 +55,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @BindView(R.id.graph_title)
     TextView tvGraph;
 
+    //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
+    String homeId = "2";
+    private List<Device> devices;
+    private String[] devicesName;
+    private Device selectedDevice;
     private Service service;
     private HistoryPresenter presenter;
     private Date date;
@@ -105,13 +111,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
         deviceData.add(0, "Semua Device");
         deviceData.add(1, "Device 1");
         deviceData.add(2, "Device 2");*/
-        ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                getResources().getStringArray(R.array.history_range));
-        spinnerRange.setAdapter(deviceAdapter);
 
         if (getUserVisibleHint()){
-            presenter.getHistory(startDate, type, range);
+            presenter.getDeviceList(homeId);
         }
 
         return rootView;
@@ -121,8 +123,17 @@ public class HistoryFragment extends Fragment implements HistoryView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
-                presenter.getHistory(startDate, type, range);
+                presenter.getDeviceList(homeId);
             }
+        }
+    }
+
+    @OnItemSelected(R.id.spr_device)
+    void onDeviceSelected(int position) {
+        if(devices.size() > 0) {
+            selectedDevice = devices.get(position);
+            Log.e("HMMMM000","LALALALCALLEDLALAL");
+            presenter.getHistory(startDate, type, range, homeId, String.valueOf(selectedDevice.getId()));
         }
     }
 
@@ -130,23 +141,23 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @OnClick(R.id.temperature)
     void showTemperaturaGraph(){
         type = App.TEMPERATURE;
-        presenter.getHistory(startDate,type,range);
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
 
     @OnClick(R.id.humidity)
     void showHumidityGraph(){
         type = App.HUMIDITIY;
-        presenter.getHistory(startDate,type,range);
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
 
     @OnClick(R.id.co2)
     void showCO2Graph(){
         type = App.CARBONDIOXIDE;
-        presenter.getHistory(startDate,type,range);
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
 
     @OnItemSelected(R.id.spr_range)
-    void onItemSelected(int position) {
+    void onRangeSelected(int position) {
         switch (position){
             case 0:
                 range = App.DAILY;
@@ -158,7 +169,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 range = App.YEARLY;
                 break;
         }
-        presenter.getHistory(startDate,type,range);
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
 
     private void generateDummyData(){
@@ -238,14 +249,15 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showHistoryData(Response<List<HistoryData>> response, int range, int type) {
+        Log.e("LLLL","CALLED");
         List<HistoryData> histories = response.body();
         SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
         if(response.code() == 200) {
-            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+            /*editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
             editor.putString(App.CLIENT, response.headers().get("Client"));
             editor.putString(App.EXPIRY, response.headers().get("Expiry"));
             editor.putString(App.UID, response.headers().get("Uid"));
-            editor.commit();
+            editor.commit();*/
         }
         generateChart(histories, range);
         switch (type){
@@ -259,5 +271,31 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 tvGraph.setText("Grafik CO2");
                 break;
         }
+    }
+
+    @Override
+    public void getDeviceSuccess(Response<List<Device>> response) {
+        Log.e("HMMMMzzz", String.valueOf(response.code()));
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+        if(response.code() == 200) {
+            /*editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+            editor.putString(App.CLIENT, response.headers().get("Client"));
+            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+            editor.putString(App.UID, response.headers().get("Uid"));
+            editor.commit();*/
+        }
+        Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
+        devices = response.body();
+        int i = 0;
+        devicesName = new String[devices.size()];
+        for (Device device : devices){
+            devicesName[i] = device.getName();
+            i++;
+        }
+
+        ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                devicesName);
+        spinnerDevice.setAdapter(deviceAdapter);
     }
 }

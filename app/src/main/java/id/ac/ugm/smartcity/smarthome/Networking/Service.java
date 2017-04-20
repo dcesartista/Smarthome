@@ -9,6 +9,7 @@ import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
@@ -90,6 +91,37 @@ public class Service {
                 });
     }
 
+    public Subscription getCurrenEnergy(final GetCurrentEnergyCallback callback, Map<String, String> headers,
+                                             String homeId){
+        return networkService.getCurrentEnergy(headers, homeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<CurrentEnergy>>>() {
+                    @Override
+                    public Observable<? extends Response<CurrentEnergy>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<CurrentEnergy>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<CurrentEnergy> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription getHistory(final GetHistoryCallback callback, String startDate, Map<String, String> headers
             , int type, int range, String homeId, String deviceId) {
 
@@ -97,7 +129,7 @@ public class Service {
             case App.TEMPERATURE:
                 switch (range){
                     case App.DAILY:
-                        return networkService.getTemperaturesDaily(headers, startDate, homeId, deviceId)
+                        return networkService.getTemperaturesDaily(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -125,7 +157,7 @@ public class Service {
 
                                 });
                     case App.MONTHLY:
-                        return networkService.getTemperaturesMonthly(headers, startDate, homeId, deviceId)
+                        return networkService.getTemperaturesMonthly(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -153,7 +185,7 @@ public class Service {
 
                                 });
                     case App.YEARLY:
-                        return networkService.getTemperaturesYearly(headers, startDate, homeId, deviceId)
+                        return networkService.getTemperaturesYearly(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -186,7 +218,7 @@ public class Service {
             case App.HUMIDITIY:
                 switch (range){
                     case App.DAILY:
-                        return networkService.getHumiditiesDaily(headers, startDate, homeId, deviceId)
+                        return networkService.getHumiditiesDaily(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -214,7 +246,7 @@ public class Service {
 
                                 });
                     case App.MONTHLY:
-                        return networkService.getHumiditiesMonthly(headers, startDate, homeId, deviceId)
+                        return networkService.getHumiditiesMonthly(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -242,7 +274,7 @@ public class Service {
 
                                 });
                     case App.YEARLY:
-                        return networkService.getHumiditiesYearly(headers, startDate, homeId, deviceId)
+                        return networkService.getHumiditiesYearly(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -275,7 +307,7 @@ public class Service {
             case App.CARBONDIOXIDE:
                 switch (range){
                     case App.DAILY:
-                        return networkService.getCarbondioxideDaily(headers, startDate, homeId, deviceId)
+                        return networkService.getCarbondioxideDaily(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -303,7 +335,7 @@ public class Service {
 
                                 });
                     case App.MONTHLY:
-                        return networkService.getCarbondioxideMonthly(headers, startDate, homeId, deviceId)
+                        return networkService.getCarbondioxideMonthly(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -331,7 +363,7 @@ public class Service {
 
                                 });
                     case App.YEARLY:
-                        return networkService.getCarbondioxideYearly(headers, startDate, homeId, deviceId)
+                        return networkService.getCarbondioxideYearly(headers, homeId, deviceId, startDate)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
@@ -468,6 +500,12 @@ public class Service {
 
     public interface GetCurrentDeviceDataCallback{
         void onSuccess(Response<CurrentDeviceData> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetCurrentEnergyCallback{
+        void onSuccess(Response<CurrentEnergy> response);
 
         void onError(NetworkError networkError);
     }

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
@@ -66,6 +67,36 @@ public class HomePresenter {
             }
 
         }, headers, homeId, deviceId);
+
+        subscriptions.add(subscription);
+    }
+
+    public void getCurrentEnergy(String homeId) {
+        view.showLoading();
+        resources = context.getResources();
+        preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
+        Log.e("HMMMMzzz",preferences.getString(App.ACCESS_TOKEN,""));
+        Map<String, String> headers = new HashMap<>();
+        headers.put(resources.getString(R.string.access_token), preferences.getString(App.ACCESS_TOKEN,""));
+        headers.put(resources.getString(R.string.token_type), resources.getString(R.string.bearer));
+        headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
+        headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
+        headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
+
+        Subscription subscription = service.getCurrenEnergy(new Service.GetCurrentEnergyCallback() {
+            @Override
+            public void onSuccess(Response<CurrentEnergy> response) {
+                view.hideLoading();
+                view.showCurrentEnergy(response);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId);
 
         subscriptions.add(subscription);
     }

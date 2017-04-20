@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
@@ -36,12 +37,18 @@ public interface NetworkService {
             @Path("device_id") String deviceId
     );
 
+    @GET("homes/{home_id}/current_energy")
+    Observable<Response<CurrentEnergy>> getCurrentEnergy(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId
+    );
+
     @POST("homes/{home_id}/devices/{device_id}/temperatures_daily")
     Observable<Response<List<HistoryData>>> getTemperaturesDaily(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/temperatures_monthly")
@@ -55,57 +62,57 @@ public interface NetworkService {
     @POST("homes/{home_id}/devices/{device_id}/temperatures_yearly")
     Observable<Response<List<HistoryData>>> getTemperaturesYearly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/humidities_daily")
     Observable<Response<List<HistoryData>>> getHumiditiesDaily(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/humidities_monthly")
     Observable<Response<List<HistoryData>>> getHumiditiesMonthly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/humidities_yearly")
     Observable<Response<List<HistoryData>>> getHumiditiesYearly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/carbondioxide_daily")
     Observable<Response<List<HistoryData>>> getCarbondioxideDaily(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/carbondioxide_monthly")
     Observable<Response<List<HistoryData>>> getCarbondioxideMonthly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/carbondioxide_yearly")
     Observable<Response<List<HistoryData>>> getCarbondioxideYearly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @GET("homes/{home_id}/devices")

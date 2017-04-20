@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvCO2;
     @BindView(R.id.tv_motion)
     TextView tvMotion;
+    @BindView(R.id.tv_energy)
+    TextView tvEnergy;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId = "2";
@@ -84,6 +87,7 @@ public class HomeFragment extends Fragment implements HomeView {
         Log.e("HMMMMppp222","sss1"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
         if (getUserVisibleHint()){
             presenter.getDeviceList(homeId);
+            presenter.getCurrentEnergy(homeId);
         }
         df = new DecimalFormat("#.##");
 
@@ -96,6 +100,7 @@ public class HomeFragment extends Fragment implements HomeView {
         if(isVisibleToUser){
             if (null != presenter){
                 presenter.getDeviceList(homeId);
+                presenter.getCurrentEnergy(homeId);
             }
         }
     }
@@ -146,16 +151,22 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
+    public void showCurrentEnergy(Response<CurrentEnergy> response) {
+        CurrentEnergy currentEnergy = response.body();
+        tvEnergy.setText(String.valueOf(df.format(currentEnergy.getValue())));
+    }
+
+    @Override
     public void getDeviceSuccess(Response<List<Device>> response) {
         Log.e("HMMMMzzz", String.valueOf(response.code()));
         SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        if(response.code() == 200) {
+        /*if(response.code() == 200) {
             editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
             editor.putString(App.CLIENT, response.headers().get("Client"));
             editor.putString(App.EXPIRY, response.headers().get("Expiry"));
             editor.putString(App.UID, response.headers().get("Uid"));
             editor.commit();
-        }
+        }*/
         Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
         devices = response.body();
         int i = 0;

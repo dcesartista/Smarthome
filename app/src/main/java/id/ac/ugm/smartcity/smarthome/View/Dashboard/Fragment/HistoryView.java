@@ -2,6 +2,7 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 import java.util.List;
 
+import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import retrofit2.Response;
 
@@ -17,5 +18,7 @@ public interface HistoryView {
     void onFailure(String appErrorMessage);
 
     void showHistoryData(Response<List<HistoryData>> histories, int range, int type);
+
+    void getDeviceSuccess(Response<List<Device>> response);
 
 }
