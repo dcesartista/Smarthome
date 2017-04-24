@@ -1,6 +1,10 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -59,7 +63,7 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvTegangan;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    private String homeId = "2";
+    private String homeId = "1";
     private List<Device> devices;
     private String[] devicesName;
     private Device selectedDevice;
@@ -67,6 +71,12 @@ public class HomeFragment extends Fragment implements HomeView {
     private Service service;
     private HomePresenter presenter;
     private DecimalFormat df;
+    private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            presenter.getCurrentEnergy(homeId);
+        }
+    };
 
     public static HomeFragment newInstance(int page, Service service) {
         Bundle args = new Bundle();
@@ -96,8 +106,14 @@ public class HomeFragment extends Fragment implements HomeView {
             presenter.getCurrentEnergy(homeId);
         }
         df = new DecimalFormat("#.##");
-
+        getContext().registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_ENERGY));
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getContext().unregisterReceiver(updateReceiver);
     }
 
     @Override
@@ -158,6 +174,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void showCurrentEnergy(Response<CurrentEnergy> response) {
+        Log.e("LALALA",response.body().toString());
         CurrentEnergy currentEnergy = response.body();
         tvEnergy.setText(String.valueOf(df.format(currentEnergy.getValue())));
     }
@@ -186,5 +203,10 @@ public class HomeFragment extends Fragment implements HomeView {
                 android.R.layout.simple_spinner_dropdown_item,
                 devicesName);
         spinnerDevice.setAdapter(deviceAdapter);
+    }
+
+    @Override
+    public void updateEnergyLimit(String limit) {
+        //TODO: post update limit
     }
 }

@@ -23,4 +23,7 @@ public class App extends Application {
     public static final String EXPIRY = "EXPIRY";
     public static final String UID = "UID";
 
+    public static final String UPDATE_ENERGY = "UPDATE_ENERGY";
+    public static final String ALERT = "ALERT";
+
 }

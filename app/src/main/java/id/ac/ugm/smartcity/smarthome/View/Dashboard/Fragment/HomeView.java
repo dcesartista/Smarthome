@@ -25,4 +25,6 @@ public interface HomeView {
 
     void getDeviceSuccess(Response<List<Device>> response);
 
+    void updateEnergyLimit(String limit);
+
 }

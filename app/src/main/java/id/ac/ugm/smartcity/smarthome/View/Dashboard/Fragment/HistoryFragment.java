@@ -2,6 +2,9 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,7 +59,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     TextView tvGraph;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    String homeId = "2";
+    String homeId = "1";
     private List<Device> devices;
     private String[] devicesName;
     private Device selectedDevice;

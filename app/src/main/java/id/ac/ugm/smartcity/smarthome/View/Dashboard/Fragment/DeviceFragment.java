@@ -37,7 +37,7 @@ public class DeviceFragment extends Fragment implements DeviceView {
     RecyclerView rvDevice;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    String homeId = "2";
+    String homeId = "1";
     private Service service;
     private DeviceAdapter adapter;
     private LinearLayoutManager layoutManager;
