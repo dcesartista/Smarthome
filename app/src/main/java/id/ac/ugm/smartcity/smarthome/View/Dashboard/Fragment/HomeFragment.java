@@ -51,6 +51,12 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvMotion;
     @BindView(R.id.tv_energy)
     TextView tvEnergy;
+    @BindView(R.id.tv_daya)
+    TextView tvDaya;
+    @BindView(R.id.tv_arus)
+    TextView tvArus;
+    @BindView(R.id.tv_tegangan)
+    TextView tvTegangan;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId = "2";

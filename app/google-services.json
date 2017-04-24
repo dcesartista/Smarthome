@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "720999288614",
+    "firebase_url": "https://smarthome-eef43.firebaseio.com",
+    "project_id": "smarthome-eef43",
+    "storage_bucket": "smarthome-eef43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720999288614:android:da0b7ad6849d39d9",
+        "android_client_info": {
+          "package_name": "id.ac.ugm.smartcity.smarthome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720999288614-pktts4j729226spjn7itu3u669ufqdv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_AJpQ_kSzbEcP2Lp59QfcQ-4ztPEGnXw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

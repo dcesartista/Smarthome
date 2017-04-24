@@ -522,6 +522,13 @@ public class Service {
         void onError(NetworkError networkError);
     }
 
+    public interface AddNewDeviceCallback{
+        void onSuccess(Response<List<Device>> deviceList);
+
+        void onError(NetworkError networkError);
+    }
+
+
     public interface SignInCallback{
         void onSuccess(Response<LoginUser> response);
 

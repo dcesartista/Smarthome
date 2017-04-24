@@ -11,6 +11,7 @@ import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
@@ -119,6 +120,13 @@ public interface NetworkService {
     Observable<Response<List<Device>>> getDeviceList(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId
+    );
+
+    @POST("homes/{home_id}/devices")
+    Observable<Response<List<Device>>> addNewDevice(
+            @HeaderMap Map<String, Map<String, String>> headers,
+            @Path("home_id") String homeId,
+            @Body Device device
     );
 
     @POST("auth/sign_in")
