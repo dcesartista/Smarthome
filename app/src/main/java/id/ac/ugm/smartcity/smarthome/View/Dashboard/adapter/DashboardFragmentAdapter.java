@@ -13,7 +13,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.AlertFragment;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.DeviceFragment;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.DeviceFragment;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HistoryFragment;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HomeFragment;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileFragment;

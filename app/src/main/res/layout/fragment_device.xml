@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.DeviceFragment">
+    tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.DeviceFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

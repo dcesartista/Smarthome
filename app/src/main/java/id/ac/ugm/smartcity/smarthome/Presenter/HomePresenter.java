@@ -16,7 +16,6 @@ import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.DeviceView;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HomeView;
 import retrofit2.Response;
 import rx.Subscription;

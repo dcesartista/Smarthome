@@ -22,9 +22,10 @@
         </activity>
         <activity
             android:name=".View.RegisterActivity"
-            android:noHistory="true"></activity>
-        <activity android:name=".View.Dashboard.DashBoardActivity"></activity>
-        <activity android:name=".View.NewDeviceActivity"></activity>
+            android:noHistory="true" />
+        <activity android:name=".View.Dashboard.DashBoardActivity" />
+        <activity android:name=".View.NewDeviceActivity" />
+
         <service android:name=".Networking.Firebase.MyFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -35,6 +36,8 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".View.Dashboard.Fragment.Device.AddDeviceActivity"></activity>
     </application>
 
 </manifest>

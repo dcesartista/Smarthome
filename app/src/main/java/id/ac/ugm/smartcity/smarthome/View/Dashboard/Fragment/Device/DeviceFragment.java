@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
+package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
 
 
 import android.content.SharedPreferences;
