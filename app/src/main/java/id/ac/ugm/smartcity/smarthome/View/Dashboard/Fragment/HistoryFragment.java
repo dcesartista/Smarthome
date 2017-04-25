@@ -159,6 +159,12 @@ public class HistoryFragment extends Fragment implements HistoryView {
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
 
+    @OnClick(R.id.energy)
+    void showEnergyGraph(){
+        type = App.ENERGY;
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
+    }
+
     @OnItemSelected(R.id.spr_range)
     void onRangeSelected(int position) {
         switch (position){
@@ -252,7 +258,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showHistoryData(Response<List<HistoryData>> response, int range, int type) {
-        Log.e("LLLL","CALLED");
+        Log.e("LLLL","respon"+response.body());
         List<HistoryData> histories = response.body();
         SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
         if(response.code() == 200) {
@@ -272,6 +278,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 break;
             case App.CARBONDIOXIDE:
                 tvGraph.setText("Grafik CO2");
+                break;
+            case App.ENERGY:
+                tvGraph.setText("Grafik Energi");
                 break;
         }
     }

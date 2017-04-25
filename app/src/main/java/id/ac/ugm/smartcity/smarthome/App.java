@@ -10,6 +10,7 @@ public class App extends Application {
     public static final int TEMPERATURE = 0;
     public static final int HUMIDITIY = 1;
     public static final int CARBONDIOXIDE = 2;
+    public static final int ENERGY = 3;
 
     public static final int DAILY = 0;
     public static final int MONTHLY = 1;

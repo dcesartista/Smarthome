@@ -45,6 +45,27 @@ public interface NetworkService {
             @Path("home_id") String homeId
     );
 
+    @POST("homes/{home_id}/energy_daily")
+    Observable<Response<List<HistoryData>>> getEnergyDaily(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
+    @POST("homes/{home_id}/energy_monthly")
+    Observable<Response<List<HistoryData>>> getEnergyMonthly(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
+    @POST("homes/{home_id}/energy_yearly")
+    Observable<Response<List<HistoryData>>> getEnergyYearly(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
     @POST("homes/{home_id}/devices/{device_id}/temperatures_daily")
     Observable<Response<List<HistoryData>>> getTemperaturesDaily(
             @HeaderMap Map<String, String> headers,
@@ -56,9 +77,9 @@ public interface NetworkService {
     @POST("homes/{home_id}/devices/{device_id}/temperatures_monthly")
     Observable<Response<List<HistoryData>>> getTemperaturesMonthly(
             @HeaderMap Map<String, String> headers,
-            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
+            @Path("device_id") String deviceId,
+            @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/devices/{device_id}/temperatures_yearly")
@@ -80,9 +101,9 @@ public interface NetworkService {
     @POST("homes/{home_id}/devices/{device_id}/humidities_monthly")
     Observable<Response<List<HistoryData>>> getHumiditiesMonthly(
             @HeaderMap Map<String, String> headers,
+            @Query("start_date") String startDate,
             @Path("home_id") String homeId,
-            @Path("device_id") String deviceId,
-            @Query("start_date") String startDate
+            @Path("device_id") String deviceId
     );
 
     @POST("homes/{home_id}/devices/{device_id}/humidities_yearly")
@@ -93,7 +114,7 @@ public interface NetworkService {
             @Query("start_date") String startDate
     );
 
-    @POST("homes/{home_id}/devices/{device_id}/carbondioxide_daily")
+    @POST("homes/{home_id}/devices/{device_id}/carbondioxides_daily")
     Observable<Response<List<HistoryData>>> getCarbondioxideDaily(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
@@ -101,7 +122,7 @@ public interface NetworkService {
             @Query("start_date") String startDate
     );
 
-    @POST("homes/{home_id}/devices/{device_id}/carbondioxide_monthly")
+    @POST("homes/{home_id}/devices/{device_id}/carbondioxides_monthly")
     Observable<Response<List<HistoryData>>> getCarbondioxideMonthly(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
@@ -109,7 +130,7 @@ public interface NetworkService {
             @Query("start_date") String startDate
     );
 
-    @POST("homes/{home_id}/devices/{device_id}/carbondioxide_yearly")
+    @POST("homes/{home_id}/devices/{device_id}/carbondioxides_yearly")
     Observable<Response<List<HistoryData>>> getCarbondioxideYearly(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
