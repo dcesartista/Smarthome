@@ -42,7 +42,7 @@ public class HomePresenter {
     }
 
     public void getCurrentDeviceData(String homeId, String deviceId) {
-        view.showLoading();
+        view.showProgressBar(App.DEVICE_DATA);
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
         Log.e("HMMMMzzz",preferences.getString(App.ACCESS_TOKEN,""));
@@ -56,13 +56,13 @@ public class HomePresenter {
         Subscription subscription = service.getCurrentDeviceData(new Service.GetCurrentDeviceDataCallback() {
             @Override
             public void onSuccess(Response<CurrentDeviceData> response) {
-                view.hideLoading();
+                view.hideProgressBar(App.DEVICE_DATA);
                 view.showCurrentDeviceData(response);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                view.hideLoading();
+                view.hideProgressBar(App.DEVICE_DATA);
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
@@ -72,7 +72,7 @@ public class HomePresenter {
     }
 
     public void getCurrentEnergy(String homeId) {
-        view.showLoading();
+        view.showProgressBar(App.ENERGY);
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
         Log.e("HMMMMzzz",preferences.getString(App.ACCESS_TOKEN,""));
@@ -86,13 +86,13 @@ public class HomePresenter {
         Subscription subscription = service.getCurrenEnergy(new Service.GetCurrentEnergyCallback() {
             @Override
             public void onSuccess(Response<CurrentEnergy> response) {
-                view.hideLoading();
+                view.hideProgressBar(App.ENERGY);
                 view.showCurrentEnergy(response);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                view.hideLoading();
+                view.hideProgressBar(App.ENERGY);
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 

@@ -62,6 +62,22 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvArus;
     @BindView(R.id.tv_tegangan)
     TextView tvTegangan;
+    @BindView(R.id.iv_energy)
+    View ivEnergy;
+    @BindView(R.id.iv_temp)
+    View ivTemperature;
+    @BindView(R.id.iv_humidity)
+    View ivHumidity;
+    @BindView(R.id.pb_energy)
+    View pbEnergy;
+    @BindView(R.id.pb_temp)
+    View pbTemp;
+    @BindView(R.id.pb_humidity)
+    View pbHumidity;
+    @BindView(R.id.pb_co2)
+    View pbCO2;
+    @BindView(R.id.pb_motion)
+    View pbMotion;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId = "1";
@@ -144,6 +160,52 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void showProgressBar(int type) {
+        switch (type){
+            case App.ENERGY:
+                ivEnergy.setVisibility(View.GONE);
+                tvEnergy.setVisibility(View.GONE);
+                pbEnergy.setVisibility(View.VISIBLE);
+                break;
+            case App.DEVICE_DATA:
+                ivTemperature.setVisibility(View.GONE);
+                tvTemp.setVisibility(View.GONE);
+                ivHumidity.setVisibility(View.GONE);
+                tvHumidity.setVisibility(View.GONE);
+                tvCO2.setVisibility(View.GONE);
+                tvMotion.setVisibility(View.GONE);
+                pbTemp.setVisibility(View.VISIBLE);
+                pbHumidity.setVisibility(View.VISIBLE);
+                pbCO2.setVisibility(View.VISIBLE);
+                pbMotion.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    @Override
+    public void hideProgressBar(int type) {
+        switch (type){
+            case App.ENERGY:
+                ivEnergy.setVisibility(View.VISIBLE);
+                tvEnergy.setVisibility(View.VISIBLE);
+                pbEnergy.setVisibility(View.GONE);
+                break;
+            case App.DEVICE_DATA:
+                ivTemperature.setVisibility(View.VISIBLE);
+                tvTemp.setVisibility(View.VISIBLE);
+                ivHumidity.setVisibility(View.VISIBLE);
+                tvHumidity.setVisibility(View.VISIBLE);
+                tvCO2.setVisibility(View.VISIBLE);
+                tvMotion.setVisibility(View.VISIBLE);
+                pbTemp.setVisibility(View.GONE);
+                pbHumidity.setVisibility(View.GONE);
+                pbCO2.setVisibility(View.GONE);
+                pbMotion.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override

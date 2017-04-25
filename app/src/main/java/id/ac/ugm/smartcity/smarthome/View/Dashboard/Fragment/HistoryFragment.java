@@ -68,7 +68,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private Date date;
     private String startDate;
     private ProgressDialog progressDialog;
-    int type = App.CARBONDIOXIDE;
+    int type = App.ENERGY;
     int range = App.DAILY;
 
     private ColumnChartData chartData;

@@ -17,6 +17,10 @@ public interface HomeView {
 
     void hideLoading();
 
+    void showProgressBar(int type);
+
+    void hideProgressBar(int type);
+
     void onFailure(String appErrorMessage);
 
     void showCurrentDeviceData(Response<CurrentDeviceData> response);

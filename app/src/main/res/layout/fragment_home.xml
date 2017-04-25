@@ -27,17 +27,25 @@
             </android.support.v7.widget.Toolbar>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:layout_height="120dp"
+                android:gravity="center"
                 android:orientation="horizontal">
+                <ProgressBar
+                    android:id="@+id/pb_energy"
+                    android:visibility="visible"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
                 <ImageView
+                    android:id="@+id/iv_energy"
+                    android:visibility="gone"
                     android:layout_width="40dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:src="@drawable/icon_energy"/>
                 <TextView
                     android:id="@+id/tv_energy"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="48sp"
@@ -160,8 +168,14 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:gravity="center_horizontal">
+                        <ProgressBar
+                            android:id="@+id/pb_temp"
+                            android:visibility="visible"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
                         <ImageView
                             android:id="@+id/iv_temp"
+                            android:visibility="gone"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginRight="8dp"
@@ -169,6 +183,7 @@
                             android:src="@drawable/icon_temp"/>
                         <TextView
                             android:id="@+id/tv_temp"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30 C"
@@ -194,7 +209,14 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:gravity="center_horizontal">
+                        <ProgressBar
+                            android:id="@+id/pb_humidity"
+                            android:visibility="visible"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
                         <ImageView
+                            android:id="@+id/iv_humidity"
+                            android:visibility="gone"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginRight="8dp"
@@ -202,6 +224,7 @@
                             android:src="@drawable/icon_humidity"/>
                         <TextView
                             android:id="@+id/tv_humidity"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="50 %"
@@ -233,9 +256,14 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:gravity="center_horizontal">
-
+                        <ProgressBar
+                            android:id="@+id/pb_co2"
+                            android:visibility="visible"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
                         <TextView
                             android:id="@+id/tv_co2"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="106 ppm"
@@ -261,8 +289,14 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:gravity="center_horizontal">
+                        <ProgressBar
+                            android:id="@+id/pb_motion"
+                            android:visibility="visible"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
                         <TextView
                             android:id="@+id/tv_motion"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ada"
