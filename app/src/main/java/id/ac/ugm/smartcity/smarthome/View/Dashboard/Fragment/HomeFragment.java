@@ -31,6 +31,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
 import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -70,7 +71,6 @@ public class HomeFragment extends Fragment implements HomeView {
     private View rootView;
     private Service service;
     private HomePresenter presenter;
-    private DecimalFormat df;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment implements HomeView {
             presenter.getDeviceList(homeId);
             presenter.getCurrentEnergy(homeId);
         }
-        df = new DecimalFormat("#.##");
+
         getContext().registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_ENERGY));
         return rootView;
     }
@@ -166,17 +166,17 @@ public class HomeFragment extends Fragment implements HomeView {
 
         CurrentDeviceData data = response.body();
         Log.e("HMMMM", String.valueOf(response.code()));
-        tvTemp.setText(String.valueOf(df.format(data.getTemperature())));
-        tvHumidity.setText(String.valueOf(df.format(data.getHumidity())));
-        tvCO2.setText(String.valueOf(df.format(data.getCo2())));
-        tvMotion.setText(String.valueOf(df.format(data.getMotion())));
+        tvTemp.setText(NumberFormatter.formatWithDots(data.getTemperature()));
+        tvHumidity.setText(NumberFormatter.formatWithDots(data.getHumidity()));
+        tvCO2.setText(NumberFormatter.formatWithDots(data.getCo2()));
+        tvMotion.setText(NumberFormatter.formatWithDots(data.getMotion()));
     }
 
     @Override
     public void showCurrentEnergy(Response<CurrentEnergy> response) {
         Log.e("LALALA",response.body().toString());
         CurrentEnergy currentEnergy = response.body();
-        tvEnergy.setText(String.valueOf(df.format(currentEnergy.getValue())));
+        tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue()));
     }
 
     @Override
