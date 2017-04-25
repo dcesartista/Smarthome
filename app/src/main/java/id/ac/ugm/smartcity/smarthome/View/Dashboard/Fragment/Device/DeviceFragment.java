@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
-import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
+import id.ac.ugm.smartcity.smarthome.Presenter.GetDevicePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.adapter.DeviceAdapter;
 import retrofit2.Response;
@@ -30,7 +30,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DeviceFragment extends Fragment implements DeviceView {
+public class DeviceFragment extends Fragment implements GetDeviceView {
     public static final String DEVICE_ARG = "DEVICE_ARG";
 
     @BindView(R.id.recycler_device)
@@ -41,7 +41,7 @@ public class DeviceFragment extends Fragment implements DeviceView {
     private Service service;
     private DeviceAdapter adapter;
     private LinearLayoutManager layoutManager;
-    private DevicePresenter presenter;
+    private GetDevicePresenter presenter;
     List<Device> deviceItemList;
 
     public static DeviceFragment newInstance(int page, Service service) {
@@ -66,7 +66,7 @@ public class DeviceFragment extends Fragment implements DeviceView {
         View rootView = inflater.inflate(R.layout.fragment_device, container, false);
         ButterKnife.bind(this, rootView);
         setupRecycleView();
-        presenter = new DevicePresenter(service, this, getContext());
+        presenter = new GetDevicePresenter(service, this, getContext());
         if (getUserVisibleHint()){
             presenter.getDeviceList(homeId);
         }

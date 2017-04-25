@@ -14,7 +14,6 @@ import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.DeviceView;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.GetDeviceView;
 import retrofit2.Response;
 import rx.Subscription;
@@ -24,23 +23,25 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dito on 09/02/17.
  */
 
-public class DevicePresenter {
+public class GetDevicePresenter {
     private final Service service;
-    private final DeviceView view;
+    private final GetDeviceView view;
     private CompositeSubscription subscriptions;
     private Context context;
     private SharedPreferences preferences;
     private Resources resources;
 
-    public DevicePresenter(Service service, DeviceView view, Context context) {
+    public GetDevicePresenter(Service service, GetDeviceView view, Context context) {
         this.service = service;
         this.view = view;
         this.context = context;
         this.subscriptions = new CompositeSubscription();
     }
 
-    public void addDevice(String homeId, Map<String,String> params){
+    public void getDeviceList(String homeId) {
         view.showLoading();
+        Log.e("DEVICE","CALLED!!");
+
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
         Map<String, String> headers = new HashMap<>();
@@ -50,11 +51,11 @@ public class DevicePresenter {
         headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
 
-        Subscription subscription = service.addNewDevice(new Service.AddNewDeviceCallback() {
+        Subscription subscription = service.getDeviceList(new Service.GetDeviceListCallback() {
             @Override
-            public void onSuccess(Response<Device> response) {
+            public void onSuccess(Response<List<Device>> deviceList) {
                 view.hideLoading();
-                view.addDeviceSuccess(response);
+                view.getDeviceSuccess(deviceList);
             }
 
             @Override
@@ -63,7 +64,7 @@ public class DevicePresenter {
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
-        }, headers, homeId, params);
+        }, headers, homeId);
 
         subscriptions.add(subscription);
     }

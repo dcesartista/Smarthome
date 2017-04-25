@@ -145,10 +145,10 @@ public interface NetworkService {
     );
 
     @POST("homes/{home_id}/devices")
-    Observable<Response<List<Device>>> addNewDevice(
-            @HeaderMap Map<String, Map<String, String>> headers,
+    Observable<Response<Device>> addNewDevice(
+            @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
-            @Body Device device
+            @QueryMap Map<String, String> params
     );
 
     @GET("users/{user_id}")

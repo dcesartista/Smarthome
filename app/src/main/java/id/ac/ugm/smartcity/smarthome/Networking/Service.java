@@ -552,6 +552,38 @@ public class Service {
                 });
     }
 
+    public Subscription addNewDevice(final AddNewDeviceCallback callback, Map<String, String> headers
+            , String homeId, Map<String,String> params) {
+
+        return networkService.addNewDevice(headers, homeId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Device>>>() {
+                    @Override
+                    public Observable<? extends Response<Device>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Device>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Device> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription signIn(final SignInCallback callback, Map<String, String> loginParams){
 
         return networkService.signIn(loginParams)
@@ -644,7 +676,7 @@ public class Service {
     }
 
     public interface AddNewDeviceCallback{
-        void onSuccess(Response<List<Device>> deviceList);
+        void onSuccess(Response<Device> response);
 
         void onError(NetworkError networkError);
     }

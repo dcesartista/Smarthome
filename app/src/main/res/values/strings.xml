@@ -12,4 +12,6 @@
     <string name="uid">uid</string>
 
     <string name="bearer">Bearer</string>
+
+    <string name="fa_arrow_left">&#xf060;</string>
 </resources>
