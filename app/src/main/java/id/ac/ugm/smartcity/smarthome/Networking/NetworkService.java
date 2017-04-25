@@ -7,6 +7,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
@@ -127,6 +128,13 @@ public interface NetworkService {
             @HeaderMap Map<String, Map<String, String>> headers,
             @Path("home_id") String homeId,
             @Body Device device
+    );
+
+    @GET("users/{user_id}")
+    Observable<Response<User>> updateUser(
+            @HeaderMap Map<String, String> headers,
+            @Path("user_id") String userId,
+            @QueryMap Map<String,String> params
     );
 
     @POST("auth/sign_in")

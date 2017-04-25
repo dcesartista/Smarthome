@@ -12,6 +12,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
@@ -431,6 +432,37 @@ public class Service {
                 });
     }
 
+    public Subscription updateUser(final UpdateUserCallback callback, Map<String, String> headers, String userId, Map<String, String> params) {
+
+        return networkService.updateUser(headers, userId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<User>>>() {
+                    @Override
+                    public Observable<? extends Response<User>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<User>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<User> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription signIn(final SignInCallback callback, Map<String, String> loginParams){
 
         return networkService.signIn(loginParams)
@@ -528,6 +560,11 @@ public class Service {
         void onError(NetworkError networkError);
     }
 
+    public interface UpdateUserCallback{
+        void onSuccess(Response<User> response);
+
+        void onError(NetworkError networkError);
+    }
 
     public interface SignInCallback{
         void onSuccess(Response<LoginUser> response);

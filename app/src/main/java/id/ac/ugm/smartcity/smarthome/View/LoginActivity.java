@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
@@ -45,7 +48,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         getDeps().inject(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        presenter = new LoginPresenter(service, this);
+        presenter = new LoginPresenter(service, this, this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
     }
@@ -84,12 +87,19 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void loginSuccess(Response<LoginUser> response) {
         SharedPreferences.Editor editor = getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+        editor.putString(App.ID, String.valueOf(response.body().getData().getId()));
         editor.putString(App.USER_EMAIL, response.body().getData().getEmail());
         editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
         editor.putString(App.CLIENT, response.headers().get("Client"));
         editor.putString(App.EXPIRY, response.headers().get("Expiry"));
         editor.putString(App.UID, response.headers().get("Uid"));
         editor.commit();
+
+        LoginUser user = response.body();
+        Map<String,String> params = new HashMap<>();
+        params.put(User.FCM_TOKEN, FirebaseInstanceId.getInstance().getToken());
+
+        presenter.updateFcmToken(String.valueOf(user.getData().getId()),params);
 
         Intent intent = new Intent(this, DashBoardActivity.class);
         startActivity(intent);

@@ -16,6 +16,7 @@ public class App extends Application {
     public static final int YEARLY = 2;
 
     public static final String USER_PREFERENCE = "USER";
+    public static final String ID = "ID";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_NAME = "USER_NAME";
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
