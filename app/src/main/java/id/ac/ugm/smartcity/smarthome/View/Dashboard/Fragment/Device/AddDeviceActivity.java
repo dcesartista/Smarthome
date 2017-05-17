@@ -75,6 +75,11 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
         }
     }
 
+    @OnClick(R.id.ic_back)
+    void back(){
+        onBackPressed();
+    }
+
     @Override
     public void showLoading() {
 
