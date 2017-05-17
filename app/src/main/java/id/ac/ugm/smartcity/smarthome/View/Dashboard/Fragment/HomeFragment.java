@@ -78,6 +78,12 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbCO2;
     @BindView(R.id.pb_motion)
     View pbMotion;
+    @BindView(R.id.pb_daya)
+    View pbDaya;
+    @BindView(R.id.pb_arus)
+    View pbArus;
+    @BindView(R.id.pb_tegangan)
+    View pbTegangan;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId = "1";
@@ -168,7 +174,13 @@ public class HomeFragment extends Fragment implements HomeView {
             case App.ENERGY:
                 ivEnergy.setVisibility(View.GONE);
                 tvEnergy.setVisibility(View.GONE);
+                tvDaya.setVisibility(View.GONE);
+                tvArus.setVisibility(View.GONE);
+                tvTegangan.setVisibility(View.GONE);
                 pbEnergy.setVisibility(View.VISIBLE);
+                pbDaya.setVisibility(View.VISIBLE);
+                pbArus.setVisibility(View.VISIBLE);
+                pbTegangan.setVisibility(View.VISIBLE);
                 break;
             case App.DEVICE_DATA:
                 ivTemperature.setVisibility(View.GONE);
@@ -191,7 +203,13 @@ public class HomeFragment extends Fragment implements HomeView {
             case App.ENERGY:
                 ivEnergy.setVisibility(View.VISIBLE);
                 tvEnergy.setVisibility(View.VISIBLE);
+                tvDaya.setVisibility(View.VISIBLE);
+                tvArus.setVisibility(View.VISIBLE);
+                tvTegangan.setVisibility(View.VISIBLE);
                 pbEnergy.setVisibility(View.GONE);
+                pbDaya.setVisibility(View.GONE);
+                pbArus.setVisibility(View.GONE);
+                pbTegangan.setVisibility(View.GONE);
                 break;
             case App.DEVICE_DATA:
                 ivTemperature.setVisibility(View.VISIBLE);
@@ -239,6 +257,9 @@ public class HomeFragment extends Fragment implements HomeView {
         Log.e("LALALA",response.body().toString());
         CurrentEnergy currentEnergy = response.body();
         tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue()));
+        tvDaya.setText(NumberFormatter.formatWithDots(currentEnergy.getPower()));
+        tvArus.setText(NumberFormatter.formatWithDots(currentEnergy.getCurrent()));
+        tvTegangan.setText(NumberFormatter.formatWithDots(currentEnergy.getVoltage()));
     }
 
     @Override

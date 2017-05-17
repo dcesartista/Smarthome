@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
@@ -86,6 +88,12 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     private void setupRecycleView(){
 
+    }
+
+    @OnClick(R.id.btn_add_device)
+    void addDevice(){
+        Intent intent = new Intent(getContext(), AddDeviceActivity.class);
+        startActivity(intent);
     }
 
     @Override

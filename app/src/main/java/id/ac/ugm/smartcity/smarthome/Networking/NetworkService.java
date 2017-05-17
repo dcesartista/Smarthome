@@ -15,6 +15,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -149,6 +150,14 @@ public interface NetworkService {
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
             @QueryMap Map<String, String> params
+    );
+
+    @GET("homes/{home_id}/devices/{device_id}/relays")
+    Observable<Response<Device>> getRelay(
+            @HeaderMap Map<String,String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId,
+            @QueryMap Map<String,String> params
     );
 
     @GET("users/{user_id}")
