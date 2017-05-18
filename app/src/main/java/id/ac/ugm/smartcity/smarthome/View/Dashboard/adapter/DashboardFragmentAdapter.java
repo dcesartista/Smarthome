@@ -58,7 +58,7 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
             case 3:
                 return HistoryFragment.newInstance(position + 1, service);
             case 4:
-                return ProfileFragment.newInstance(position + 1);
+                return ProfileFragment.newInstance(position + 1, service);
             default:
                 return null;
         }

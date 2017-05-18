@@ -14,11 +14,7 @@
         <activity
             android:name=".View.LoginActivity"
             android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".View.RegisterActivity"
@@ -37,7 +33,14 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".View.Dashboard.Fragment.Device.AddDeviceActivity"></activity>
+        <activity android:name=".View.Dashboard.Fragment.Device.AddDeviceActivity" />
+        <activity android:name=".View.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

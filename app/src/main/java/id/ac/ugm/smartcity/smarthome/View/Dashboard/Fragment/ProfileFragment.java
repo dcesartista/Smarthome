@@ -1,13 +1,32 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.User;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.Presenter.LoginPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
+import id.ac.ugm.smartcity.smarthome.View.LoginActivity;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -18,11 +37,17 @@ public class ProfileFragment extends Fragment {
 
     public static final String PROFILE_ARG = "PROFILE_ARG";
 
-    public static ProfileFragment newInstance(int page) {
+    private Service service;
+    private View rootView;
+
+    LoginPresenter presenter;
+
+    public static ProfileFragment newInstance(int page, Service service) {
         Bundle args = new Bundle();
         args.putInt(PROFILE_ARG, page);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
+        fragment.service = service;
         return fragment;
     }
 
@@ -36,7 +61,24 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        presenter = new LoginPresenter(service, null, getContext());
+        ButterKnife.bind(this,rootView);
+        return rootView;
+    }
+
+    @OnClick(R.id.tv_logout)
+    void logout(){
+        SharedPreferences preferences = getContext().getSharedPreferences(App.USER_PREFERENCE,MODE_PRIVATE);
+
+        Map<String,String> params = new HashMap<>();
+        params.put(User.FCM_TOKEN, FirebaseInstanceId.getInstance().getToken());
+
+        presenter.updateFcmToken(preferences.getString(App.ID,""),params);
+
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        preferences.edit().clear().apply();
+        startActivity(intent);
     }
 
 }
