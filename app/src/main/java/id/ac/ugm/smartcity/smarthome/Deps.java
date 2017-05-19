@@ -13,6 +13,7 @@ import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
 import id.ac.ugm.smartcity.smarthome.View.LoginActivity;
 import id.ac.ugm.smartcity.smarthome.View.RegisterActivity;
+import id.ac.ugm.smartcity.smarthome.View.RelayActivity;
 
 @Singleton
 @Component(modules = {NetworkModule.class,})
@@ -21,5 +22,6 @@ public interface Deps {
     void inject(LoginActivity loginActivity);
     void inject(RegisterActivity registerActivity);
     void inject(AddDeviceActivity addDeviceActivity);
+    void inject(RelayActivity relayActivity);
     void inject(MyFirebaseInstanceIDService myFirebaseInstanceIDService);
 }

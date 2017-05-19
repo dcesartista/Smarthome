@@ -1,7 +1,9 @@
 package id.ac.ugm.smartcity.smarthome.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.RelayActivity;
 
 /**
  * Created by dito on 09/02/17.
@@ -37,9 +40,18 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
 
     @Override
     public void onBindViewHolder(DeviceViewHolder holder, int position) {
-        Device device = deviceList.get(position);
+        final Device device = deviceList.get(position);
         holder.txtDeviceName.setText(device.getName());
         holder.txtDeviceId.setText(device.getProductID());
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RelayActivity.class);
+                Log.e("POPOPOPO",device.getId()+"");
+                intent.putExtra(Device.ID, device.getId().toString());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -52,6 +64,8 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         TextView txtDeviceName;
         @BindView(R.id.device_id)
         TextView txtDeviceId;
+        @BindView(R.id.root)
+        View root;
 
         public DeviceViewHolder(View view) {
             super(view);

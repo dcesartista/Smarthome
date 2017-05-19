@@ -93,6 +93,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
         editor.putString(App.CLIENT, response.headers().get("Client"));
         editor.putString(App.EXPIRY, response.headers().get("Expiry"));
         editor.putString(App.UID, response.headers().get("Uid"));
+        //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
+        editor.putString(App.ACTIVE_HOME, "1");
         editor.commit();
 
         LoginUser user = response.body();

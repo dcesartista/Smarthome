@@ -13,9 +13,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".View.LoginActivity"
-            android:noHistory="true">
-
-        </activity>
+            android:noHistory="true"></activity>
         <activity
             android:name=".View.RegisterActivity"
             android:noHistory="true" />
@@ -41,6 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.RelayActivity"></activity>
     </application>
 
 </manifest>

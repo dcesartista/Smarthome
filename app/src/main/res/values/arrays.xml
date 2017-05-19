@@ -6,4 +6,13 @@
         <item>Monthly</item>
         <item>Yearly</item>
     </string-array>
+
+    <string-array name="ac_brand">
+        <item>Panasonic</item>
+        <item>Samsung</item>
+        <item>Daikin</item>
+        <item>LG</item>
+        <item>Sharp</item>
+        <item>Toshiba</item>
+    </string-array>
 </resources>

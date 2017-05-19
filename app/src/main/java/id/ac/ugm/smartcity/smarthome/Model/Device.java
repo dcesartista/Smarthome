@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class Device {
     public static final String NAME = "name";
     public static final String PRODUCT_ID = "productID";
+    public static final String ID = "deviceID";
 
     @SerializedName("id")
     @Expose

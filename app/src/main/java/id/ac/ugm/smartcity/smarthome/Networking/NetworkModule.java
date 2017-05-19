@@ -63,7 +63,8 @@ public class NetworkModule {
 
 
         return new Retrofit.Builder()
-                .baseUrl("https://evening-mountain-29826.herokuapp.com/")
+                /*.baseUrl("https://evening-mountain-29826.herokuapp.com/")*/
+                .baseUrl("http://smarthome.wg.ugm.ac.id/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())

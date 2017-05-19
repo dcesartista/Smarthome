@@ -12,6 +12,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
@@ -56,6 +57,68 @@ public class Service {
                     @Override
                     public void onNext(Response<List<Device>> devices) {
                         callback.onSuccess(devices);
+                    }
+
+                });
+    }
+
+    public Subscription getRelayData(final GetRelayDataCallBack callback, Map<String, String> headers,
+                                     String homeId, String deviceId){
+        return networkService.getRelayData(headers, homeId,deviceId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Relay>>>() {
+                    @Override
+                    public Observable<? extends Response<Relay>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Relay>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Relay> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
+    public Subscription changeRelayData(final ChangeRelayDataCallBack callback, Map<String, String> headers,
+                                     String homeId, String deviceId, String relayId, Map<String, String> params){
+        return networkService.changeRelayStatus(headers, homeId,deviceId, relayId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<String>>>() {
+                    @Override
+                    public Observable<? extends Response<String>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<String>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<String> response) {
+                        callback.onSuccess(response);
                     }
 
                 });
@@ -647,6 +710,18 @@ public class Service {
 
     public interface GetAlertListCallback{
         void onSuccess(List<Alert> alertList);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetRelayDataCallBack{
+        void onSuccess(Response<Relay> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface ChangeRelayDataCallBack{
+        void onSuccess(Response<String> response);
 
         void onError(NetworkError networkError);
     }

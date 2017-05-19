@@ -7,6 +7,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
@@ -153,11 +154,19 @@ public interface NetworkService {
     );
 
     @GET("homes/{home_id}/devices/{device_id}/relays")
-    Observable<Response<Device>> getRelay(
+    Observable<Response<Relay>> getRelayData(
+            @HeaderMap Map<String,String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
+    );
+
+    @PATCH("homes/{home_id}/devices/{device_id}/relays/{relay_id}")
+    Observable<Response<String>> changeRelayStatus(
             @HeaderMap Map<String,String> headers,
             @Path("home_id") String homeId,
             @Path("device_id") String deviceId,
-            @QueryMap Map<String,String> params
+            @Path("relay_id") String relayId,
+            @QueryMap Map<String, String> params
     );
 
     @GET("users/{user_id}")
