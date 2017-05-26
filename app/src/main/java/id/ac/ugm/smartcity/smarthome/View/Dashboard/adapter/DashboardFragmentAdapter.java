@@ -24,9 +24,9 @@ import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileFragment;
  */
 
 public class DashboardFragmentAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 5;
-    private String tabTitles[] = new String[] { "Home", "Alert", "Device", "History", "Profile" };
-    private int[] tabIcon = { R.drawable.ic_home, R.drawable.ic_alert, R.drawable.ic_router, R.drawable.ic_history, R.drawable.ic_profile};
+    final int PAGE_COUNT = 4;
+    private String tabTitles[] = new String[] { "Home", "Device", "History", "Profile" };
+    private int[] tabIcon = { R.drawable.ic_home, R.drawable.ic_router, R.drawable.ic_history, R.drawable.ic_profile};
     private Context context;
     private Service service;
     private DashboardView dashboardView;
@@ -55,12 +55,10 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 return HomeFragment.newInstance(position + 1, service, dashboardView);
             case 1:
-                return AlertFragment.newInstance(position + 1, service, dashboardView);
-            case 2:
                 return DeviceFragment.newInstance(position + 1, service, dashboardView);
-            case 3:
+            case 2:
                 return HistoryFragment.newInstance(position + 1, service, dashboardView);
-            case 4:
+            case 3:
                 return ProfileFragment.newInstance(position + 1, service, dashboardView);
             default:
                 return null;
