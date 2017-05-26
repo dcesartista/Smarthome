@@ -24,6 +24,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.LoginPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.View.LoginActivity;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -39,15 +40,17 @@ public class ProfileFragment extends Fragment {
 
     private Service service;
     private View rootView;
+    private DashboardView dashboardView;
 
     LoginPresenter presenter;
 
-    public static ProfileFragment newInstance(int page, Service service) {
+    public static ProfileFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
         args.putInt(PROFILE_ARG, page);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         fragment.service = service;
+        fragment.dashboardView = dashboardView;
         return fragment;
     }
 
@@ -65,6 +68,16 @@ public class ProfileFragment extends Fragment {
         presenter = new LoginPresenter(service, null, getContext());
         ButterKnife.bind(this,rootView);
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            if (null != presenter){
+                dashboardView.setToolbarText("Profile");
+            }
+        }
     }
 
     @OnClick(R.id.tv_logout)

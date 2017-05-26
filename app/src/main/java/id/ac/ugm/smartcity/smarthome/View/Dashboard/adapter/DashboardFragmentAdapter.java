@@ -12,6 +12,7 @@ import android.widget.TextView;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.AlertFragment;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.DeviceFragment;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HistoryFragment;
@@ -28,11 +29,13 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
     private int[] tabIcon = { R.drawable.ic_home, R.drawable.ic_alert, R.drawable.ic_router, R.drawable.ic_history, R.drawable.ic_profile};
     private Context context;
     private Service service;
+    private DashboardView dashboardView;
 
-    public DashboardFragmentAdapter(FragmentManager fm, DashBoardActivity dashBoardActivity, Context context, Service service) {
+    public DashboardFragmentAdapter(FragmentManager fm, DashboardView dashboardView, Context context, Service service) {
         super(fm);
         this.context = context;
         this.service = service;
+        this.dashboardView = dashboardView;
     }
 
     public View getTabView(int position) {
@@ -50,15 +53,15 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return HomeFragment.newInstance(position + 1, service);
+                return HomeFragment.newInstance(position + 1, service, dashboardView);
             case 1:
-                return AlertFragment.newInstance(position + 1, service);
+                return AlertFragment.newInstance(position + 1, service, dashboardView);
             case 2:
-                return DeviceFragment.newInstance(position + 1, service);
+                return DeviceFragment.newInstance(position + 1, service, dashboardView);
             case 3:
-                return HistoryFragment.newInstance(position + 1, service);
+                return HistoryFragment.newInstance(position + 1, service, dashboardView);
             case 4:
-                return ProfileFragment.newInstance(position + 1, service);
+                return ProfileFragment.newInstance(position + 1, service, dashboardView);
             default:
                 return null;
         }

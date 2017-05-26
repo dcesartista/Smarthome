@@ -37,6 +37,7 @@ import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 import id.ac.ugm.smartcity.smarthome.Utils.Utils;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -84,6 +85,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private String[] devicesName;
     private Device selectedDevice;
     private Service service;
+    private DashboardView dashboardView;
     private HistoryPresenter presenter;
     private Date date;
     private String startDate;
@@ -98,11 +100,12 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     public static final String HISTORY_ARG = "HISTORY_ARG";
 
-    public static HistoryFragment newInstance(int page, Service service) {
+    public static HistoryFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
         args.putInt(HISTORY_ARG, page);
         HistoryFragment fragment = new HistoryFragment();
         fragment.service = service;
+        fragment.dashboardView = dashboardView;
         fragment.setArguments(args);
         return fragment;
     }
@@ -132,6 +135,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         date = c.getTime();
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
         presenter = new HistoryPresenter(service, this, getContext());
+
         //generateDummyData();
         //generateChart(data1);
         /*ArrayList<String> deviceData = new ArrayList<>();
@@ -150,6 +154,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
+                dashboardView.setToolbarText("History");
                 presenter.getDeviceList(homeId);
             }
         }

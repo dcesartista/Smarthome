@@ -22,6 +22,7 @@ import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.AlertPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
 
 
@@ -34,17 +35,19 @@ public class AlertFragment extends Fragment implements AlertView {
     @BindView(R.id.recycler_alert)
     RecyclerView rvAlert;
     private Service service;
+    private DashboardView dashboardView;
 
     private List<DisplayableItem> displayableItems;
     private LinearLayoutManager layoutManager;
     private AlertAdapter adapter;
     ProgressDialog progressDialog;
 
-    public static AlertFragment newInstance(int page, Service service) {
+    public static AlertFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
         args.putInt(ALERT_ARG, page);
         AlertFragment fragment = new AlertFragment();
         fragment.service = service;
+        fragment.dashboardView = dashboardView;
         fragment.setArguments(args);
         return fragment;
     }

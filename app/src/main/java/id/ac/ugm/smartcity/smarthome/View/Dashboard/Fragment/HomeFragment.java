@@ -32,6 +32,7 @@ import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
 import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -92,6 +93,7 @@ public class HomeFragment extends Fragment implements HomeView {
     private Device selectedDevice;
     private View rootView;
     private Service service;
+    private DashboardView dashboardView;
     private HomePresenter presenter;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
@@ -100,11 +102,12 @@ public class HomeFragment extends Fragment implements HomeView {
         }
     };
 
-    public static HomeFragment newInstance(int page, Service service) {
+    public static HomeFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
         args.putInt(HOME_ARG, page);
         HomeFragment fragment = new HomeFragment();
         fragment.service = service;
+        fragment.dashboardView = dashboardView;
         fragment.setArguments(args);
         return fragment;
     }
@@ -143,6 +146,7 @@ public class HomeFragment extends Fragment implements HomeView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
+                dashboardView.setToolbarText("SmartHome");
                 presenter.getDeviceList(homeId);
                 presenter.getCurrentEnergy(homeId);
             }

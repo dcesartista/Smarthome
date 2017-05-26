@@ -23,6 +23,7 @@ import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.GetDevicePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.adapter.DeviceAdapter;
 import retrofit2.Response;
 
@@ -41,16 +42,18 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     String homeId = "1";
     private Service service;
+    private DashboardView dashboardView;
     private DeviceAdapter adapter;
     private LinearLayoutManager layoutManager;
     private GetDevicePresenter presenter;
     List<Device> deviceItemList;
 
-    public static DeviceFragment newInstance(int page, Service service) {
+    public static DeviceFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
         args.putInt(DEVICE_ARG, page);
         DeviceFragment fragment = new DeviceFragment();
         fragment.service = service;
+        fragment.dashboardView = dashboardView;
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,6 +84,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
+                dashboardView.setToolbarText("Device");
                 presenter.getDeviceList(homeId);
             }
         }

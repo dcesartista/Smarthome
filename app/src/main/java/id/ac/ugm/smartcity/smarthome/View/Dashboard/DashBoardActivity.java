@@ -4,6 +4,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -16,11 +17,13 @@ import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.BaseActivity;
 
-public class DashBoardActivity extends BaseActivity {
+public class DashBoardActivity extends BaseActivity implements DashboardView {
     @BindView(R.id.tabDashboard)
     TabLayout tabLayout;
     @BindView(R.id.viewPagerDashboard)
     ViewPager pager;
+    @BindView(R.id.tv_toolbar)
+    TextView tvToolbar;
 
     DashboardFragmentAdapter adapter;
     @Inject
@@ -39,5 +42,10 @@ public class DashBoardActivity extends BaseActivity {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(adapter.getTabView(i));
         }
+    }
+
+    @Override
+    public void setToolbarText(String text) {
+        tvToolbar.setText(text);
     }
 }
