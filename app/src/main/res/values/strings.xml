@@ -14,4 +14,5 @@
     <string name="bearer">Bearer</string>
 
     <string name="fa_arrow_left">&#xf060;</string>
+    <string name="fa_caret_down">&#xf0d7;</string>
 </resources>

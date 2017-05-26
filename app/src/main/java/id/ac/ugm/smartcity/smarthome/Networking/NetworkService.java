@@ -48,21 +48,21 @@ public interface NetworkService {
     );
 
     @POST("homes/{home_id}/energy_daily")
-    Observable<Response<List<HistoryData>>> getEnergyDaily(
+    Observable<Response<List<String>>> getEnergyDaily(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
             @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/energy_monthly")
-    Observable<Response<List<HistoryData>>> getEnergyMonthly(
+    Observable<Response<List<String>>> getEnergyMonthly(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
             @Query("start_date") String startDate
     );
 
     @POST("homes/{home_id}/energy_yearly")
-    Observable<Response<List<HistoryData>>> getEnergyYearly(
+    Observable<Response<List<String>>> getEnergyYearly(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
             @Query("start_date") String startDate

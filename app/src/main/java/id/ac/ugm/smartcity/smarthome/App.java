@@ -13,6 +13,12 @@ public class App extends Application {
     public static final int ENERGY = 3;
     public static final int DEVICE_DATA = 4;
 
+    public static final int VOLTAGE = 11;
+    public static final int COST = 12;
+    public static final int CURRENT = 13;
+
+
+
     public static final int DAILY = 0;
     public static final int MONTHLY = 1;
     public static final int YEARLY = 2;

@@ -19,6 +19,8 @@ public interface HistoryView {
 
     void showHistoryData(Response<List<HistoryData>> histories, int range, int type);
 
+    void showHistoryEnergy(Response<List<String>> histories, int range);
+
     void getDeviceSuccess(Response<List<Device>> response);
 
 }

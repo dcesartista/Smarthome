@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,17 +29,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
+import id.ac.ugm.smartcity.smarthome.Utils.Utils;
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
 import retrofit2.Response;
@@ -51,12 +57,26 @@ import static android.content.Context.MODE_PRIVATE;
 public class HistoryFragment extends Fragment implements HistoryView {
     @BindView(R.id.chart_history)
     ColumnChartView chartView;
-    @BindView(R.id.spr_device)
-    Spinner spinnerDevice;
-    @BindView(R.id.spr_range)
+    @BindView(R.id.sp_value)
+    Spinner spinnerValue;
+    @BindView(R.id.sp_range)
     Spinner spinnerRange;
     @BindView(R.id.graph_title)
     TextView tvGraph;
+    @BindView(R.id.ic_down1)
+    TextView icDown1;
+    @BindView(R.id.ic_down2)
+    TextView icDown2;
+    @BindView(R.id.tv_current)
+    TextView tvCurrent;
+    @BindView(R.id.tv_cost)
+    TextView tvCost;
+    @BindView(R.id.tv_volt)
+    TextView tvVolt;
+    @BindView(R.id.btn_energy)
+    View btnEnergy;
+    @BindView(R.id.iv_energy)
+    ImageView ivEnergy;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     String homeId = "1";
@@ -102,6 +122,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Loading...");
 
+        Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
+        FontManager.markAsIconContainer(icDown1, iconFont);
+        FontManager.markAsIconContainer(icDown2, iconFont);
+
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, -7);
@@ -131,41 +155,48 @@ public class HistoryFragment extends Fragment implements HistoryView {
         }
     }
 
-    @OnItemSelected(R.id.spr_device)
-    void onDeviceSelected(int position) {
-        if(devices.size() > 0) {
-            selectedDevice = devices.get(position);
-            Log.e("HMMMM000","LALALALCALLEDLALAL");
-            presenter.getHistory(startDate, type, range, homeId, String.valueOf(selectedDevice.getId()));
-        }
+
+    @OnClick(R.id.btn_volt)
+    void showVoltageGraph(){
+        /*type = App.TEMPERATURE;
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
+        Utils.setSelected(tvVolt, getContext());
+        Utils.setUnselected(tvCurrent, getContext());
+        Utils.setUnselected(tvCost, getContext());
+        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
     }
 
-
-    @OnClick(R.id.temperature)
-    void showTemperaturaGraph(){
-        type = App.TEMPERATURE;
-        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
-    }
-
-    @OnClick(R.id.humidity)
-    void showHumidityGraph(){
-        type = App.HUMIDITIY;
-        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
-    }
-
-    @OnClick(R.id.co2)
-    void showCO2Graph(){
-        type = App.CARBONDIOXIDE;
-        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
-    }
-
-    @OnClick(R.id.energy)
+    @OnClick(R.id.btn_energy)
     void showEnergyGraph(){
-        type = App.ENERGY;
-        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
+        Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+        Utils.setUnselected(tvCurrent, getContext());
+        Utils.setUnselected(tvCost, getContext());
+        Utils.setUnselected(tvVolt, getContext());
+       /* type = App.HUMIDITIY;
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
     }
 
-    @OnItemSelected(R.id.spr_range)
+    @OnClick(R.id.btn_cost)
+    void showCostGraph(){
+        /*type = App.CARBONDIOXIDE;
+        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
+        Utils.setSelected(tvCost, getContext());
+        Utils.setUnselected(tvVolt, getContext());
+        Utils.setUnselected(tvCurrent, getContext());
+        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+    }
+
+    @OnClick(R.id.btn_current)
+    void showCurrentGraph(){
+        /*type = App.ENERGY;
+        presenter.getEnergyHistory(startDate,range, homeId);*/
+        Utils.setSelected(tvCurrent, getContext());
+        Utils.setUnselected(tvCost, getContext());
+        Utils.setUnselected(tvVolt, getContext());
+        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+    }
+
+    @OnItemSelected(R.id.sp_range)
     void onRangeSelected(int position) {
         switch (position){
             case 0:
@@ -214,7 +245,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 } catch (ParseException e) {
 
                 }
-                axisValue = DateFormatter.formatDateToString(date, "dd MMM");
+                axisValue = DateFormatter.formatDateToString(date, "dd");
             }
 
 
@@ -237,7 +268,71 @@ public class HistoryFragment extends Fragment implements HistoryView {
         chartData.setAxisXBottom(axisX);
         chartData.setAxisYLeft(axisY);
         chartView.setZoomEnabled(false);
+        chartView.setInteractive(true);
+        chartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         chartView.setColumnChartData(chartData);
+        Viewport v = new Viewport(chartView.getMaximumViewport());
+        v.left = 0;
+        v.right = 10;
+        chartView.setCurrentViewport(v);
+        chartView.setViewportCalculationEnabled(false);
+        chartView.setMaxZoom(3);
+    }
+
+    private void generateChartEnergy(List<String> histories, int range){
+
+        List<Column> columns = new ArrayList<>();
+        List<SubcolumnValue> values;
+        List<AxisValue> axisValues = new ArrayList<>();
+        int i = 0;
+        for (String h : histories) {
+            values = new ArrayList<>();
+            float value = Float.parseFloat(h);
+            int color;
+            /*if (value >= 40)
+                values.add(new SubcolumnValue(value, ChartUtils.COLOR_RED ));
+            else if (value >=20)
+                values.add(new SubcolumnValue(value, ChartUtils.COLOR_ORANGE ));
+            else*/
+            values.add(new SubcolumnValue(value, getResources().getColor(R.color.colorAccent) ));
+            String axisValue = null;
+            if (range == App.DAILY){
+                if(histories.indexOf(h)+1 < 10){
+                    axisValue = "0"+histories.indexOf(h)+1;
+                } else {
+                    axisValue = String.valueOf(histories.indexOf(h)+1);
+                }
+            }
+
+
+            Column column = new Column(values);
+            column.setHasLabels(true);
+            columns.add(column);
+            axisValues.add(new AxisValue(i, axisValue.toCharArray()));
+            i++;
+        }
+
+        chartData = new ColumnChartData(columns);
+
+
+        Axis axisX = new Axis(axisValues);
+        axisX.setTextColor(R.color.textPrimary);
+        axisX.setLineColor(R.color.textPrimary);
+        Axis axisY = new Axis().setHasLines(true);
+        axisY.setTextColor(R.color.textPrimary);
+        axisY.setLineColor(R.color.textPrimary);
+        chartData.setAxisXBottom(axisX);
+        chartData.setAxisYLeft(axisY);
+        chartView.setZoomEnabled(false);
+        chartView.setInteractive(true);
+        chartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+        chartView.setColumnChartData(chartData);
+        Viewport v = new Viewport(chartView.getMaximumViewport());
+        v.left = 10;
+        v.right = 10;
+        chartView.setCurrentViewport(v);
+        chartView.setViewportCalculationEnabled(false);
+        chartView.setMaxZoom(5);
     }
 
     @Override
@@ -279,10 +374,22 @@ public class HistoryFragment extends Fragment implements HistoryView {
             case App.CARBONDIOXIDE:
                 tvGraph.setText("Grafik CO2");
                 break;
-            case App.ENERGY:
-                tvGraph.setText("Grafik Energi");
-                break;
         }
+    }
+
+    @Override
+    public void showHistoryEnergy(Response<List<String>> response, int range) {
+        List<String> histories = response.body();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+        if(response.code() == 200) {
+            /*editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+            editor.putString(App.CLIENT, response.headers().get("Client"));
+            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+            editor.putString(App.UID, response.headers().get("Uid"));
+            editor.commit();*/
+        }
+        generateChartEnergy(histories, range);
+        tvGraph.setText("Konsumsi Energi per KwH");
     }
 
     @Override
@@ -308,6 +415,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 devicesName);
-        spinnerDevice.setAdapter(deviceAdapter);
+//        spinnerDevice.setAdapter(deviceAdapter);
     }
 }

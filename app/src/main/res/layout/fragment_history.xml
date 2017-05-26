@@ -2,26 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HistoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textColor="@color/textPrimary"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="History" />
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardCornerRadius="12dp">
+        <Spinner
+            android:id="@+id/sp_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:spinnerMode="dropdown" />
 
-    <Spinner
-        android:id="@+id/spr_device"
-        android:layout_width="200dp"
-        android:layout_height="28dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/ic_down"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="right"
+            android:textSize="18sp"
+            android:text="@string/fa_caret_down" />
+    </android.support.v7.widget.CardView>
 
     <TextView
         android:id="@+id/graph_title"
@@ -29,106 +41,172 @@
         android:layout_height="wrap_content"
         android:text="Grafik"
         android:textSize="16sp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:layout_marginBottom="16dp"
         android:layout_gravity="center_horizontal"/>
 
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/chart_history"
         android:layout_width="match_parent"
-        android:layout_height="168dp"
+        android:layout_height="240dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+            <FrameLayout
+                android:id="@+id/btn_volt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_volt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="Volt"
+                    android:textColor="@color/colorAccent"
+                    android:src="@drawable/icon_energy"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_energy"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_energy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_energy"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_cost"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:text="Rp"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_current"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_current"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorAccent"
+                    android:text="Amp"/>
+            </FrameLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <FrameLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <android.support.v7.widget.CardView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="12dp">
             <Spinner
-                android:layout_width="120dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_horizontal"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <Spinner
-                android:id="@+id/spr_range"
-                android:layout_width="120dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_horizontal"/>
-        </FrameLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <FrameLayout
-            android:id="@+id/energy"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/sp_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_energy"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/temperature"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_temp"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/humidity"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_humidity"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/co2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:background="@android:color/transparent"
                 android:gravity="center"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/ic_down1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="right"
+                android:textSize="18sp"
+                android:text="@string/fa_caret_down" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="32dp"
+            app:cardCornerRadius="12dp">
+            <Spinner
+                android:id="@+id/sp_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:text="CO2"/>
-        </FrameLayout>
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/ic_down2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="right"
+                android:textSize="18sp"
+                android:text="@string/fa_caret_down" />
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+
 
 </LinearLayout>

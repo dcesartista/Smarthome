@@ -71,6 +71,27 @@ public class HistoryPresenter {
         subscriptions.add(subscription);
     }
 
+    public void getEnergyHistory(String startDate, final int range, String homeId) {
+        view.showLoading();
+
+        Subscription subscription = service.getEnergyHistory(new Service.GetEnergyHistoryCallback() {
+            @Override
+            public void onSuccess(Response<List<String>> response) {
+                view.hideLoading();
+                view.showHistoryEnergy(response, range);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, startDate, headers, range, homeId);
+
+        subscriptions.add(subscription);
+    }
+
     public void getDeviceList(String homeId) {
         view.showLoading();
         resources = context.getResources();
