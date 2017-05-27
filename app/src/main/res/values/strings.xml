@@ -15,4 +15,5 @@
 
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_caret_down">&#xf0d7;</string>
+    <string name="fa_gear">&#xf013;</string>
 </resources>

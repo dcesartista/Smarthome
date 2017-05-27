@@ -64,6 +64,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     Spinner spinnerRange;
     @BindView(R.id.graph_title)
     TextView tvGraph;
+    @BindView(R.id.ic_down)
+    TextView icDown;
     @BindView(R.id.ic_down1)
     TextView icDown1;
     @BindView(R.id.ic_down2)
@@ -127,6 +129,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icDown1, iconFont);
+        FontManager.markAsIconContainer(icDown, iconFont);
         FontManager.markAsIconContainer(icDown2, iconFont);
 
         Calendar c = Calendar.getInstance();

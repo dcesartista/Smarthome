@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
@@ -85,6 +87,10 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbArus;
     @BindView(R.id.pb_tegangan)
     View pbTegangan;
+    @BindView(R.id.ic_gear)
+    TextView icGear;
+    @BindView(R.id.ic_down)
+    TextView icDown;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId = "1";
@@ -130,6 +136,10 @@ public class HomeFragment extends Fragment implements HomeView {
             presenter.getDeviceList(homeId);
             presenter.getCurrentEnergy(homeId);
         }
+
+        Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
+        FontManager.markAsIconContainer(icGear, iconFont);
+        FontManager.markAsIconContainer(icDown, iconFont);
 
         getContext().registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_ENERGY));
         return rootView;
