@@ -47,16 +47,6 @@ public class HomeFragment extends Fragment implements HomeView {
 
     public static final String HOME_ARG = "HOME_ARG";
 
-    @BindView(R.id.spr_device)
-    Spinner spinnerDevice;
-    @BindView(R.id.tv_temp)
-    TextView tvTemp;
-    @BindView(R.id.tv_humidity)
-    TextView tvHumidity;
-    @BindView(R.id.tv_co2)
-    TextView tvCO2;
-    @BindView(R.id.tv_motion)
-    TextView tvMotion;
     @BindView(R.id.tv_energy)
     TextView tvEnergy;
     @BindView(R.id.tv_daya)
@@ -67,22 +57,8 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvTegangan;
     @BindView(R.id.iv_energy)
     View ivEnergy;
-    @BindView(R.id.iv_temp)
-    View ivTemperature;
-    @BindView(R.id.iv_humidity)
-    View ivHumidity;
     @BindView(R.id.pb_energy)
     View pbEnergy;
-    @BindView(R.id.pb_temp)
-    View pbTemp;
-    @BindView(R.id.pb_humidity)
-    View pbHumidity;
-    @BindView(R.id.pb_co2)
-    View pbCO2;
-    @BindView(R.id.pb_motion)
-    View pbMotion;
-    @BindView(R.id.pb_daya)
-    View pbDaya;
     @BindView(R.id.pb_arus)
     View pbArus;
     @BindView(R.id.pb_tegangan)
@@ -163,14 +139,6 @@ public class HomeFragment extends Fragment implements HomeView {
         }
     }
 
-    @OnItemSelected(R.id.spr_device)
-    void onItemSelected(int position) {
-        if(devices.size() > 0) {
-            selectedDevice = devices.get(position);
-            Log.e("HMMMM000","LALALALCALLEDLALAL");
-            presenter.getCurrentDeviceData(homeId, String.valueOf(selectedDevice.getId()));
-        }
-    }
 
     @Override
     public void showLoading() {
@@ -192,21 +160,8 @@ public class HomeFragment extends Fragment implements HomeView {
                 tvArus.setVisibility(View.GONE);
                 tvTegangan.setVisibility(View.GONE);
                 pbEnergy.setVisibility(View.VISIBLE);
-                pbDaya.setVisibility(View.VISIBLE);
                 pbArus.setVisibility(View.VISIBLE);
                 pbTegangan.setVisibility(View.VISIBLE);
-                break;
-            case App.DEVICE_DATA:
-                ivTemperature.setVisibility(View.GONE);
-                tvTemp.setVisibility(View.GONE);
-                ivHumidity.setVisibility(View.GONE);
-                tvHumidity.setVisibility(View.GONE);
-                tvCO2.setVisibility(View.GONE);
-                tvMotion.setVisibility(View.GONE);
-                pbTemp.setVisibility(View.VISIBLE);
-                pbHumidity.setVisibility(View.VISIBLE);
-                pbCO2.setVisibility(View.VISIBLE);
-                pbMotion.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -221,21 +176,8 @@ public class HomeFragment extends Fragment implements HomeView {
                 tvArus.setVisibility(View.VISIBLE);
                 tvTegangan.setVisibility(View.VISIBLE);
                 pbEnergy.setVisibility(View.GONE);
-                pbDaya.setVisibility(View.GONE);
                 pbArus.setVisibility(View.GONE);
                 pbTegangan.setVisibility(View.GONE);
-                break;
-            case App.DEVICE_DATA:
-                ivTemperature.setVisibility(View.VISIBLE);
-                tvTemp.setVisibility(View.VISIBLE);
-                ivHumidity.setVisibility(View.VISIBLE);
-                tvHumidity.setVisibility(View.VISIBLE);
-                tvCO2.setVisibility(View.VISIBLE);
-                tvMotion.setVisibility(View.VISIBLE);
-                pbTemp.setVisibility(View.GONE);
-                pbHumidity.setVisibility(View.GONE);
-                pbCO2.setVisibility(View.GONE);
-                pbMotion.setVisibility(View.GONE);
                 break;
         }
     }
@@ -260,10 +202,6 @@ public class HomeFragment extends Fragment implements HomeView {
 
         CurrentDeviceData data = response.body();
         Log.e("HMMMM", String.valueOf(response.code()));
-        tvTemp.setText(NumberFormatter.formatWithDots(data.getTemperature()));
-        tvHumidity.setText(NumberFormatter.formatWithDots(data.getHumidity()));
-        tvCO2.setText(NumberFormatter.formatWithDots(data.getCo2()));
-        tvMotion.setText(NumberFormatter.formatWithDots(data.getMotion()));
     }
 
     @Override
@@ -299,7 +237,6 @@ public class HomeFragment extends Fragment implements HomeView {
         ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 devicesName);
-        spinnerDevice.setAdapter(deviceAdapter);
     }
 
     @Override
