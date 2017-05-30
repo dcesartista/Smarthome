@@ -7,6 +7,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
@@ -29,9 +30,15 @@ import rx.Observable;
 
 public interface NetworkService {
 
-    @GET("alerts")
-    Observable<List<Alert>> getAlertList(
+    @GET("homes")
+    Observable<Response<List<Home>>> getHomes(
             @HeaderMap Map<String, String> headers
+    );
+
+    @POST("homes")
+    Observable<Response<Home>> postNewHome(
+            @HeaderMap Map<String, String> headers,
+            @QueryMap Map<String, String> params
     );
 
     @GET("homes/{home_id}/devices/{device_id}/current")

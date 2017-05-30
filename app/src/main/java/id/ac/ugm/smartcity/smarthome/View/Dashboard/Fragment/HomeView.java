@@ -6,6 +6,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import retrofit2.Response;
 
 /**
@@ -27,7 +28,7 @@ public interface HomeView {
 
     void showCurrentEnergy(Response<CurrentEnergy> response);
 
-    void getDeviceSuccess(Response<List<Device>> response);
+    void getHomeSuccess(Response<List<Home>> response);
 
     void updateEnergyLimit(String limit);
 

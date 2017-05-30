@@ -12,6 +12,7 @@ import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
@@ -556,18 +557,18 @@ public class Service {
     }
 
 
-    public Subscription getAlertList(final GetAlertListCallback callback, Map<String, String> headers) {
+    public Subscription getHomes(final GetHomesCallback callback, Map<String, String> headers) {
 
-        return networkService.getAlertList(headers)
+        return networkService.getHomes(headers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Alert>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<Home>>>>() {
                     @Override
-                    public Observable<? extends List<Alert>> call(Throwable throwable) {
+                    public Observable<? extends Response<List<Home>>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<List<Alert>>() {
+                .subscribe(new Subscriber<Response<List<Home>>>() {
                     @Override
                     public void onCompleted() {
 
@@ -580,8 +581,40 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(List<Alert> alerts) {
-                        callback.onSuccess(alerts);
+                    public void onNext(Response<List<Home>> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
+    public Subscription postNewHome(final PostNewHomeCallback callback, Map<String, String> headers
+            , Map<String, String> params) {
+
+        return networkService.postNewHome(headers, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Home>>>() {
+                    @Override
+                    public Observable<? extends Response<Home>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Home>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Home> response) {
+                        callback.onSuccess(response);
                     }
 
                 });
@@ -711,8 +744,14 @@ public class Service {
 
 
 
-    public interface GetAlertListCallback{
-        void onSuccess(List<Alert> alertList);
+    public interface GetHomesCallback{
+        void onSuccess(Response<List<Home>> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface PostNewHomeCallback{
+        void onSuccess(Response<Home> response);
 
         void onError(NetworkError networkError);
     }

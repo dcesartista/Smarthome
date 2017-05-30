@@ -6,9 +6,11 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
@@ -84,6 +86,31 @@ public class LoginPresenter {
                 updateFcmToken(userId, params);
             }
         }, headers, userId, params);
+
+        subscriptions.add(subscription);
+    }
+
+    public void getHomes(){
+        resources = context.getResources();
+        preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(resources.getString(R.string.access_token), preferences.getString(App.ACCESS_TOKEN,""));
+        headers.put(resources.getString(R.string.token_type), resources.getString(R.string.bearer));
+        headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
+        headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
+        headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
+
+        Subscription subscription = service.getHomes(new Service.GetHomesCallback() {
+            @Override
+            public void onSuccess(Response<List<Home>> response) {
+                view.getHomeSuccess(response);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        }, headers);
 
         subscriptions.add(subscription);
     }

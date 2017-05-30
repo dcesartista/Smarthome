@@ -29,6 +29,7 @@ import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
 import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
@@ -67,11 +68,12 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView icGear;
     @BindView(R.id.ic_down)
     TextView icDown;
+    @BindView(R.id.sp_home)
+    Spinner spHome;
 
-    //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    private String homeId = "1";
-    private List<Device> devices;
-    private String[] devicesName;
+    private String homeId;
+    private List<Home> homes;
+    private String[] homeNames;
     private Device selectedDevice;
     private View rootView;
     private Service service;
@@ -106,10 +108,12 @@ public class HomeFragment extends Fragment implements HomeView {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,rootView);
+        SharedPreferences preferences = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE);
+        homeId = preferences.getString(App.ACTIVE_HOME,"");
         presenter = new HomePresenter(service, this, getContext());
         Log.e("HMMMMppp222","sss1"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
         if (getUserVisibleHint()){
-            presenter.getDeviceList(homeId);
+            presenter.getHomes();
             presenter.getCurrentEnergy(homeId);
         }
 
@@ -133,7 +137,7 @@ public class HomeFragment extends Fragment implements HomeView {
         if(isVisibleToUser){
             if (null != presenter){
                 dashboardView.setToolbarText("SmartHome");
-                presenter.getDeviceList(homeId);
+                presenter.getHomes();
                 presenter.getCurrentEnergy(homeId);
             }
         }
@@ -215,7 +219,7 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void getDeviceSuccess(Response<List<Device>> response) {
+    public void getHomeSuccess(Response<List<Home>> response) {
         Log.e("HMMMMzzz", String.valueOf(response.code()));
         SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
         /*if(response.code() == 200) {
@@ -226,17 +230,19 @@ public class HomeFragment extends Fragment implements HomeView {
             editor.commit();
         }*/
         Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
-        devices = response.body();
+        homes = response.body();
         int i = 0;
-        devicesName = new String[devices.size()];
-        for (Device device : devices){
-            devicesName[i] = device.getName();
+        homeNames = new String[homes.size()];
+        for (Home home: homes){
+            homeNames[i] = home.getName();
             i++;
         }
 
-        ArrayAdapter deviceAdapter = new ArrayAdapter(getContext(),
+        ArrayAdapter adapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                devicesName);
+                homeNames);
+        spHome.setAdapter(adapter);
+
     }
 
     @Override

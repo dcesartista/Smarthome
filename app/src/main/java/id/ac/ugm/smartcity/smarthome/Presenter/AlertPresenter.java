@@ -47,7 +47,7 @@ public class AlertPresenter {
         headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
         headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
-        Subscription subscription = service.getAlertList(new Service.GetAlertListCallback() {
+        /*Subscription subscription = service.getAlertList(new Service.GetAlertListCallback() {
             @Override
             public void onSuccess(List<Alert> alertList) {
                 view.hideLoading();
@@ -62,7 +62,7 @@ public class AlertPresenter {
 
         },headers);
 
-        subscriptions.add(subscription);
+        subscriptions.add(subscription);*/
     }
     public void onStop() {
         subscriptions.unsubscribe();

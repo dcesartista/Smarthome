@@ -1,5 +1,8 @@
 package id.ac.ugm.smartcity.smarthome.View;
 
+import java.util.List;
+
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import retrofit2.Response;
@@ -16,5 +19,7 @@ public interface LoginView {
     void loginFailed();
 
     void loginSuccess(Response<LoginUser> response);
+
+    void getHomeSuccess(Response<List<Home>> response);
 
 }

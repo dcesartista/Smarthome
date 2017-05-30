@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
@@ -94,7 +96,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
         editor.putString(App.EXPIRY, response.headers().get("Expiry"));
         editor.putString(App.UID, response.headers().get("Uid"));
         //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-        editor.putString(App.ACTIVE_HOME, "1");
         editor.commit();
 
         LoginUser user = response.body();
@@ -102,8 +103,20 @@ public class LoginActivity extends BaseActivity implements LoginView {
         params.put(User.FCM_TOKEN, FirebaseInstanceId.getInstance().getToken());
 
         presenter.updateFcmToken(String.valueOf(user.getData().getId()),params);
+        presenter.getHomes();
+    }
 
-        Intent intent = new Intent(this, DashBoardActivity.class);
+    @Override
+    public void getHomeSuccess(Response<List<Home>> response) {
+        Intent intent;
+        if(null != response.body() && response.body().size()>0) {
+            SharedPreferences.Editor editor = getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+            editor.putString(App.ACTIVE_HOME, String.valueOf(response.body().get(0).getId()));
+            editor.commit();
+            intent = new Intent(this, DashBoardActivity.class);
+        } else {
+            intent = new Intent(this, NewHomeActivity.class);
+        }
         startActivity(intent);
     }
 }

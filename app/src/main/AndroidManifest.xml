@@ -33,15 +33,15 @@
 
         <activity android:name=".View.Dashboard.Fragment.Device.AddDeviceActivity" />
         <activity android:name=".View.SplashActivity">
-
-        </activity>
-        <activity android:name=".View.RelayActivity" />
-        <activity android:name=".View.NewHomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".View.RelayActivity" />
+        <activity android:name=".View.NewHomeActivity">
+
         </activity>
     </application>
 
