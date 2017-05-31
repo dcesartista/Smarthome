@@ -35,6 +35,7 @@ import id.ac.ugm.smartcity.smarthome.Presenter.DevicePresenter;
 import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
+import id.ac.ugm.smartcity.smarthome.View.CustomSpinner;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import retrofit2.Response;
 

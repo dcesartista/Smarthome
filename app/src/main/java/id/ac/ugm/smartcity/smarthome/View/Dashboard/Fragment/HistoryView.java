@@ -4,6 +4,7 @@ import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import retrofit2.Response;
 
 /**
@@ -16,6 +17,8 @@ public interface HistoryView {
     void hideLoading();
 
     void onFailure(String appErrorMessage);
+
+    void getHomeSuccess(Response<List<Home>> response);
 
     void showHistoryData(Response<List<HistoryData>> histories, int range, int type);
 

@@ -3,6 +3,7 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
 import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
 
@@ -16,6 +17,8 @@ public interface GetDeviceView {
     void hideLoading();
 
     void onFailure(String appErrorMessage);
+
+    void getHomeSuccess(Response<List<Home>> response);
 
     void getDeviceSuccess(Response<List<Device>> deviceList);
 

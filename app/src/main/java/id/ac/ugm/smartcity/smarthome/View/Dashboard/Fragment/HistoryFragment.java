@@ -32,6 +32,7 @@ import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HistoryPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
@@ -80,6 +81,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     View btnEnergy;
     @BindView(R.id.iv_energy)
     ImageView ivEnergy;
+    @BindView(R.id.sp_home)
+    Spinner spHome;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     String homeId = "1";
@@ -94,6 +97,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private ProgressDialog progressDialog;
     int type = App.ENERGY;
     int range = App.DAILY;
+    private List<Home> homes;
+    private String[] homeNames;
 
     private ColumnChartData chartData;
     private double[] data1 = new double[7];
@@ -147,6 +152,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         deviceData.add(2, "Device 2");*/
 
         if (getUserVisibleHint()){
+            presenter.getHomes();
             presenter.getDeviceList(homeId);
         }
 
@@ -157,6 +163,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
+                presenter.getHomes();
                 dashboardView.setToolbarText("History");
                 presenter.getDeviceList(homeId);
             }
@@ -398,6 +405,32 @@ public class HistoryFragment extends Fragment implements HistoryView {
         }
         generateChartEnergy(histories, range);
         tvGraph.setText("Konsumsi Energi per KwH");
+    }
+
+    @Override
+    public void getHomeSuccess(Response<List<Home>> response) {
+        Log.e("HMMMMzzz", String.valueOf(response.code()));
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
+        /*if(response.code() == 200) {
+            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
+            editor.putString(App.CLIENT, response.headers().get("Client"));
+            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
+            editor.putString(App.UID, response.headers().get("Uid"));
+            editor.commit();
+        }*/
+        Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
+        homes = response.body();
+        int i = 0;
+        homeNames = new String[homes.size()];
+        for (Home home: homes){
+            homeNames[i] = home.getName();
+            i++;
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                homeNames);
+        spHome.setAdapter(adapter);
     }
 
     @Override
