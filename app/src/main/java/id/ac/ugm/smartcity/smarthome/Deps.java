@@ -11,6 +11,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.Firebase.MyFirebaseInstanceIDSer
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkModule;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
+import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.LoginActivity;
 import id.ac.ugm.smartcity.smarthome.View.NewHomeActivity;
 import id.ac.ugm.smartcity.smarthome.View.RegisterActivity;
@@ -26,4 +27,5 @@ public interface Deps {
     void inject(RelayActivity relayActivity);
     void inject(MyFirebaseInstanceIDService myFirebaseInstanceIDService);
     void inject(NewHomeActivity newHomeActivity);
+    void inject(DeviceDetailActivity deviceDetailActivity);
 }

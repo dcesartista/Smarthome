@@ -111,7 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="36dp"
                     android:textSize="18sp"
-                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textColor="@color/textAccent"
                     android:text="220 V"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textColor="@color/textAccent"
                     android:text="12.0 A"/>
             </LinearLayout>
             <TextView
@@ -166,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="48sp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/textAccent"
                     android:text="25000 KWh"/>
             </LinearLayout>
             <TextView
@@ -246,7 +248,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
                         android:text="2200 VA"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/textAccent"
                         android:textSize="24sp" />
                 </LinearLayout>
             </LinearLayout>

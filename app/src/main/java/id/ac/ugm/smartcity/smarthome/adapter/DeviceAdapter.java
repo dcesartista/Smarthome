@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.RelayActivity;
 
 /**
@@ -46,7 +47,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RelayActivity.class);
+                Intent intent = new Intent(context, DeviceDetailActivity.class);
                 Log.e("POPOPOPO",device.getId()+"");
                 intent.putExtra(Device.ID, device.getId().toString());
                 context.startActivity(intent);
