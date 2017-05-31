@@ -29,4 +29,18 @@ public class DateFormatter {
         String time = formatter.format(date);
         return time;
     }
+
+    public static String convertServerDate(String input) throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        String date = "";
+        try {
+            Date dateTime = formatter.parse(input);
+            DateFormat formatter2 = new SimpleDateFormat("d/MM/yyyy");
+            date = formatter.format(date);
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return date;
+
+    }
 }
