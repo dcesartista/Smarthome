@@ -6,6 +6,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 import javax.inject.Singleton;
 
@@ -51,13 +52,17 @@ public class NetworkModule {
                                 .header("Cache-Control", String.format("max-age=%d", 3600))
                                 .build();
 
-                        okhttp3.Response response = chain.proceed(request);
-                        response.cacheResponse();
+                        try{
+                            okhttp3.Response response = chain.proceed(request);
+                            response.cacheResponse();
+                            return response;
+                        } catch (SocketTimeoutException e){
+
+                        }
                         // Customize or return the response
-                        return response;
+                        return chain.proceed(request);
                     }
-                })
-                .cache(cache)
+                }).cache(cache)
 
                 .build();
 
