@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:text="Tegangan"/>
                 <ProgressBar
                     android:id="@+id/pb_arus"
@@ -110,14 +110,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="36dp"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/colorAccent"
                     android:text="220 V"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:text="Arus"/>
                 <ProgressBar
                     android:id="@+id/pb_tegangan"
@@ -130,7 +130,7 @@
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/colorAccent"
                     android:text="12.0 A"/>
             </LinearLayout>
@@ -139,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
+                android:textSize="16sp"
                 android:text="Konsumsi Energi Listrik Saat Ini"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,6 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="48sp"
+                    android:textColor="@color/colorAccent"
                     android:text="25000 KWh"/>
             </LinearLayout>
             <TextView
@@ -192,12 +194,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="16sp"
                         android:text="Perkiraan Biaya" />
 
                     <ProgressBar
                         android:id="@+id/pb_biaya"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
                         android:visibility="visible" />
@@ -233,6 +236,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="16sp"
                         android:text="tegangan" />
 
                     <TextView
@@ -253,6 +257,7 @@
             android:layout_height="match_parent"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:textSize="18dp"
             android:text="Notifikasi"
             android:gravity="center"
             android:background="@color/lightGrey"/>
