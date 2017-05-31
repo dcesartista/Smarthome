@@ -1,23 +1,39 @@
 package id.ac.ugm.smartcity.smarthome.View;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import id.ac.ugm.smartcity.smarthome.FontManager;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
+import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.Presenter.DeviceDetailPresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
+import retrofit2.Response;
 
-public class DeviceDetailActivity extends BaseActivity {
+public class DeviceDetailActivity extends BaseActivity implements DeviceDetailView {
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.ic_down)
-    TextView icDown;
+    @BindView(R.id.ic_back)
+    TextView icBack;
     @BindView(R.id.tv_temp)
     TextView tvTemp;
     @BindView(R.id.tv_humidity)
@@ -82,9 +98,23 @@ public class DeviceDetailActivity extends BaseActivity {
     TextView tvRelay8;
     @BindView(R.id.toggle8)
     Switch toggle8;
+    @BindView(R.id.pb_temp)
+    ProgressBar pbTemp;
+    @BindView(R.id.pb_hum)
+    ProgressBar pbHum;
+    @BindView(R.id.pb_co2)
+    ProgressBar pbCo2;
+    @BindView(R.id.pb_light)
+    ProgressBar pbLight;
 
     @Inject
     public Service service;
+
+    private DeviceDetailPresenter presenter;
+    private Device device;
+    private String relayId;
+    private Switch[] toggles;
+    private TextView[] tvRelayNames;
 
 
     @Override
@@ -94,6 +124,185 @@ public class DeviceDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         getDeps().inject(this);
 
+        Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
+        FontManager.markAsIconContainer(icBack, iconFont);
+
+        device = (Device) getIntent().getSerializableExtra(Device.ID);
+        tvTitle.setText(device.getName());
+        toggles = new Switch[]{toggle1,toggle2,toggle3,toggle4,toggle5,toggle6,toggle7,toggle8};
+        tvRelayNames = new TextView[]{tvRelay1,tvRelay2,tvRelay3,tvRelay4,tvRelay5,tvRelay6,tvRelay7,tvRelay8};
+        presenter = new DeviceDetailPresenter(service, this, this);
+        presenter.getCurrentSensorData(device.getId().toString());
+        presenter.getRelayData(device.getId().toString());
+    }
+
+    @OnClick(R.id.ic_back)
+    void back(){
+        super.onBackPressed();
+    }
+
+    @OnClick(R.id.toggle1)
+    void setToggle1(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_1,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_1,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle2)
+    void setToggle2(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_2,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_2,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle3)
+    void setToggle3(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_3,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_3,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle4)
+    void setToggle4(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_4,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_4,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle5)
+    void setToggle5(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_5,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_5,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle6)
+    void setToggle6(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_6,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_6,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle7)
+    void setToggle7(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_7,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_7,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @OnClick(R.id.toggle8)
+    void setToggle8(Switch tb){
+        if(tb.isChecked()) {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_8,"1");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        } else {
+            Map<String, String> params = new HashMap<>();
+            params.put(Relay.RELAY_8,"0");
+            presenter.changeRelayData(device.getId().toString(),relayId,params);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void onFailure(String appErrorMessage) {
+
+    }
+
+    @Override
+    public void showDeviceData(Response<Device> response) {
+
+    }
+
+    @Override
+    public void showRelayStatus(Response<Relay> response) {
+        Relay relay = response.body();
+        relayId = relay.getId().toString();
+        int[] relayData= new int[]{relay.getRelay1(),relay.getRelay2(),relay.getRelay3(),relay.getRelay4(),
+                relay.getRelay5(),relay.getRelay6(),relay.getRelay7(),relay.getRelay8()};
+        String[] relayNameData= new String[]{relay.getRelay1name(),relay.getRelay2name(),relay.getRelay3name(),relay.getRelay4name(),
+                relay.getRelay5name(),relay.getRelay6name(),relay.getRelay7name(),relay.getRelay8name()};
+        for(int i=0; i< toggles.length; i++) {
+            tvRelayNames[i].setText(relayNameData[i]);
+            if (relayData[i] == 1) {
+                toggles[i].setChecked(true);
+            } else {
+                toggles[i].setChecked(false);
+            }
+        }
+    }
+
+    @Override
+    public void showCurrentSensorData(Response<CurrentSensor> response) {
+        CurrentSensor currentSensor = response.body();
+        pbTemp.setVisibility(View.GONE);
+        pbHum.setVisibility(View.GONE);
+        pbCo2.setVisibility(View.GONE);
+        pbLight.setVisibility(View.GONE);
+        tvTemp.setText(String.valueOf(currentSensor.getTemperature()));
+        tvTemp.setVisibility(View.VISIBLE);
+        tvHum.setText(NumberFormatter.formatWithDots(currentSensor.getHumidity()));
+        tvHum.setVisibility(View.VISIBLE);
+        tvCo2.setText(String.valueOf(currentSensor.getCo2()));
+        tvCo2.setVisibility(View.VISIBLE);
+        tvLight.setText(String.valueOf(currentSensor.getFlux()));
+        tvLight.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void changeRelayStatus() {
 
     }
 }

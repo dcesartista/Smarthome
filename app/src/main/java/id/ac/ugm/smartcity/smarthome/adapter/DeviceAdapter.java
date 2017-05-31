@@ -49,7 +49,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             public void onClick(View v) {
                 Intent intent = new Intent(context, DeviceDetailActivity.class);
                 Log.e("POPOPOPO",device.getId()+"");
-                intent.putExtra(Device.ID, device.getId().toString());
+                intent.putExtra(Device.ID, device);
                 context.startActivity(intent);
             }
         });

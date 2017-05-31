@@ -5,6 +5,7 @@ import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
@@ -39,13 +40,6 @@ public interface NetworkService {
     Observable<Response<Home>> postNewHome(
             @HeaderMap Map<String, String> headers,
             @QueryMap Map<String, String> params
-    );
-
-    @GET("homes/{home_id}/devices/{device_id}/current")
-    Observable<Response<CurrentDeviceData>> getCurrentDeviceData(
-            @HeaderMap Map<String, String> headers,
-            @Path("home_id") String homeId,
-            @Path("device_id") String deviceId
     );
 
     @GET("homes/{home_id}/current_energy")
@@ -158,6 +152,20 @@ public interface NetworkService {
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
             @QueryMap Map<String, String> params
+    );
+
+    @GET("homes/{home_id}/devices/{device_id}")
+    Observable<Response<Device>> getDevice(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
+    );
+
+    @GET("homes/{home_id}/devices/{device_id}/current_sensor")
+    Observable<Response<CurrentSensor>> getCurrentSensor(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId
     );
 
     @GET("homes/{home_id}/devices/{device_id}/relays")

@@ -10,6 +10,7 @@ import java.util.Map;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
+import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
@@ -58,6 +59,35 @@ public class Service {
                     @Override
                     public void onNext(Response<List<Device>> devices) {
                         callback.onSuccess(devices);
+                    }
+
+                });
+    }
+
+    public Subscription getDevice(final GetDeviceCallback callback, Map<String, String> headers, String homeId, String deviceId){
+        return networkService.getDevice(headers, homeId, deviceId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Device>>>() {
+                    @Override
+                    public Observable<? extends Response<Device>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Device>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<Device> response) {
+                        callback.onSuccess(response);
                     }
 
                 });
@@ -125,18 +155,18 @@ public class Service {
                 });
     }
 
-    public Subscription getCurrentDeviceData(final GetCurrentDeviceDataCallback callback, Map<String, String> headers,
+    public Subscription getCurrentSensor(final GetCurrentSensorCallback callback, Map<String, String> headers,
                                              String homeId, String deviceId){
-        return networkService.getCurrentDeviceData(headers, homeId, deviceId)
+        return networkService.getCurrentSensor(headers, homeId, deviceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<CurrentDeviceData>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<CurrentSensor>>>() {
                     @Override
-                    public Observable<? extends Response<CurrentDeviceData>> call(Throwable throwable) {
+                    public Observable<? extends Response<CurrentSensor>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<Response<CurrentDeviceData>>() {
+                .subscribe(new Subscriber<Response<CurrentSensor>>() {
                     @Override
                     public void onCompleted() {
 
@@ -149,7 +179,7 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(Response<CurrentDeviceData> response) {
+                    public void onNext(Response<CurrentSensor> response) {
                         callback.onSuccess(response);
                     }
 
@@ -768,12 +798,6 @@ public class Service {
         void onError(NetworkError networkError);
     }
 
-    public interface GetCurrentDeviceDataCallback{
-        void onSuccess(Response<CurrentDeviceData> response);
-
-        void onError(NetworkError networkError);
-    }
-
     public interface GetCurrentEnergyCallback{
         void onSuccess(Response<CurrentEnergy> response);
 
@@ -794,6 +818,18 @@ public class Service {
 
     public interface GetDeviceListCallback{
         void onSuccess(Response<List<Device>> deviceList);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetDeviceCallback{
+        void onSuccess(Response<Device> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetCurrentSensorCallback{
+        void onSuccess(Response<CurrentSensor> response);
 
         void onError(NetworkError networkError);
     }

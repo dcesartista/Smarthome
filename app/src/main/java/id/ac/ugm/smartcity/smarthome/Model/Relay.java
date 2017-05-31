@@ -100,28 +100,28 @@ public class Relay {
     private Integer relay8;
     @SerializedName("relay1name")
     @Expose
-    private Object relay1name;
+    private String relay1name;
     @SerializedName("relay2name")
     @Expose
-    private Object relay2name;
+    private String relay2name;
     @SerializedName("relay3name")
     @Expose
-    private Object relay3name;
+    private String relay3name;
     @SerializedName("relay4name")
     @Expose
-    private Object relay4name;
+    private String relay4name;
     @SerializedName("relay5name")
     @Expose
-    private Object relay5name;
+    private String relay5name;
     @SerializedName("relay6name")
     @Expose
-    private Object relay6name;
+    private String relay6name;
     @SerializedName("relay7name")
     @Expose
-    private Object relay7name;
+    private String relay7name;
     @SerializedName("relay8name")
     @Expose
-    private Object relay8name;
+    private String relay8name;
     @SerializedName("ac_brand")
     @Expose
     private String acBrand;
@@ -139,7 +139,7 @@ public class Relay {
     private String acSwing;
     @SerializedName("ac_enable")
     @Expose
-    private Object acEnable;
+    private String acEnable;
     @SerializedName("ac_temp")
     @Expose
     private String acTemp;
@@ -228,67 +228,67 @@ public class Relay {
         this.relay8 = relay8;
     }
 
-    public Object getRelay1name() {
+    public String getRelay1name() {
         return relay1name;
     }
 
-    public void setRelay1name(Object relay1name) {
+    public void setRelay1name(String relay1name) {
         this.relay1name = relay1name;
     }
 
-    public Object getRelay2name() {
+    public String getRelay2name() {
         return relay2name;
     }
 
-    public void setRelay2name(Object relay2name) {
+    public void setRelay2name(String relay2name) {
         this.relay2name = relay2name;
     }
 
-    public Object getRelay3name() {
+    public String getRelay3name() {
         return relay3name;
     }
 
-    public void setRelay3name(Object relay3name) {
+    public void setRelay3name(String relay3name) {
         this.relay3name = relay3name;
     }
 
-    public Object getRelay4name() {
+    public String getRelay4name() {
         return relay4name;
     }
 
-    public void setRelay4name(Object relay4name) {
+    public void setRelay4name(String relay4name) {
         this.relay4name = relay4name;
     }
 
-    public Object getRelay5name() {
+    public String getRelay5name() {
         return relay5name;
     }
 
-    public void setRelay5name(Object relay5name) {
+    public void setRelay5name(String relay5name) {
         this.relay5name = relay5name;
     }
 
-    public Object getRelay6name() {
+    public String getRelay6name() {
         return relay6name;
     }
 
-    public void setRelay6name(Object relay6name) {
+    public void setRelay6name(String relay6name) {
         this.relay6name = relay6name;
     }
 
-    public Object getRelay7name() {
+    public String getRelay7name() {
         return relay7name;
     }
 
-    public void setRelay7name(Object relay7name) {
+    public void setRelay7name(String relay7name) {
         this.relay7name = relay7name;
     }
 
-    public Object getRelay8name() {
+    public String getRelay8name() {
         return relay8name;
     }
 
-    public void setRelay8name(Object relay8name) {
+    public void setRelay8name(String relay8name) {
         this.relay8name = relay8name;
     }
 
@@ -336,7 +336,7 @@ public class Relay {
         return acEnable;
     }
 
-    public void setAcEnable(Object acEnable) {
+    public void setAcEnable(String acEnable) {
         this.acEnable = acEnable;
     }
 

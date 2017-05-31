@@ -62,7 +62,7 @@
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingLeft="16dp"
                             android:orientation="horizontal">
@@ -71,11 +71,19 @@
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/icon_temp"/>
+
+                            <ProgressBar
+                                android:id="@+id/pb_temp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:layout_height="24dp" />
                             <TextView
                                 android:id="@+id/tv_temp"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:text="28"
                                 android:textSize="20dp"
                                 android:gravity="center"/>
@@ -95,11 +103,18 @@
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/icon_humidity"/>
+                            <ProgressBar
+                                android:id="@+id/pb_hum"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:layout_height="24dp" />
                             <TextView
                                 android:id="@+id/tv_humidity"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:text="28"
                                 android:textSize="20dp"
                                 android:gravity="center"/>
@@ -127,11 +142,18 @@
                                 android:textSize="16sp"
                                 android:gravity="center"
                                 android:textColor="@android:color/black"/>
+                            <ProgressBar
+                                android:id="@+id/pb_co2"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:layout_height="24dp" />
                             <TextView
                                 android:id="@+id/tv_co2"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:text="28"
                                 android:textSize="20dp"
                                 android:gravity="center"/>
@@ -153,11 +175,18 @@
                                 android:textSize="16sp"
                                 android:gravity="center"
                                 android:textColor="@android:color/black"/>
+                            <ProgressBar
+                                android:id="@+id/pb_light"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:layout_height="24dp" />
                             <TextView
                                 android:id="@+id/tv_light"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:text="28"
                                 android:textSize="20dp"
                                 android:gravity="center"/>

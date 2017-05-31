@@ -41,36 +41,6 @@ public class HomePresenter {
         this.subscriptions = new CompositeSubscription();
     }
 
-    public void getCurrentDeviceData(String homeId, String deviceId) {
-        view.showProgressBar(App.DEVICE_DATA);
-        resources = context.getResources();
-        preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
-        Log.e("HMMMMzzz",preferences.getString(App.ACCESS_TOKEN,""));
-        Map<String, String> headers = new HashMap<>();
-        headers.put(resources.getString(R.string.access_token), preferences.getString(App.ACCESS_TOKEN,""));
-        headers.put(resources.getString(R.string.token_type), resources.getString(R.string.bearer));
-        headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
-        headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
-        headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
-
-        Subscription subscription = service.getCurrentDeviceData(new Service.GetCurrentDeviceDataCallback() {
-            @Override
-            public void onSuccess(Response<CurrentDeviceData> response) {
-                view.hideProgressBar(App.DEVICE_DATA);
-                view.showCurrentDeviceData(response);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideProgressBar(App.DEVICE_DATA);
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, headers, homeId, deviceId);
-
-        subscriptions.add(subscription);
-    }
-
     public void getHomes(){
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);

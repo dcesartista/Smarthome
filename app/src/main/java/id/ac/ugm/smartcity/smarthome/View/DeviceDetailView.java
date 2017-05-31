@@ -1,6 +1,8 @@
 package id.ac.ugm.smartcity.smarthome.View;
 
+import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import retrofit2.Response;
 
 /**
@@ -14,6 +16,11 @@ public interface DeviceDetailView {
 
     void onFailure(String appErrorMessage);
 
-    void getDeviceSuccess(Response<Device> response);
+    void showDeviceData(Response<Device> response);
 
+    void showCurrentSensorData(Response<CurrentSensor> response);
+
+    void showRelayStatus(Response<Relay> response);
+
+    void changeRelayStatus();
 }

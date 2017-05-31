@@ -7,7 +7,9 @@ package id.ac.ugm.smartcity.smarthome.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Device {
+import java.io.Serializable;
+
+public class Device implements Serializable {
     public static final String NAME = "name";
     public static final String PRODUCT_ID = "productID";
     public static final String ID = "deviceID";
