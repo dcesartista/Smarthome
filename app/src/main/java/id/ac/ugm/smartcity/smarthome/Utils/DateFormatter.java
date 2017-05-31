@@ -36,7 +36,7 @@ public class DateFormatter {
         try {
             Date dateTime = formatter.parse(input);
             DateFormat formatter2 = new SimpleDateFormat("d/MM/yyyy");
-            date = formatter.format(date);
+            date = formatter2.format(dateTime);
         } catch (ParseException e){
             e.printStackTrace();
         }
