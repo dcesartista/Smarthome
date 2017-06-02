@@ -32,7 +32,10 @@ public class MyFirebaseService extends FirebaseMessagingService {
         if(code.equals(App.UPDATE_ENERGY)){
             sendBroadcast(new Intent(App.UPDATE_ENERGY));
             Log.e("RARARARA","ENERGY");
-        } else if(code.equals(App.ALERT)) {
+        } else if(code.equals(App.UPDATE_SENSOR)){
+            sendBroadcast(new Intent(App.UPDATE_SENSOR));
+        }
+        else if(code.equals(App.ALERT)) {
             Log.e("RARARARA","ALERT");
             Intent intent = new Intent( this , DashBoardActivity.class );
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

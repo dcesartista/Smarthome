@@ -14,6 +14,10 @@ public interface DeviceDetailView {
 
     void hideLoading();
 
+    void showProgressBar();
+
+    void hideProgressBar();
+
     void onFailure(String appErrorMessage);
 
     void showDeviceData(Response<Device> response);

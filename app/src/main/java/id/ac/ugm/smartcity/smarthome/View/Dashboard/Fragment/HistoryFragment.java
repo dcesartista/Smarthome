@@ -84,10 +84,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @BindView(R.id.sp_home)
     Spinner spHome;
 
-    //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    String homeId = "1";
+    String homeId;
     private List<Device> devices;
     private String[] devicesName;
+    private SharedPreferences preferences;
     private Device selectedDevice;
     private Service service;
     private DashboardView dashboardView;
@@ -132,6 +132,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Loading...");
 
+        preferences = getContext().getSharedPreferences(App.USER_PREFERENCE,MODE_PRIVATE);
+        homeId = preferences.getString(App.ACTIVE_HOME,"");
+
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icDown1, iconFont);
         FontManager.markAsIconContainer(icDown, iconFont);
@@ -154,6 +157,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
         if (getUserVisibleHint()){
             presenter.getHomes();
             presenter.getDeviceList(homeId);
+            presenter.getEnergyHistory(startDate,App.DAILY,homeId);
+            Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
         }
 
         return rootView;
@@ -166,6 +171,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 presenter.getHomes();
                 dashboardView.setToolbarText("History");
                 presenter.getDeviceList(homeId);
+                presenter.getEnergyHistory(startDate,App.DAILY,homeId);
+                Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
             }
         }
     }
@@ -178,12 +185,12 @@ public class HistoryFragment extends Fragment implements HistoryView {
         Utils.setSelected(tvVolt, getContext());
         Utils.setUnselected(tvCurrent, getContext());
         Utils.setUnselected(tvCost, getContext());
-        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
     }
 
     @OnClick(R.id.btn_energy)
     void showEnergyGraph(){
-        Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+        Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
         Utils.setUnselected(tvCurrent, getContext());
         Utils.setUnselected(tvCost, getContext());
         Utils.setUnselected(tvVolt, getContext());
@@ -198,7 +205,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         Utils.setSelected(tvCost, getContext());
         Utils.setUnselected(tvVolt, getContext());
         Utils.setUnselected(tvCurrent, getContext());
-        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
     }
 
     @OnClick(R.id.btn_current)
@@ -208,7 +215,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         Utils.setSelected(tvCurrent, getContext());
         Utils.setUnselected(tvCost, getContext());
         Utils.setUnselected(tvVolt, getContext());
-        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.icon_energy);
+        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
     }
 
     @OnItemSelected(R.id.sp_range)
@@ -422,7 +429,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
         homes = response.body();
         int i = 0;
         homeNames = new String[homes.size()];
+        int selected = 0;
         for (Home home: homes){
+            if (String.valueOf(home.getId()).equals(homeId)){
+                selected = homes.indexOf(home);
+            }
             homeNames[i] = home.getName();
             i++;
         }

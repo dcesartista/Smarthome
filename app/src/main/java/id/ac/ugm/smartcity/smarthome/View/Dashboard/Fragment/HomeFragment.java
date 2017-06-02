@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment implements HomeView {
             case App.ENERGY:
                 ivEnergy.setVisibility(View.GONE);
                 tvEnergy.setVisibility(View.GONE);
-                tvDaya.setVisibility(View.GONE);
+//                tvDaya.setVisibility(View.GONE);
                 tvArus.setVisibility(View.GONE);
                 tvTegangan.setVisibility(View.GONE);
                 pbEnergy.setVisibility(View.VISIBLE);
@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment implements HomeView {
             case App.ENERGY:
                 ivEnergy.setVisibility(View.VISIBLE);
                 tvEnergy.setVisibility(View.VISIBLE);
-                tvDaya.setVisibility(View.VISIBLE);
+//                tvDaya.setVisibility(View.VISIBLE);
                 tvArus.setVisibility(View.VISIBLE);
                 tvTegangan.setVisibility(View.VISIBLE);
                 pbEnergy.setVisibility(View.GONE);
@@ -241,7 +241,7 @@ public class HomeFragment extends Fragment implements HomeView {
         Log.e("LALALA",response.body().toString());
         CurrentEnergy currentEnergy = response.body();
         tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue()));
-        tvDaya.setText(NumberFormatter.formatWithDots(currentEnergy.getPower()));
+//        tvDaya.setText(NumberFormatter.formatWithDots(currentEnergy.getPower()));
         tvArus.setText(NumberFormatter.formatWithDots(currentEnergy.getCurrent()));
         tvTegangan.setText(NumberFormatter.formatWithDots(currentEnergy.getVoltage()));
     }
@@ -261,7 +261,11 @@ public class HomeFragment extends Fragment implements HomeView {
         homes = response.body();
         int i = 0;
         homeNames = new String[homes.size()];
+        int selected = 0;
         for (Home home: homes){
+            if (String.valueOf(home.getId()).equals(homeId)){
+                selected = homes.indexOf(home);
+            }
             homeNames[i] = home.getName();
             i++;
         }
@@ -270,6 +274,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 android.R.layout.simple_spinner_dropdown_item,
                 homeNames);
         spHome.setAdapter(adapter);
+        spHome.setSelection(selected);
 
     }
 
@@ -291,7 +296,7 @@ public class HomeFragment extends Fragment implements HomeView {
             Log.e("DATE1",date.toString());
             Date alertDate = DateFormatter.convertServerDateFormat(alertGroup.getDate());
             Log.e("DATE2",alertDate.toString());
-            if(alertDate == date){
+            if(alertDate.equals(date)){
                 displayableItems.add(new AlertDay("hari ini"));
             } else {
                 displayableItems.add(new AlertDay(DateFormatter.convertDateToStringDate(alertGroup.getDate())));

@@ -34,6 +34,7 @@ public class App extends Application {
     public static final String ACTIVE_HOME = "ACTIVE_HOME";
 
     public static final String UPDATE_ENERGY = "UPDATE_ENERGY";
+    public static final String UPDATE_SENSOR = "UPDATE_SENSOR";
     public static final String ALERT = "ALERT";
 
 }

@@ -97,9 +97,9 @@
                 <ImageView
                     android:id="@+id/iv_energy"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/icon_energy"/>
+                    android:src="@drawable/ic_energy_yellow"/>
             </FrameLayout>
 
             <FrameLayout

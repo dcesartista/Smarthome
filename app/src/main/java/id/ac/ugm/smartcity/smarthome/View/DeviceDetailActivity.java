@@ -1,5 +1,9 @@
 package id.ac.ugm.smartcity.smarthome.View;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +23,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
@@ -115,6 +120,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     private String relayId;
     private Switch[] toggles;
     private TextView[] tvRelayNames;
+    private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            presenter.getCurrentSensorData(device.getId().toString());
+        }
+    };
 
 
     @Override
@@ -134,6 +145,13 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         presenter = new DeviceDetailPresenter(service, this, this);
         presenter.getCurrentSensorData(device.getId().toString());
         presenter.getRelayData(device.getId().toString());
+        registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_ENERGY));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(updateReceiver);
     }
 
     @OnClick(R.id.ic_back)
@@ -243,6 +261,30 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
             params.put(Relay.RELAY_8,"0");
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
+    }
+
+    @Override
+    public void showProgressBar() {
+        tvTemp.setVisibility(View.GONE);
+        tvHum.setVisibility(View.GONE);
+        tvCo2.setVisibility(View.GONE);
+        tvLight.setVisibility(View.GONE);
+        pbTemp.setVisibility(View.VISIBLE);
+        pbHum.setVisibility(View.VISIBLE);
+        pbCo2.setVisibility(View.VISIBLE);
+        pbLight.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        tvTemp.setVisibility(View.VISIBLE);
+        tvHum.setVisibility(View.VISIBLE);
+        tvCo2.setVisibility(View.VISIBLE);
+        tvLight.setVisibility(View.VISIBLE);
+        pbTemp.setVisibility(View.GONE);
+        pbHum.setVisibility(View.GONE);
+        pbCo2.setVisibility(View.GONE);
+        pbLight.setVisibility(View.GONE);
     }
 
     @Override

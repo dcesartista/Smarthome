@@ -75,17 +75,17 @@ public class DeviceDetailPresenter {
     }
 
     public void getCurrentSensorData(String deviceId){
-        view.showLoading();
+        view.showProgressBar();
         Subscription subscription = service.getCurrentSensor(new Service.GetCurrentSensorCallback() {
             @Override
             public void onSuccess(Response<CurrentSensor> response) {
-                view.hideLoading();
+                view.hideProgressBar();
                 view.showCurrentSensorData(response);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                view.hideLoading();
+                view.hideProgressBar();
                 Log.e("ERROR", networkError.getThrowable().getMessage());
             }
 

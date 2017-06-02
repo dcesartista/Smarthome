@@ -108,7 +108,12 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     }
 
     private void setupRecycleView(){
+        deviceItemList = new ArrayList<>();
 
+        adapter = new DeviceAdapter(deviceItemList, getContext());
+        layoutManager = new LinearLayoutManager(getContext());
+        rvDevice.setLayoutManager(layoutManager);
+        rvDevice.setAdapter(adapter);
     }
 
     @OnClick(R.id.btn_add_device)
@@ -119,12 +124,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @Override
     public void showLoading() {
-        deviceItemList = new ArrayList<>();
 
-        adapter = new DeviceAdapter(deviceItemList, getContext());
-        layoutManager = new LinearLayoutManager(getContext());
-        rvDevice.setLayoutManager(layoutManager);
-        rvDevice.setAdapter(adapter);
     }
 
     @Override
@@ -152,7 +152,11 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         homes = response.body();
         int i = 0;
         homeNames = new String[homes.size()];
+        int selected = 0;
         for (Home home: homes){
+            if (String.valueOf(home.getId()).equals(homeId)){
+                selected = homes.indexOf(home);
+            }
             homeNames[i] = home.getName();
             i++;
         }
