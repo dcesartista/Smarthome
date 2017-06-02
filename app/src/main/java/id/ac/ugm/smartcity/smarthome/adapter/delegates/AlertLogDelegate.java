@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate;
 
+import java.text.ParseException;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
+import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 
 /**
  * Created by dito on 09/02/17.
@@ -50,37 +52,56 @@ public class AlertLogDelegate extends AdapterDelegate<List<DisplayableItem>> {
 
         if (items != null && items.size() > 0) {
             final Alert alert= (Alert) items.get(position);
-            alertViewHolder.bindItem(alert);
+            try {
+                alertViewHolder.bindItem(alert);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public class AlertViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_alert)
-        TextView tvAlert;
+        @BindView(R.id.tv_alert_title)
+        TextView tvTitle;
+        @BindView(R.id.tv_alert_desc)
+        TextView tvDesc;
         @BindView(R.id.icon_alert)
         ImageView ivAlert;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
 
         public AlertViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindItem(Alert alert) {
-            if(alert.getSensorName() != null ){
-                switch (alert.getSensorName()){
-                    case "energy":
-                        ivAlert.setImageResource(R.drawable.icon_energy);
+        public void bindItem(Alert alert) throws ParseException {
+            if(alert.getAlertType() != null ){
+                switch (alert.getAlertType()){
+                    case "Energy":
+                        ivAlert.setImageResource(R.drawable.ic_energy_yellow);
                         break;
-                    case "suhu":
+                    case "Temperature":
                         ivAlert.setImageResource(R.drawable.icon_temp);
                         break;
-                    case "kelembaban":
+                    case "Humidity":
                         ivAlert.setImageResource(R.drawable.icon_humidity);
+                        break;
+                    case "Cost":
+                        break;
+                    case "Light":
+                        break;
+                    case "Carbondioxide":
+                        break;
+                    default:
+                        ivAlert.setImageResource(R.drawable.ic_energy_yellow);
                         break;
                 }
             }
-            tvAlert.setText(alert.getWarning());
+            tvTitle.setText(alert.getAlertType());
+            tvDesc.setText(alert.getStatus());
+            tvTime.setText(DateFormatter.convertDateToStringTime(alert.getCreatedAt()));
         }
     }
 }

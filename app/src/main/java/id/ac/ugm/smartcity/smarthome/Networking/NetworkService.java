@@ -3,7 +3,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
 import java.util.List;
 import java.util.Map;
 
-import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
+import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
@@ -13,9 +13,7 @@ import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.PATCH;
@@ -40,6 +38,12 @@ public interface NetworkService {
     Observable<Response<Home>> postNewHome(
             @HeaderMap Map<String, String> headers,
             @QueryMap Map<String, String> params
+    );
+
+    @GET("homes/{home_id}/alert")
+    Observable<Response<List<AlertGroup>>> getAlert(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId
     );
 
     @GET("homes/{home_id}/current_energy")
@@ -184,7 +188,7 @@ public interface NetworkService {
             @QueryMap Map<String, String> params
     );
 
-    @GET("users/{user_id}")
+    @PATCH("users/{user_id}")
     Observable<Response<User>> updateUser(
             @HeaderMap Map<String, String> headers,
             @Path("user_id") String userId,

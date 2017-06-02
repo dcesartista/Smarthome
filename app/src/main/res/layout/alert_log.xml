@@ -12,15 +12,41 @@
         android:id="@+id/icon_alert"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/icon_energy"/>
+        android:src="@drawable/ic_energy_yellow"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_alert_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/textPrimary"
+            android:text="Energy"/>
+        <TextView
+            android:id="@+id/tv_alert_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            android:text="konsumsi energi listrik anda telah melebihi batas yang telah ditentukan"/>
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/text_alert"
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="16sp"
-        android:text="Konsumsi Energy terlalu tinggi !!"/>
+        android:textSize="14sp"
+        android:text="12:05"/>
+
 
 </LinearLayout>

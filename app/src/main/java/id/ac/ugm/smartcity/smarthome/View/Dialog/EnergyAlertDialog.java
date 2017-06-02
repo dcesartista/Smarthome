@@ -50,7 +50,7 @@ public class EnergyAlertDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_simpan:
                 if(null != etLimit.getText() || !etLimit.getText().toString().isEmpty()){
-                    view.updateEnergyLimit(etLimit.getText().toString());
+//                    view.updateEnergyLimit(etLimit.getText().toString());
                 }
                 break;
             case R.id.btn_batal:

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
-import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
+import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
@@ -18,7 +18,6 @@ import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -92,6 +91,36 @@ public class Service {
 
                 });
     }
+
+    public Subscription getAlert(final GetAlertCallback callback, Map<String, String> headers, String homeId){
+        return networkService.getAlert(headers, homeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<AlertGroup>>>>() {
+                    @Override
+                    public Observable<? extends Response<List<AlertGroup>>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<List<AlertGroup>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<List<AlertGroup>> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
 
     public Subscription getRelayData(final GetRelayDataCallBack callback, Map<String, String> headers,
                                      String homeId, String deviceId){
@@ -782,6 +811,12 @@ public class Service {
 
     public interface PostNewHomeCallback{
         void onSuccess(Response<Home> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetAlertCallback{
+        void onSuccess(Response<List<AlertGroup>> response);
 
         void onError(NetworkError networkError);
     }

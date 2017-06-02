@@ -2,7 +2,7 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 import java.util.List;
 
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
+import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertOld;
 
 /**
  * Created by dito on 09/02/17.
@@ -15,6 +15,6 @@ public interface AlertView {
 
     void onFailure(String appErrorMessage);
 
-    void getAlertSuccess(List<Alert> alertList);
+    void getAlertSuccess(List<AlertOld> alertList);
 
 }

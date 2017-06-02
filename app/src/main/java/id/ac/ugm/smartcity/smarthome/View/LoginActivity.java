@@ -101,6 +101,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         LoginUser user = response.body();
         Map<String,String> params = new HashMap<>();
         params.put(User.FCM_TOKEN, FirebaseInstanceId.getInstance().getToken());
+        Log.e("FCM TOKEN!!!", FirebaseInstanceId.getInstance().getToken());
 
         presenter.updateFcmToken(String.valueOf(user.getData().getId()),params);
         presenter.getHomes();

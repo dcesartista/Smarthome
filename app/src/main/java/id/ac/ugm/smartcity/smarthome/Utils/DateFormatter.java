@@ -30,16 +30,26 @@ public class DateFormatter {
         return time;
     }
 
-    public static String convertServerDate(String input) throws ParseException {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    public static Date convertServerDateFormat(String input) throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date dateTime = formatter.parse(input);
+
+        return dateTime;
+
+    }
+
+    public static String convertDateToStringDate(String input) throws ParseException {
         String date = "";
-        try {
-            Date dateTime = formatter.parse(input);
-            DateFormat formatter2 = new SimpleDateFormat("d/MM/yyyy");
-            date = formatter2.format(dateTime);
-        } catch (ParseException e){
-            e.printStackTrace();
-        }
+        DateFormat formatter = new SimpleDateFormat("d/MM/yyyy");
+        date = formatter.format(convertServerDateFormat(input));
+        return date;
+
+    }
+
+    public static String convertDateToStringTime(String input) throws ParseException {
+        String date = "";
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        date = formatter.format(convertServerDateFormat(input));
         return date;
 
     }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import retrofit2.Response;
 
 /**

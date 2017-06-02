@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
+import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertOld;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.AlertPresenter;
@@ -95,8 +95,8 @@ public class AlertFragment extends Fragment implements AlertView {
     }
 
     @Override
-    public void getAlertSuccess(List<Alert> alertList) {
-        for (Alert alert : alertList){
+    public void getAlertSuccess(List<AlertOld> alertList) {
+        for (AlertOld alert : alertList){
             displayableItems.add(alert);
             Log.d("DATA ALERT",alert.getWarning());
         }

@@ -9,7 +9,7 @@ import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
  * Created by dito on 09/02/17.
  */
 
-public class Alert implements DisplayableItem {
+public class AlertOld implements DisplayableItem {
 
     @SerializedName("id")
     @Expose
@@ -37,7 +37,7 @@ public class Alert implements DisplayableItem {
      * No args constructor for use in serialization
      *
      */
-    public Alert() {
+    public AlertOld() {
     }
 
     /**
@@ -50,7 +50,7 @@ public class Alert implements DisplayableItem {
      * @param warning
      * @param sensorName
      */
-    public Alert(Integer id, String sensorName, Object value, String warning, String createdAt, String updatedAt, Integer deviceId) {
+    public AlertOld(Integer id, String sensorName, Object value, String warning, String createdAt, String updatedAt, Integer deviceId) {
         super();
         this.id = id;
         this.sensorName = sensorName;

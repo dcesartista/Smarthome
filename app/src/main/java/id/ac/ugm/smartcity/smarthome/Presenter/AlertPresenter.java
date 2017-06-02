@@ -7,19 +7,14 @@ package id.ac.ugm.smartcity.smarthome.Presenter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.AlertView;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
-import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
-import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 public class AlertPresenter {
@@ -49,7 +44,7 @@ public class AlertPresenter {
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
         /*Subscription subscription = service.getAlertList(new Service.GetAlertListCallback() {
             @Override
-            public void onSuccess(List<Alert> alertList) {
+            public void onSuccess(List<AlertOld> alertList) {
                 view.hideLoading();
                 view.getAlertSuccess(alertList);
             }

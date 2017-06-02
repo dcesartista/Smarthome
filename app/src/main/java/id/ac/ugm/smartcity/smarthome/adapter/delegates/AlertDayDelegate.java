@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.R;

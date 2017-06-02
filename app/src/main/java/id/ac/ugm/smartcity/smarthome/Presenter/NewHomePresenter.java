@@ -6,16 +6,13 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.AlertView;
 import id.ac.ugm.smartcity.smarthome.View.NewHomeView;
 import retrofit2.Response;
 import rx.Subscription;
