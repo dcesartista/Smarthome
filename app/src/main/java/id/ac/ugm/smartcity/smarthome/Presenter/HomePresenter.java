@@ -132,6 +132,28 @@ public class HomePresenter {
         subscriptions.add(subscription);
     }
 
+    public void getCurrentCost(String homeId) {
+        view.showCostProgressBar();
+        Subscription subscription = service.getCurrentCost(new Service.GetCurrentCostCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                view.hideCostProgressBar();
+                view.showCost(response);
+
+
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+//                view.hideCostProgressBar();
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId);
+
+        subscriptions.add(subscription);
+    }
+
     public void onStop() {
         subscriptions.unsubscribe();
     }

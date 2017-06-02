@@ -44,6 +44,7 @@ import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
+import id.ac.ugm.smartcity.smarthome.Utils.Utils;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
 import retrofit2.Response;
@@ -66,6 +67,8 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvArus;
     @BindView(R.id.tv_tegangan)
     TextView tvTegangan;
+    @BindView(R.id.tv_biaya)
+    TextView tvBiaya;
     @BindView(R.id.iv_energy)
     View ivEnergy;
     @BindView(R.id.pb_energy)
@@ -74,6 +77,8 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbArus;
     @BindView(R.id.pb_tegangan)
     View pbTegangan;
+    @BindView(R.id.pb_biaya)
+    View pbBiaya;
     @BindView(R.id.ic_gear)
     TextView icGear;
     @BindView(R.id.ic_down)
@@ -98,6 +103,7 @@ public class HomeFragment extends Fragment implements HomeView {
         @Override
         public void onReceive(Context context, Intent intent) {
             presenter.getCurrentEnergy(homeId);
+            presenter.getCurrentCost(homeId);
         }
     };
 
@@ -140,6 +146,7 @@ public class HomeFragment extends Fragment implements HomeView {
             presenter.getHomes();
             presenter.getAlerts(homeId);
             presenter.getCurrentEnergy(homeId);
+            presenter.getCurrentCost(homeId);
         }
 
         setupRecyclerView();
@@ -167,6 +174,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 presenter.getHomes();
                 presenter.getAlerts(homeId);
                 presenter.getCurrentEnergy(homeId);
+                presenter.getCurrentCost(homeId);
             }
         }
     }
@@ -313,4 +321,22 @@ public class HomeFragment extends Fragment implements HomeView {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showCostProgressBar() {
+        pbBiaya.setVisibility(View.VISIBLE);
+        tvBiaya.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideCostProgressBar() {
+        pbBiaya.setVisibility(View.GONE);
+        tvBiaya.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showCost(Response<String> response) {
+        String r = response.body();
+
+        tvBiaya.setText("Rp " +NumberFormatter.formatWithDots(Integer.parseInt(r.split("\\.")[0])));
+    }
 }

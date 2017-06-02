@@ -145,7 +145,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         presenter = new DeviceDetailPresenter(service, this, this);
         presenter.getCurrentSensorData(device.getId().toString());
         presenter.getRelayData(device.getId().toString());
-        registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_ENERGY));
+        registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_SENSOR));
     }
 
     @Override

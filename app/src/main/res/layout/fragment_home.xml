@@ -205,12 +205,12 @@
                         android:visibility="visible" />
 
                     <TextView
-                        android:id="@+id/tv_harga"
+                        android:id="@+id/tv_biaya"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
-                        android:text="40"
+                        android:textColor="@color/textAccent"
                         android:textSize="24sp"
                         android:visibility="gone" />
                 </LinearLayout>

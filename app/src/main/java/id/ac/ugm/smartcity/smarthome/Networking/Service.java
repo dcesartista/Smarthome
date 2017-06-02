@@ -121,6 +121,35 @@ public class Service {
                 });
     }
 
+    public Subscription getCurrentCost(final GetCurrentCostCallback callback, Map<String, String> headers, String homeId){
+        return networkService.getCurrentCost(headers, homeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<String>>>() {
+                    @Override
+                    public Observable<? extends Response<String>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<String>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<String> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
 
     public Subscription getRelayData(final GetRelayDataCallBack callback, Map<String, String> headers,
                                      String homeId, String deviceId){
@@ -817,6 +846,12 @@ public class Service {
 
     public interface GetAlertCallback{
         void onSuccess(Response<List<AlertGroup>> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetCurrentCostCallback{
+        void onSuccess(Response<String> response);
 
         void onError(NetworkError networkError);
     }

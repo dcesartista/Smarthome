@@ -24,6 +24,10 @@ public interface HomeView {
 
     void hideProgressBar(int type);
 
+    void showCostProgressBar();
+
+    void hideCostProgressBar();
+
     void onFailure(String appErrorMessage);
 
     void showCurrentDeviceData(Response<CurrentDeviceData> response);
@@ -31,6 +35,8 @@ public interface HomeView {
     void showCurrentEnergy(Response<CurrentEnergy> response);
 
     void showAlert(Response<List<AlertGroup>> response) throws ParseException;
+
+    void showCost(Response<String> response);
 
     void getHomeSuccess(Response<List<Home>> response);
 

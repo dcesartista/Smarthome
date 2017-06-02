@@ -29,11 +29,13 @@ public class MyFirebaseService extends FirebaseMessagingService {
 
     private void sendNotification(RemoteMessage messages) {
         String code = messages.getData().get("code");
+        Log.e("MESSAGEE!!",code);
         if(code.equals(App.UPDATE_ENERGY)){
             sendBroadcast(new Intent(App.UPDATE_ENERGY));
             Log.e("RARARARA","ENERGY");
         } else if(code.equals(App.UPDATE_SENSOR)){
             sendBroadcast(new Intent(App.UPDATE_SENSOR));
+            Log.e("RARARARA","SENSOR");
         }
         else if(code.equals(App.ALERT)) {
             Log.e("RARARARA","ALERT");
