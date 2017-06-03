@@ -120,11 +120,13 @@ public class DeviceDetailPresenter {
             @Override
             public void onSuccess(Response<Relay> response) {
                 view.hideLoading();
+                view.changeRelayStatus(response);
             }
 
             @Override
             public void onError(NetworkError networkError) {
                 view.hideLoading();
+                view.onFailure("error");
                 Log.e("ERROR", networkError.getThrowable().getMessage());
             }
 

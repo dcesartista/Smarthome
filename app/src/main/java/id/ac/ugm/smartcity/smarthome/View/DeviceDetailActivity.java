@@ -1,5 +1,6 @@
 package id.ac.ugm.smartcity.smarthome.View;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -139,6 +141,9 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     private Switch[] toggles;
     private TextView[] tvRelayNames;
     private ImageView[] ivRelays;
+    private ProgressDialog progressDialog;
+    private int[] relayData;
+    private String[] relayNameData;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -157,11 +162,13 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icBack, iconFont);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
+
         device = (Device) getIntent().getSerializableExtra(Device.ID);
         tvTitle.setText(device.getName());
         ivRelays = new ImageView[]{ivRelay1, ivRelay2, ivRelay3, ivRelay4, ivRelay5, ivRelay6, ivRelay7, ivRelay8};
         toggles = new Switch[]{toggle1,toggle2,toggle3,toggle4,toggle5,toggle6,toggle7,toggle8};
-        tvRelayNames = new TextView[]{tvRelay1,tvRelay2,tvRelay3,tvRelay4,tvRelay5,tvRelay6,tvRelay7,tvRelay8};
         presenter = new DeviceDetailPresenter(service, this, this);
         presenter.getCurrentSensorData(device.getId().toString());
         presenter.getRelayData(device.getId().toString());
@@ -172,6 +179,21 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(updateReceiver);
+    }
+
+    private void updateUI(){
+        tvRelayNames = new TextView[]{tvRelay1,tvRelay2,tvRelay3,tvRelay4,tvRelay5,tvRelay6,tvRelay7,tvRelay8};
+        for(int i=0; i< toggles.length; i++) {
+            tvRelayNames[i].setText(relayNameData[i]);
+            Log.e("RELAY "+(i+1),relayData[i]+"");
+            if (relayData[i] == 1) {
+                ivRelays[i].setImageResource(R.drawable.ic_lamp_yellow);
+                toggles[i].setChecked(true);
+            } else {
+                ivRelays[i].setImageResource(R.drawable.ic_lamp);
+                toggles[i].setChecked(false);
+            }
+        }
     }
 
     @OnClick(R.id.card_ac)
@@ -192,12 +214,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_1,"1");
-            ivRelay1.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_1,"0");
-            ivRelay1.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -207,12 +227,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_2,"1");
-            ivRelay2.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_2,"0");
-            ivRelay2.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -222,12 +240,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_3,"1");
-            ivRelay3.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_3,"0");
-            ivRelay3.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -237,12 +253,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_4,"1");
-            ivRelay4.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_4,"0");
-            ivRelay4.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -252,12 +266,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_5,"1");
-            ivRelay5.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_5,"0");
-            ivRelay5.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -267,12 +279,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_6,"1");
-            ivRelay6.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_6,"0");
-            ivRelay6.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -282,12 +292,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_7,"1");
-            ivRelay7.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_7,"0");
-            ivRelay7.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -297,12 +305,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_8,"1");
-            ivRelay8.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_8,"0");
-            ivRelay8.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -333,12 +339,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
 
     @Override
     public void showLoading() {
-
+        progressDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        progressDialog.dismiss();
     }
 
     @Override
@@ -355,20 +361,11 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     public void showRelayStatus(Response<Relay> response) {
         relay = response.body();
         relayId = relay.getId().toString();
-        int[] relayData= new int[]{relay.getRelay1(),relay.getRelay2(),relay.getRelay3(),relay.getRelay4(),
+        relayData= new int[]{relay.getRelay1(),relay.getRelay2(),relay.getRelay3(),relay.getRelay4(),
                 relay.getRelay5(),relay.getRelay6(),relay.getRelay7(),relay.getRelay8()};
-        String[] relayNameData= new String[]{relay.getRelay1name(),relay.getRelay2name(),relay.getRelay3name(),relay.getRelay4name(),
+        relayNameData= new String[]{relay.getRelay1name(),relay.getRelay2name(),relay.getRelay3name(),relay.getRelay4name(),
                 relay.getRelay5name(),relay.getRelay6name(),relay.getRelay7name(),relay.getRelay8name()};
-        for(int i=0; i< toggles.length; i++) {
-            tvRelayNames[i].setText(relayNameData[i]);
-            if (relayData[i] == 1) {
-                ivRelays[i].setImageResource(R.drawable.ic_lamp_yellow);
-                toggles[i].setChecked(true);
-            } else {
-                ivRelays[i].setImageResource(R.drawable.ic_lamp);
-                toggles[i].setChecked(false);
-            }
-        }
+        updateUI();
     }
 
     @Override
@@ -390,7 +387,13 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     }
 
     @Override
-    public void changeRelayStatus() {
-
+    public void changeRelayStatus(Response<Relay> response) {
+        relay = response.body();
+        relayId = relay.getId().toString();
+        relayData= new int[]{relay.getRelay1(),relay.getRelay2(),relay.getRelay3(),relay.getRelay4(),
+                relay.getRelay5(),relay.getRelay6(),relay.getRelay7(),relay.getRelay8()};
+        relayNameData= new String[]{relay.getRelay1name(),relay.getRelay2name(),relay.getRelay3name(),relay.getRelay4name(),
+                relay.getRelay5name(),relay.getRelay6name(),relay.getRelay7name(),relay.getRelay8name()};
+        updateUI();
     }
 }

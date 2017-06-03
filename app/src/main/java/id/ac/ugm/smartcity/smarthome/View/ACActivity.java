@@ -84,7 +84,7 @@ public class ACActivity extends BaseActivity implements ACView{
         presenter = new ACPresenter(service, this, this);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
 
         device = (Device) getIntent().getSerializableExtra(Device.ID);
         relay = (Relay) getIntent().getSerializableExtra(Relay.ID);
@@ -220,7 +220,7 @@ public class ACActivity extends BaseActivity implements ACView{
 
     @Override
     public void onFailure() {
-        Toast.makeText(this,"Failed to Connect to Server! Please Check your internet connection",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,getResources().getString(R.string.network_error),Toast.LENGTH_SHORT).show();
     }
 
     @Override

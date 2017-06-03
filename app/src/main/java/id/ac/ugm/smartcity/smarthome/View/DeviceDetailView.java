@@ -26,5 +26,5 @@ public interface DeviceDetailView {
 
     void showRelayStatus(Response<Relay> response);
 
-    void changeRelayStatus();
+    void changeRelayStatus(Response<Relay> response);
 }

@@ -19,16 +19,16 @@ public class CurrentSensor {
     private Double humidity;
     @SerializedName("temperature")
     @Expose
-    private Integer temperature;
+    private Double temperature;
     @SerializedName("motion")
     @Expose
     private Integer motion;
-    @SerializedName("co2")
+    @SerializedName("carbondioxide")
     @Expose
     private Integer co2;
-    @SerializedName("flux")
+    @SerializedName("light")
     @Expose
-    private Integer flux;
+    private Double flux;
 
     public Integer getId() {
         return id;
@@ -54,11 +54,11 @@ public class CurrentSensor {
         this.humidity = humidity;
     }
 
-    public Integer getTemperature() {
+    public Double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(Integer temperature) {
+    public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
 
@@ -78,11 +78,11 @@ public class CurrentSensor {
         this.co2 = co2;
     }
 
-    public Integer getFlux() {
+    public Double getFlux() {
         return flux;
     }
 
-    public void setFlux(Integer flux) {
+    public void setFlux(Double flux) {
         this.flux = flux;
     }
 }
