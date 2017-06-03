@@ -3,11 +3,15 @@ package id.ac.ugm.smartcity.smarthome.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by dito on 18/05/17.
  */
 
-public class Relay {
+public class Relay implements Serializable{
+    public static final String ID = "relayID";
+
     public static final String RELAY_1 = "relay1";
     public static final String RELAY_2 = "relay2";
     public static final String RELAY_3 = "relay3";
@@ -33,6 +37,9 @@ public class Relay {
 
     public static final String AC_ON = "1";
     public static final String AC_OFF = "0";
+
+    public static final String AC_ENABLED = "001";
+    public static final String AC_DISABLED = "000";
 
     public static final String MODE_AUTO = "0000";
     public static final String MODE_FAN = "0001";

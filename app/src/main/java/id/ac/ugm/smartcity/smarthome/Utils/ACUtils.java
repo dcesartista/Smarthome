@@ -103,4 +103,236 @@ public class ACUtils {
         }
     }
 
+    public static String getAcBrandName(String code){
+        switch (code){
+            case Relay.PANASONIC:
+                return "Panasonic";
+            case Relay.SAMSUNG:
+                return "Samsung";
+            case Relay.DAIKIN:
+                return "Daikin";
+            case Relay.LG:
+                return "LG";
+            case Relay.SHARP:
+                return "SHARP";
+            case Relay.TOSHIBA:
+                return "Toshiba";
+            default:
+                return "";
+        }
+    }
+
+    public static String getAcMode(String code){
+        switch (code){
+            case Relay.MODE_AUTO:
+                return "Mode Auto";
+            case Relay.MODE_COLD:
+                return "Mode Cold";
+            case Relay.MODE_DRY:
+                return "Mode Dry";
+            case Relay.MODE_FAN:
+                return "Mode Fan";
+            case Relay.MODE_HOT:
+                return "Mode Hot";
+            default:
+                return "";
+        }
+    }
+
+    public static String getAcSpeed(String code){
+        switch (code){
+            case Relay.FAN_SPEED_AUTO:
+                return "Speed Auto";
+            case Relay.FAN_SPEED_HIGH:
+                return "Speed High";
+            case Relay.FAN_SPEED_MID_HIGH:
+                return "Speed Mid High";
+            case Relay.FAN_SPEED_MIDDLE:
+                return "Speed Middle";
+            case Relay.FAN_SPEED_MID_LOW:
+                return "Speed Mid Low";
+            case Relay.FAN_SPEED_LOW:
+                return "Speed Low";
+            default:
+                return "";
+        }
+    }
+
+    public static String getAcSwing(String code){
+        switch (code){
+            case Relay.SWING_AUTO:
+                return "Auto";
+            case Relay.SWING_VERTICAL:
+                return "Vertical";
+            case Relay.SWING_MID_VERTICAL:
+                return "Mid Vertical";
+            case Relay.SWING_MIDDLE:
+                return "Middle";
+            case Relay.SWING_MID_HORIZONTAL:
+                return "Mid Horizontal";
+            case Relay.SWING_HORIZONTAL:
+                return "Horizontal";
+            case Relay.SWING_FIXED:
+                return "Fixed";
+            default:
+                return "";
+        }
+    }
+
+    public static String changeMode(String brandCode, String currentMode){
+        switch (brandCode){
+            case Relay.PANASONIC:
+                switch (currentMode){
+                    case Relay.MODE_AUTO:
+                        return Relay.MODE_DRY;
+                    case Relay.MODE_DRY:
+                        return Relay.MODE_COLD;
+                    case Relay.MODE_COLD:
+                        return Relay.MODE_AUTO;
+                    default:
+                        return "";
+                }
+            case Relay.LG:
+                switch (currentMode){
+                    case Relay.MODE_AUTO:
+                        return Relay.MODE_DRY;
+                    case Relay.MODE_DRY:
+                        return Relay.MODE_COLD;
+                    case Relay.MODE_COLD:
+                        return Relay.MODE_HOT;
+                    case Relay.MODE_HOT:
+                        return Relay.MODE_AUTO;
+                    default:
+                        return "";
+                }
+            case Relay.TOSHIBA:
+                switch (currentMode){
+                    case Relay.MODE_AUTO:
+                        return Relay.MODE_FAN;
+                    case Relay.MODE_FAN:
+                        return Relay.MODE_DRY;
+                    case Relay.MODE_DRY:
+                        return Relay.MODE_COLD;
+                    case Relay.MODE_COLD:
+                        return Relay.MODE_AUTO;
+                    default:
+                        return "";
+                }
+            default:
+                switch (currentMode){
+                    case Relay.MODE_AUTO:
+                        return Relay.MODE_FAN;
+                    case Relay.MODE_FAN:
+                        return Relay.MODE_DRY;
+                    case Relay.MODE_DRY:
+                        return Relay.MODE_COLD;
+                    case Relay.MODE_COLD:
+                        return Relay.MODE_HOT;
+                    case Relay.MODE_HOT:
+                        return Relay.MODE_AUTO;
+                    default:
+                        return "";
+                }
+        }
+    }
+
+    public static String changeFanSpeed(String brandCode, String currentSpeed){
+        switch (brandCode){
+            case Relay.SAMSUNG:
+                switch (currentSpeed){
+                    case Relay.FAN_SPEED_AUTO:
+                        return Relay.FAN_SPEED_HIGH;
+                    case Relay.FAN_SPEED_HIGH:
+                        return Relay.FAN_SPEED_MID_HIGH;
+                    case Relay.FAN_SPEED_MID_HIGH:
+                        return Relay.FAN_SPEED_MIDDLE;
+                    case Relay.FAN_SPEED_MIDDLE:
+                        return Relay.FAN_SPEED_MID_LOW;
+                    case Relay.FAN_SPEED_MID_LOW:
+                        return Relay.FAN_SPEED_LOW;
+                    case Relay.FAN_SPEED_LOW:
+                        return Relay.FAN_SPEED_AUTO;
+                    default:
+                        return "";
+                }
+            case Relay.SHARP:
+                switch (currentSpeed){
+                    case Relay.FAN_SPEED_AUTO:
+                        return Relay.FAN_SPEED_HIGH;
+                    case Relay.FAN_SPEED_HIGH:
+                        return Relay.FAN_SPEED_MID_HIGH;
+                    case Relay.FAN_SPEED_MID_HIGH:
+                        return Relay.FAN_SPEED_MIDDLE;
+                    case Relay.FAN_SPEED_MIDDLE:
+                        return Relay.FAN_SPEED_MID_LOW;
+                    case Relay.FAN_SPEED_MID_LOW:
+                        return Relay.FAN_SPEED_LOW;
+                    case Relay.FAN_SPEED_LOW:
+                        return Relay.FAN_SPEED_AUTO;
+                    default:
+                        return "";
+                }
+            default:
+                switch (currentSpeed){
+                    case Relay.FAN_SPEED_AUTO:
+                        return Relay.FAN_SPEED_HIGH;
+                    case Relay.FAN_SPEED_HIGH:
+                        return Relay.FAN_SPEED_MIDDLE;
+                    case Relay.FAN_SPEED_MIDDLE:
+                        return Relay.FAN_SPEED_LOW;
+                    case Relay.FAN_SPEED_LOW:
+                        return Relay.FAN_SPEED_AUTO;
+                    default:
+                        return "";
+                }
+        }
+    }
+
+    public static String changeSwing(String brandCode, String currentSwing){
+        switch (brandCode){
+            case Relay.PANASONIC:
+                switch (currentSwing){
+                    case Relay.SWING_AUTO:
+                        return Relay.SWING_HORIZONTAL;
+                    case Relay.SWING_HORIZONTAL:
+                        return Relay.SWING_MID_HORIZONTAL;
+                    case Relay.SWING_MID_HORIZONTAL:
+                        return Relay.SWING_MIDDLE;
+                    case Relay.SWING_MIDDLE:
+                        return Relay.SWING_MID_VERTICAL;
+                    case Relay.SWING_MID_VERTICAL:
+                        return Relay.SWING_VERTICAL;
+                    case Relay.SWING_VERTICAL:
+                        return Relay.SWING_AUTO;
+                    default:
+                        return "";
+                }
+            case Relay.SHARP:
+                switch (currentSwing){
+                    case Relay.SWING_AUTO:
+                        return Relay.SWING_HORIZONTAL;
+                    case Relay.SWING_HORIZONTAL:
+                        return Relay.SWING_MID_HORIZONTAL;
+                    case Relay.SWING_MID_HORIZONTAL:
+                        return Relay.SWING_MIDDLE;
+                    case Relay.SWING_MIDDLE:
+                        return Relay.SWING_MID_VERTICAL;
+                    case Relay.SWING_MID_VERTICAL:
+                        return Relay.SWING_VERTICAL;
+                    case Relay.SWING_VERTICAL:
+                        return Relay.SWING_AUTO;
+                    default:
+                        return "";
+                }
+            default:
+                switch (currentSwing){
+                    case Relay.SWING_AUTO:
+                        return Relay.SWING_FIXED;
+                    case Relay.SWING_FIXED:
+                        return Relay.SWING_AUTO;
+                    default:
+                        return "";
+                }
+        }
+    }
 }

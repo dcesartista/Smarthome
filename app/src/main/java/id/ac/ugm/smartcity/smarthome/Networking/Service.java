@@ -187,13 +187,13 @@ public class Service {
         return networkService.changeRelayStatus(headers, homeId,deviceId, relayId, params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<String>>>() {
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Relay>>>() {
                     @Override
-                    public Observable<? extends Response<String>> call(Throwable throwable) {
+                    public Observable<? extends Response<Relay>> call(Throwable throwable) {
                         return Observable.error(throwable);
                     }
                 })
-                .subscribe(new Subscriber<Response<String>>() {
+                .subscribe(new Subscriber<Response<Relay>>() {
                     @Override
                     public void onCompleted() {
 
@@ -206,7 +206,7 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(Response<String> response) {
+                    public void onNext(Response<Relay> response) {
                         callback.onSuccess(response);
                     }
 
@@ -863,7 +863,7 @@ public class Service {
     }
 
     public interface ChangeRelayDataCallBack{
-        void onSuccess(Response<String> response);
+        void onSuccess(Response<Relay> response);
 
         void onError(NetworkError networkError);
     }

@@ -6,20 +6,17 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
-import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.GetDeviceView;
+import id.ac.ugm.smartcity.smarthome.View.ACView;
 import id.ac.ugm.smartcity.smarthome.View.DeviceDetailView;
-import id.ac.ugm.smartcity.smarthome.View.RelayView;
 import retrofit2.Response;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -28,9 +25,9 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dito on 09/02/17.
  */
 
-public class DeviceDetailPresenter {
+public class ACPresenter {
     private final Service service;
-    private final DeviceDetailView view;
+    private final ACView view;
     private CompositeSubscription subscriptions;
     private Context context;
     private String homeId;
@@ -38,7 +35,7 @@ public class DeviceDetailPresenter {
     private Resources resources;
     Map<String, String> headers;
 
-    public DeviceDetailPresenter(Service service, DeviceDetailView view, Context context) {
+    public ACPresenter(Service service, ACView view, Context context) {
         this.service = service;
         this.view = view;
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
@@ -54,46 +51,6 @@ public class DeviceDetailPresenter {
         this.subscriptions = new CompositeSubscription();
     }
 
-    public void getDeviceData(String deviceId){
-        view.showLoading();
-        Subscription subscription = service.getDevice(new Service.GetDeviceCallback() {
-            @Override
-            public void onSuccess(Response<Device> response) {
-                view.hideLoading();
-                view.showDeviceData(response);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.e("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, headers, homeId, deviceId);
-
-        subscriptions.add(subscription);
-    }
-
-    public void getCurrentSensorData(String deviceId){
-        view.showProgressBar();
-        Subscription subscription = service.getCurrentSensor(new Service.GetCurrentSensorCallback() {
-            @Override
-            public void onSuccess(Response<CurrentSensor> response) {
-                view.hideProgressBar();
-                view.showCurrentSensorData(response);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideProgressBar();
-                Log.e("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, headers, homeId, deviceId);
-
-        subscriptions.add(subscription);
-    }
-
     public void getRelayData(String deviceId){
         view.showLoading();
         Subscription subscription = service.getRelayData(new Service.GetRelayDataCallBack() {
@@ -106,6 +63,7 @@ public class DeviceDetailPresenter {
             @Override
             public void onError(NetworkError networkError) {
                 view.hideLoading();
+                view.onFailure();
                 Log.e("ERROR", networkError.getThrowable().getMessage());
             }
 
@@ -114,17 +72,19 @@ public class DeviceDetailPresenter {
         subscriptions.add(subscription);
     }
 
-    public void changeRelayData(String deviceId, String relayID, Map<String,String> params){
+    public void changeRelayData(final String deviceId, String relayID, Map<String,String> params){
         view.showLoading();
         Subscription subscription = service.changeRelayData(new Service.ChangeRelayDataCallBack() {
             @Override
             public void onSuccess(Response<Relay> response) {
+                view.showRelayStatus(response);
                 view.hideLoading();
             }
 
             @Override
             public void onError(NetworkError networkError) {
                 view.hideLoading();
+                view.onFailure();
                 Log.e("ERROR", networkError.getThrowable().getMessage());
             }
 

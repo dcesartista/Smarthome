@@ -53,30 +53,32 @@
             android:text="Panasonic"
             android:gravity="center"
             android:textSize="20sp"/>
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_temp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="16dp"
-            android:gravity="center">
+            android:layout_marginTop="16dp">
             <TextView
                 android:id="@+id/tv_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:layout_gravity="top"
+                android:layout_centerInParent="true"
                 android:textSize="90sp"
                 android:text="26"/>
             <TextView
+                android:id="@+id/tv_celcius"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="°C"
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="8dp"
+                android:layout_alignTop="@id/tv_temp"
+                android:layout_toRightOf="@id/tv_temp"
                 android:textSize="32sp"
                 android:layout_gravity="top"/>
-        </LinearLayout>
+        </RelativeLayout>
         <TextView
             android:id="@+id/tv_mode"
             android:layout_width="match_parent"
@@ -110,12 +112,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Speed Low"/>
-            <ImageView
-                android:id="@+id/ic_swing"
-                android:layout_toLeftOf="@id/tv_swing"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_history"/>
             <TextView
                 android:id="@+id/tv_swing"
                 android:layout_alignParentRight="true"
@@ -125,8 +121,16 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Swing"/>
+            <ImageView
+                android:id="@+id/ic_swing"
+                android:layout_toLeftOf="@id/tv_swing"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_history"/>
+
         </RelativeLayout>
         <TextView
+            android:id="@+id/tv_off"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="AC OFF"
@@ -140,6 +144,7 @@
         android:layout_height="72dp"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/btn_power"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -149,10 +154,11 @@
             android:background="@color/white"
             android:gravity="center"/>
         <TextView
+            android:id="@+id/btn_mode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Power"
+            android:text="Mode"
             android:textSize="16sp"
             android:layout_marginLeft="1dp"
             android:background="@color/white"
@@ -164,6 +170,7 @@
         android:background="@color/white"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/btn_temp_down"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -181,6 +188,7 @@
             android:background="@color/white"
             android:gravity="center"/>
         <TextView
+            android:id="@+id/btn_temp_up"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -194,6 +202,7 @@
         android:layout_height="72dp"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/btn_speed"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -203,6 +212,7 @@
             android:background="@color/white"
             android:gravity="center"/>
         <TextView
+            android:id="@+id/btn_swing"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

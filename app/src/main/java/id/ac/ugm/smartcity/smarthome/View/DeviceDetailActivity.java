@@ -134,6 +134,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
 
     private DeviceDetailPresenter presenter;
     private Device device;
+    private Relay relay;
     private String relayId;
     private Switch[] toggles;
     private TextView[] tvRelayNames;
@@ -177,6 +178,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     void goToAc(){
         Intent intent = new Intent(this, ACActivity.class);
         intent.putExtra(Device.ID,device);
+        intent.putExtra(Relay.ID,relay);
         startActivity(intent);
     }
 
@@ -351,7 +353,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
 
     @Override
     public void showRelayStatus(Response<Relay> response) {
-        Relay relay = response.body();
+        relay = response.body();
         relayId = relay.getId().toString();
         int[] relayData= new int[]{relay.getRelay1(),relay.getRelay2(),relay.getRelay3(),relay.getRelay4(),
                 relay.getRelay5(),relay.getRelay6(),relay.getRelay7(),relay.getRelay8()};

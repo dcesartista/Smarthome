@@ -186,7 +186,7 @@ public interface NetworkService {
     );
 
     @PATCH("homes/{home_id}/devices/{device_id}/relays/{relay_id}")
-    Observable<Response<String>> changeRelayStatus(
+    Observable<Response<Relay>> changeRelayStatus(
             @HeaderMap Map<String,String> headers,
             @Path("home_id") String homeId,
             @Path("device_id") String deviceId,

@@ -82,7 +82,7 @@ public class RelayPresenter {
 
         Subscription subscription = service.changeRelayData(new Service.ChangeRelayDataCallBack() {
             @Override
-            public void onSuccess(Response<String> response) {
+            public void onSuccess(Response<Relay> response) {
                 view.hideLoading();
             }
 
