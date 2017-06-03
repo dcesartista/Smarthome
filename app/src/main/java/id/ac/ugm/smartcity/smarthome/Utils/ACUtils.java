@@ -335,4 +335,61 @@ public class ACUtils {
                 }
         }
     }
+
+    public static int getModeIcon(String code){
+        switch (code){
+            case Relay.MODE_AUTO:
+                return R.drawable.ic_auto;
+            case Relay.MODE_FAN:
+                return R.drawable.ic_fan;
+            case Relay.MODE_DRY:
+                return R.drawable.ic_dry;
+            case Relay.MODE_COLD:
+                return R.drawable.ic_cold;
+            case Relay.MODE_HOT:
+                return R.drawable.ic_hot;
+            default:
+                return 0;
+        }
+    }
+
+    public static int getSpeedIcon(String code){
+        switch (code){
+            case Relay.FAN_SPEED_AUTO:
+                return R.drawable.auto;
+            case Relay.FAN_SPEED_HIGH:
+                return R.drawable.fan_speed_5;
+            case Relay.FAN_SPEED_MID_HIGH:
+                return R.drawable.fan_speed_4;
+            case Relay.FAN_SPEED_MIDDLE:
+                return R.drawable.fan_speed_3;
+            case Relay.FAN_SPEED_MID_LOW:
+                return R.drawable.fan_speed_2;
+            case Relay.FAN_SPEED_LOW:
+                return R.drawable.fan_speed_1;
+            default:
+                return 0;
+        }
+    }
+
+    public static int getSwingIcon(String code){
+        switch (code){
+            case Relay.SWING_AUTO:
+                return R.drawable.auto;
+            case Relay.SWING_HORIZONTAL:
+                return R.drawable.ic_swing_1;
+            case Relay.SWING_MID_HORIZONTAL:
+                return R.drawable.ic_swing_2;
+            case Relay.SWING_MIDDLE:
+                return R.drawable.ic_swing_3;
+            case Relay.SWING_MID_VERTICAL:
+                return R.drawable.ic_swing_4;
+            case Relay.SWING_VERTICAL:
+                return R.drawable.ic_swing_5;
+            case Relay.SWING_FIXED:
+                return R.drawable.fixed;
+            default:
+                return 0;
+        }
+    }
 }

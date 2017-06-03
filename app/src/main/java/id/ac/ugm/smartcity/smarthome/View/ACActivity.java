@@ -44,6 +44,8 @@ public class ACActivity extends BaseActivity implements ACView{
     TextView tvTemp;
     @BindView(R.id.ll_temp)
     View llTemp;
+    @BindView(R.id.ic_mode)
+    ImageView icMode;
     @BindView(R.id.tv_mode)
     TextView tvMode;
     @BindView(R.id.rl_speed_swing)
@@ -168,6 +170,9 @@ public class ACActivity extends BaseActivity implements ACView{
         tvMode.setText(ACUtils.getAcMode(relay.getAcMode()));
         tvSpeed.setText(ACUtils.getAcSpeed(relay.getAcSpeed()));
         tvSwing.setText(ACUtils.getAcSwing(relay.getAcSwing()));
+        icMode.setImageResource(ACUtils.getModeIcon(relay.getAcMode()));
+        icSwing.setImageResource(ACUtils.getSwingIcon(relay.getAcSwing()));
+        icSpeed.setImageResource(ACUtils.getSpeedIcon(relay.getAcSpeed()));
 
         if(relay.getAcPower().equals(Relay.AC_ON)){
             btnPower.setText(getResources().getString(R.string.ac_off));
@@ -195,6 +200,7 @@ public class ACActivity extends BaseActivity implements ACView{
         tvBrand.setVisibility(View.GONE);
         llTemp.setVisibility(View.GONE);
         tvMode.setVisibility(View.GONE);
+        icMode.setVisibility(View.GONE);
         rlSpeedSwing.setVisibility(View.GONE);
         tvOff.setVisibility(View.VISIBLE);
     }
@@ -204,6 +210,7 @@ public class ACActivity extends BaseActivity implements ACView{
         tvBrand.setVisibility(View.VISIBLE);
         llTemp.setVisibility(View.VISIBLE);
         tvMode.setVisibility(View.VISIBLE);
+        icMode.setVisibility(View.VISIBLE);
         rlSpeedSwing.setVisibility(View.VISIBLE);
         tvOff.setVisibility(View.GONE);
     }
