@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import id.ac.ugm.smartcity.smarthome.Networking.Firebase.MyFirebaseInstanceIDService;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkModule;
+import id.ac.ugm.smartcity.smarthome.View.ACActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
 import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
@@ -28,4 +29,5 @@ public interface Deps {
     void inject(MyFirebaseInstanceIDService myFirebaseInstanceIDService);
     void inject(NewHomeActivity newHomeActivity);
     void inject(DeviceDetailActivity deviceDetailActivity);
+    void inject(ACActivity acActivity);
 }

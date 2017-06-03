@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -111,6 +112,22 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     ProgressBar pbCo2;
     @BindView(R.id.pb_light)
     ProgressBar pbLight;
+    @BindView(R.id.iv_relay1)
+    ImageView ivRelay1;
+    @BindView(R.id.iv_relay2)
+    ImageView ivRelay2;
+    @BindView(R.id.iv_relay3)
+    ImageView ivRelay3;
+    @BindView(R.id.iv_relay4)
+    ImageView ivRelay4;
+    @BindView(R.id.iv_relay5)
+    ImageView ivRelay5;
+    @BindView(R.id.iv_relay6)
+    ImageView ivRelay6;
+    @BindView(R.id.iv_relay7)
+    ImageView ivRelay7;
+    @BindView(R.id.iv_relay8)
+    ImageView ivRelay8;
 
     @Inject
     public Service service;
@@ -120,6 +137,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     private String relayId;
     private Switch[] toggles;
     private TextView[] tvRelayNames;
+    private ImageView[] ivRelays;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -140,6 +158,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
 
         device = (Device) getIntent().getSerializableExtra(Device.ID);
         tvTitle.setText(device.getName());
+        ivRelays = new ImageView[]{ivRelay1, ivRelay2, ivRelay3, ivRelay4, ivRelay5, ivRelay6, ivRelay7, ivRelay8};
         toggles = new Switch[]{toggle1,toggle2,toggle3,toggle4,toggle5,toggle6,toggle7,toggle8};
         tvRelayNames = new TextView[]{tvRelay1,tvRelay2,tvRelay3,tvRelay4,tvRelay5,tvRelay6,tvRelay7,tvRelay8};
         presenter = new DeviceDetailPresenter(service, this, this);
@@ -154,6 +173,13 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         unregisterReceiver(updateReceiver);
     }
 
+    @OnClick(R.id.card_ac)
+    void goToAc(){
+        Intent intent = new Intent(this, ACActivity.class);
+        intent.putExtra(Device.ID,device);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.ic_back)
     void back(){
         super.onBackPressed();
@@ -164,10 +190,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_1,"1");
+            ivRelay1.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_1,"0");
+            ivRelay1.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -177,10 +205,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_2,"1");
+            ivRelay2.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_2,"0");
+            ivRelay2.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -190,10 +220,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_3,"1");
+            ivRelay3.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_3,"0");
+            ivRelay3.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -203,10 +235,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_4,"1");
+            ivRelay4.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_4,"0");
+            ivRelay4.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -216,10 +250,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_5,"1");
+            ivRelay5.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_5,"0");
+            ivRelay5.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -229,10 +265,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_6,"1");
+            ivRelay6.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_6,"0");
+            ivRelay6.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -242,10 +280,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_7,"1");
+            ivRelay7.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_7,"0");
+            ivRelay7.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -255,10 +295,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_8,"1");
+            ivRelay8.setImageResource(R.drawable.ic_lamp_yellow);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_8,"0");
+            ivRelay8.setImageResource(R.drawable.ic_lamp);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -318,8 +360,10 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         for(int i=0; i< toggles.length; i++) {
             tvRelayNames[i].setText(relayNameData[i]);
             if (relayData[i] == 1) {
+                ivRelays[i].setImageResource(R.drawable.ic_lamp_yellow);
                 toggles[i].setChecked(true);
             } else {
+                ivRelays[i].setImageResource(R.drawable.ic_lamp);
                 toggles[i].setChecked(false);
             }
         }

@@ -197,6 +197,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_ac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
@@ -285,6 +286,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay1"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -329,6 +331,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay2"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -379,6 +382,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay3"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -423,6 +427,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay4"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -473,6 +478,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay5"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -517,6 +523,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay6"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -567,6 +574,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay7"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"
@@ -611,6 +619,7 @@
                             android:layout_height="2dp"
                             android:background="@color/lightGrey"/>
                         <ImageView
+                            android:id="@+id/iv_relay8"
                             android:layout_width="match_parent"
                             android:layout_height="64dp"
                             android:layout_marginTop="8dp"

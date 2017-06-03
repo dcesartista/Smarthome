@@ -248,10 +248,10 @@ public class HomeFragment extends Fragment implements HomeView {
     public void showCurrentEnergy(Response<CurrentEnergy> response) {
         Log.e("LALALA",response.body().toString());
         CurrentEnergy currentEnergy = response.body();
-        tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue()));
+        tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue())+" kWh");
 //        tvDaya.setText(NumberFormatter.formatWithDots(currentEnergy.getPower()));
-        tvArus.setText(NumberFormatter.formatWithDots(currentEnergy.getCurrent()));
-        tvTegangan.setText(NumberFormatter.formatWithDots(currentEnergy.getVoltage()));
+        tvArus.setText(NumberFormatter.formatWithDots(currentEnergy.getCurrent())+" A");
+        tvTegangan.setText(NumberFormatter.formatWithDots(currentEnergy.getVoltage())+" V");
     }
 
     @Override

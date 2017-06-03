@@ -40,8 +40,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.RelayActivity" />
-        <activity android:name=".View.NewHomeActivity"></activity>
-        <activity android:name=".View.DeviceDetailActivity"></activity>
+        <activity android:name=".View.NewHomeActivity" />
+        <activity android:name=".View.DeviceDetailActivity" />
+        <activity android:name=".View.ACActivity"></activity>
     </application>
 
 </manifest>
