@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -83,6 +85,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     ImageView ivEnergy;
     @BindView(R.id.pb_history)
     View pbHistory;
+    @BindView(R.id.card_value)
+    View cardValue;
 
     String homeId;
     private List<Device> devices;
@@ -141,11 +145,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         FontManager.markAsIconContainer(icDown1, iconFont);
         FontManager.markAsIconContainer(icDown2, iconFont);
 
-        c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.DATE, -7);
-        date = c.getTime();
-        startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
+        setStartdateToToday();
         presenter = new HistoryPresenter(service, this, getContext());
 
         if(getUserVisibleHint()){
@@ -188,6 +188,14 @@ public class HistoryFragment extends Fragment implements HistoryView {
     public void onDestroyView() {
         super.onDestroyView();
         presenter.onStop();
+    }
+
+    private void setStartdateToToday(){
+        c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -7);
+        date = c.getTime();
+        startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
     }
 
     @OnClick(R.id.btn_volt)
@@ -236,32 +244,61 @@ public class HistoryFragment extends Fragment implements HistoryView {
             case App.ENERGY:
                 switch (position){
                     case 0:
+                        setStartdateToToday();
                         range = App.DAILY;
                         ArrayAdapter adapter = new ArrayAdapter(getContext(),
                                 android.R.layout.simple_spinner_dropdown_item,
                                 getResources().getStringArray(R.array.month));
+                        cardValue.setVisibility(View.VISIBLE);
                         spValue.setAdapter(adapter);
                         spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
                         break;
                     case 1:
+                        setStartdateToToday();
                         range = App.MONTHLY;
                         int year = c.get(Calendar.YEAR);
                         String[] years = new String[]{String.valueOf(year-6),String.valueOf(year-5),String.valueOf(year-4),
                                 String.valueOf(year-3),String.valueOf(year-2),String.valueOf(year-1),
                                 String.valueOf(year),String.valueOf(year+1),String.valueOf(year+2),
                                 String.valueOf(year+3),String.valueOf(year+4),String.valueOf(year+5)};
+                        for(String y : years){
+                            Log.e("YYY", y);
+                        }
                         ArrayAdapter adapter2 = new ArrayAdapter(getContext(),
                                 android.R.layout.simple_spinner_dropdown_item,
                                 years);
+                        cardValue.setVisibility(View.VISIBLE);
                         spValue.setAdapter(adapter2);
+                        spValue.setSelection(Arrays.asList(years).indexOf(startDate.split("\\-")[0]));
                         break;
                     case 2:
+                        setStartdateToToday();
                         range = App.YEARLY;
+                        cardValue.setVisibility(View.GONE);
+                        presenter.getEnergyHistory(startDate,range,homeId);
                         break;
                 }
-            presenter.getEnergyHistory(startDate,range,homeId);
+
         }
 //        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
+    }
+
+    @OnItemSelected(R.id.sp_value)
+    void selectValue(AdapterView<?> parent, View view, int position, long id){
+        switch (type){
+            case App.ENERGY:
+                switch (range){
+                    case App.DAILY:
+                        startDate = startDate.split("\\-")[0]+"-"+(position+1)+"-"+startDate.split("\\-")[2];
+                        Log.e("BULAN: ", startDate);
+                        break;
+                    case App.MONTHLY:
+                        startDate = parent.getItemAtPosition(position)+"-"+startDate.split("\\-")[1]+"-"+startDate.split("\\-")[2];
+                        Log.e("TAHUN: ", startDate);
+                        break;
+                }
+        }
+        presenter.getEnergyHistory(startDate,range,homeId);
     }
 
     private void generateDummyData(){
@@ -362,7 +399,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                     axisValue = String.valueOf(i+1);
                 }
             } else if(range == App.MONTHLY){
-                axisValue = months[i];
+                axisValue = months[i].substring(0,3);
             } else if(range == App.YEARLY){
                 axisValue = years[i];
             }
