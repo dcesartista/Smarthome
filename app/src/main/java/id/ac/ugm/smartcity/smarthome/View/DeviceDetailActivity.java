@@ -216,10 +216,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_1,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_1,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -229,10 +231,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_2,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_2,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -242,10 +246,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_3,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_3,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -255,10 +261,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_4,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_4,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -268,10 +276,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_5,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_5,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -281,10 +291,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_6,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_6,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -294,10 +306,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_7,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_7,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
@@ -307,10 +321,12 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
         if(tb.isChecked()) {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_8,"1");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         } else {
             Map<String, String> params = new HashMap<>();
             params.put(Relay.RELAY_8,"0");
+            params.put(Relay.AC_ENABLE,Relay.AC_DISABLED);
             presenter.changeRelayData(device.getId().toString(),relayId,params);
         }
     }
