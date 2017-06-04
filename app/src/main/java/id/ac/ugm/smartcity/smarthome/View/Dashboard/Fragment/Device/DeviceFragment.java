@@ -45,6 +45,8 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @BindView(R.id.recycler_device)
     RecyclerView rvDevice;
+    @BindView(R.id.pb_device)
+    View pbDevice;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     String homeId = "1";
@@ -79,13 +81,19 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         View rootView = inflater.inflate(R.layout.fragment_device, container, false);
         ButterKnife.bind(this, rootView);
 
+        setupRecycleView();
+        presenter = new GetDevicePresenter(service, this, getContext());
+
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-
-        setupRecycleView();
-        presenter = new GetDevicePresenter(service, this, getContext());
+        if(getUserVisibleHint()){
+            dashboardView.setSettingVisibility(View.GONE);
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
+            dashboardView.setToolbarText("Device");
+            presenter.getDeviceList(homeId);
+        }
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
 
@@ -128,16 +136,22 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @Override
     public void showLoading() {
-        if(getUserVisibleHint() && !progressDialog.isShowing()){
+        /*if(getUserVisibleHint() && !progressDialog.isShowing()){
+            Log.e("DEVICE","CALLED");
             progressDialog.show();
-        }
+        }*/
+        pbDevice.setVisibility(View.VISIBLE);
+        rvDevice.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-        if(progressDialog.isShowing()){
+        /*if(progressDialog.isShowing()){
+            Log.e("DEVICE","DISMISSED");
             progressDialog.dismiss();
-        }
+        }*/
+        pbDevice.setVisibility(View.GONE);
+        rvDevice.setVisibility(View.VISIBLE);
     }
 
     @Override

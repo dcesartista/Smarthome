@@ -7,6 +7,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -64,7 +65,8 @@ public class NetworkModule {
                         return chain.proceed(request);
                     }
                 }).cache(cache)
-
+                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
                 .build();
 
 

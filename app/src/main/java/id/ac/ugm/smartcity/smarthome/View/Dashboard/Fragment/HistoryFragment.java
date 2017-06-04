@@ -81,6 +81,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     View btnEnergy;
     @BindView(R.id.iv_energy)
     ImageView ivEnergy;
+    @BindView(R.id.pb_history)
+    View pbHistory;
 
     String homeId;
     private List<Device> devices;
@@ -93,7 +95,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private Date date;
     private Calendar c;
     private String startDate;
-    private ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
     int type = App.ENERGY;
     int range = App.DAILY;
     private List<Home> homes;
@@ -145,6 +147,14 @@ public class HistoryFragment extends Fragment implements HistoryView {
         date = c.getTime();
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
         presenter = new HistoryPresenter(service, this, getContext());
+
+        if(getUserVisibleHint()){
+            dashboardView.setToolbarText("History");
+            dashboardView.setSettingVisibility(View.GONE);
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
+            presenter.getEnergyHistory(startDate,App.DAILY,homeId);
+            Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
+        }
 
         ArrayAdapter adapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -395,16 +405,22 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showLoading() {
-        if(getUserVisibleHint() && !progressDialog.isShowing()){
+        /*if(getUserVisibleHint() && !progressDialog.isShowing()){
+            Log.e("HISTORY","CALLED");
             progressDialog.show();
-        }
+        }*/
+        chartView.setVisibility(View.GONE);
+        pbHistory.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        if(progressDialog.isShowing()){
+        /*if(progressDialog.isShowing()){
+            Log.e("DEVICE","DISMISSED");
             progressDialog.dismiss();
-        }
+        }*/
+        chartView.setVisibility(View.VISIBLE);
+        pbHistory.setVisibility(View.GONE);
     }
 
     @Override

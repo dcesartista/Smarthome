@@ -74,6 +74,7 @@ public class HistoryPresenter {
 
     public void getEnergyHistory(String startDate, final int range, String homeId) {
         view.showLoading();
+        Log.e("HISTORY","CALLED!!");
 
         Subscription subscription = service.getEnergyHistory(new Service.GetEnergyHistoryCallback() {
             @Override
