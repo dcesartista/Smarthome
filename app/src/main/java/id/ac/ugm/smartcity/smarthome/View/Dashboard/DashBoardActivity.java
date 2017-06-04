@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
@@ -73,7 +74,10 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
         Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icGear, iconFont);
         FontManager.markAsIconContainer(icDown, iconFont);
+        setupView();
+    }
 
+    private void setupView(){
         adapter = new DashboardFragmentAdapter(getSupportFragmentManager(), DashBoardActivity.this, this, service);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
@@ -86,6 +90,14 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
     @Override
     public void setToolbarText(String text) {
         tvToolbar.setText(text);
+    }
+
+    @OnItemSelected(R.id.sp_home)
+    void selectHome(int position){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(App.ACTIVE_HOME,String.valueOf(homes.get(position).getId()));
+        editor.commit();
+        setupView();
     }
 
     @Override

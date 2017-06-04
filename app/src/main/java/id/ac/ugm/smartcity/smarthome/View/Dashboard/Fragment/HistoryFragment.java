@@ -356,10 +356,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
             values.add(new SubcolumnValue(value, getResources().getColor(R.color.colorAccent) ));
             String axisValue = null;
             if (range == App.DAILY){
-                if(histories.indexOf(h)+1 < 10){
-                    axisValue = "0"+histories.indexOf(h)+1;
+                if((i+1) < 10){
+                    axisValue = "0"+(i+1);
                 } else {
-                    axisValue = String.valueOf(histories.indexOf(h)+1);
+                    axisValue = String.valueOf(i+1);
                 }
             } else if(range == App.MONTHLY){
                 axisValue = months[i];
