@@ -7,35 +7,6 @@
     tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.DeviceFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="4dp">
-        <Spinner
-            android:id="@+id/sp_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:spinnerMode="dropdown" />
-
-        <TextView
-            android:id="@+id/ic_down"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginRight="8dp"
-            android:layout_gravity="right"
-            android:textSize="18sp"
-            android:text="@string/fa_caret_down" />
-    </android.support.v7.widget.CardView>
     
     <TextView
         android:id="@+id/btn_add_device"

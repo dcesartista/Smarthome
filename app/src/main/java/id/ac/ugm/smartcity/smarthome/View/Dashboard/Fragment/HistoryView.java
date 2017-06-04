@@ -18,8 +18,6 @@ public interface HistoryView {
 
     void onFailure(String appErrorMessage);
 
-    void getHomeSuccess(Response<List<Home>> response);
-
     void showHistoryData(Response<List<HistoryData>> histories, int range, int type);
 
     void showHistoryEnergy(Response<List<String>> histories, int range);

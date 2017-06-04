@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
+import android.view.View;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -50,22 +51,6 @@ public class HomePresenter {
         headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
         headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
-    }
-
-    public void getHomes(){
-        Subscription subscription = service.getHomes(new Service.GetHomesCallback() {
-            @Override
-            public void onSuccess(Response<List<Home>> response) {
-                view.getHomeSuccess(response);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-
-            }
-        }, headers);
-
-        subscriptions.add(subscription);
     }
 
     public void getCurrentEnergy(String homeId) {

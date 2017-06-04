@@ -17,8 +17,6 @@ public interface GetDeviceView {
 
     void onFailure(String appErrorMessage);
 
-    void getHomeSuccess(Response<List<Home>> response);
-
     void getDeviceSuccess(Response<List<Device>> deviceList);
 
 }

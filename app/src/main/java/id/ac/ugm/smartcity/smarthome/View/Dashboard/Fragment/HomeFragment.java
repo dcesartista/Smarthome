@@ -79,12 +79,6 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbTegangan;
     @BindView(R.id.pb_biaya)
     View pbBiaya;
-    @BindView(R.id.ic_gear)
-    TextView icGear;
-    @BindView(R.id.ic_down)
-    TextView icDown;
-    @BindView(R.id.sp_home)
-    Spinner spHome;
     @BindView(R.id.recycler_alert)
     RecyclerView rvAlert;
 
@@ -92,9 +86,6 @@ public class HomeFragment extends Fragment implements HomeView {
     private LinearLayoutManager layoutManager;
     private AlertAdapter adapter;
     private String homeId;
-    private List<Home> homes;
-    private String[] homeNames;
-    private Device selectedDevice;
     private View rootView;
     private Service service;
     private DashboardView dashboardView;
@@ -143,7 +134,9 @@ public class HomeFragment extends Fragment implements HomeView {
         presenter = new HomePresenter(service, this, getContext());
         Log.e("HMMMMppp222","sss1"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
         if (getUserVisibleHint()){
-            presenter.getHomes();
+            dashboardView.setToolbarText("SmartHome");
+            dashboardView.setSettingVisibility(View.VISIBLE);
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getAlerts(homeId);
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
@@ -152,8 +145,6 @@ public class HomeFragment extends Fragment implements HomeView {
         setupRecyclerView();
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
-        FontManager.markAsIconContainer(icGear, iconFont);
-        FontManager.markAsIconContainer(icDown, iconFont);
 
         getContext().registerReceiver(updateReceiver, new IntentFilter(App.UPDATE_ENERGY));
         return rootView;
@@ -171,7 +162,8 @@ public class HomeFragment extends Fragment implements HomeView {
         if(isVisibleToUser){
             if (null != presenter){
                 dashboardView.setToolbarText("SmartHome");
-                presenter.getHomes();
+                dashboardView.setSettingVisibility(View.VISIBLE);
+                dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getAlerts(homeId);
                 presenter.getCurrentEnergy(homeId);
                 presenter.getCurrentCost(homeId);
@@ -228,23 +220,6 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void showCurrentDeviceData(Response<CurrentDeviceData> response) {
-        Log.e("HMMMM", String.valueOf(response.raw().request().url()));
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        //TODO: cari solusi biar bisa dapet token baru setiap request
-        /*if(response.code() == 200) {
-            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
-            editor.putString(App.CLIENT, response.headers().get("Client"));
-            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
-            editor.putString(App.UID, response.headers().get("Uid"));
-            editor.commit();
-        }*/
-
-        CurrentDeviceData data = response.body();
-        Log.e("HMMMM", String.valueOf(response.code()));
-    }
-
-    @Override
     public void showCurrentEnergy(Response<CurrentEnergy> response) {
         Log.e("LALALA",response.body().toString());
         CurrentEnergy currentEnergy = response.body();
@@ -252,38 +227,6 @@ public class HomeFragment extends Fragment implements HomeView {
 //        tvDaya.setText(NumberFormatter.formatWithDots(currentEnergy.getPower()));
         tvArus.setText(NumberFormatter.formatWithDots(currentEnergy.getCurrent())+" A");
         tvTegangan.setText(NumberFormatter.formatWithDots(currentEnergy.getVoltage())+" V");
-    }
-
-    @Override
-    public void getHomeSuccess(Response<List<Home>> response) {
-        Log.e("HMMMMzzz", String.valueOf(response.code()));
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        /*if(response.code() == 200) {
-            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
-            editor.putString(App.CLIENT, response.headers().get("Client"));
-            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
-            editor.putString(App.UID, response.headers().get("Uid"));
-            editor.commit();
-        }*/
-        Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
-        homes = response.body();
-        int i = 0;
-        homeNames = new String[homes.size()];
-        int selected = 0;
-        for (Home home: homes){
-            if (String.valueOf(home.getId()).equals(homeId)){
-                selected = homes.indexOf(home);
-            }
-            homeNames[i] = home.getName();
-            i++;
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                homeNames);
-        spHome.setAdapter(adapter);
-        spHome.setSelection(selected);
-
     }
 
     @Override
@@ -336,7 +279,6 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void showCost(Response<String> response) {
         String r = response.body();
-
         tvBiaya.setText("Rp " +NumberFormatter.formatWithDots(Integer.parseInt(r.split("\\.")[0])));
     }
 }

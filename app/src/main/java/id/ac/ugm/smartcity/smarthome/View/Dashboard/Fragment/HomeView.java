@@ -30,14 +30,10 @@ public interface HomeView {
 
     void onFailure(String appErrorMessage);
 
-    void showCurrentDeviceData(Response<CurrentDeviceData> response);
-
     void showCurrentEnergy(Response<CurrentEnergy> response);
 
     void showAlert(Response<List<AlertGroup>> response) throws ParseException;
 
     void showCost(Response<String> response);
-
-    void getHomeSuccess(Response<List<Home>> response);
 
 }

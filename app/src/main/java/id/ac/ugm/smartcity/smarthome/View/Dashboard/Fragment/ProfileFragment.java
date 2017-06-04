@@ -67,6 +67,10 @@ public class ProfileFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         presenter = new LoginPresenter(service, null, getContext());
         ButterKnife.bind(this,rootView);
+        if (getUserVisibleHint()){
+            dashboardView.setToolbarText("Profile");
+            dashboardView.setHomeSelectorVisibility(View.GONE);
+        }
         return rootView;
     }
 
@@ -74,9 +78,8 @@ public class ProfileFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            if (null != presenter){
-                dashboardView.setToolbarText("Profile");
-            }
+            dashboardView.setToolbarText("Profile");
+            dashboardView.setHomeSelectorVisibility(View.GONE);
         }
     }
 

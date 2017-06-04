@@ -44,10 +44,6 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @BindView(R.id.recycler_device)
     RecyclerView rvDevice;
-    @BindView(R.id.sp_home)
-    Spinner spHome;
-    @BindView(R.id.ic_down)
-    TextView icDown;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     String homeId = "1";
@@ -57,8 +53,6 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     private LinearLayoutManager layoutManager;
     private GetDevicePresenter presenter;
     List<Device> deviceItemList;
-    private List<Home> homes;
-    private String[] homeNames;
 
     public static DeviceFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
@@ -85,12 +79,13 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         setupRecycleView();
         presenter = new GetDevicePresenter(service, this, getContext());
         if (getUserVisibleHint()){
-            presenter.getHomes();
+            dashboardView.setToolbarText("Device");
+            dashboardView.setSettingVisibility(View.GONE);
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getDeviceList(homeId);
         }
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
-        FontManager.markAsIconContainer(icDown, iconFont);
 
         return rootView;
     }
@@ -100,7 +95,8 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
-                presenter.getHomes();
+                dashboardView.setSettingVisibility(View.GONE);
+                dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 dashboardView.setToolbarText("Device");
                 presenter.getDeviceList(homeId);
             }
@@ -135,36 +131,6 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     @Override
     public void onFailure(String appErrorMessage) {
 
-    }
-
-    @Override
-    public void getHomeSuccess(Response<List<Home>> response) {
-        Log.e("HMMMMzzz", String.valueOf(response.code()));
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        /*if(response.code() == 200) {
-            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
-            editor.putString(App.CLIENT, response.headers().get("Client"));
-            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
-            editor.putString(App.UID, response.headers().get("Uid"));
-            editor.commit();
-        }*/
-        Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
-        homes = response.body();
-        int i = 0;
-        homeNames = new String[homes.size()];
-        int selected = 0;
-        for (Home home: homes){
-            if (String.valueOf(home.getId()).equals(homeId)){
-                selected = homes.indexOf(home);
-            }
-            homeNames[i] = home.getName();
-            i++;
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                homeNames);
-        spHome.setAdapter(adapter);
     }
 
     @Override

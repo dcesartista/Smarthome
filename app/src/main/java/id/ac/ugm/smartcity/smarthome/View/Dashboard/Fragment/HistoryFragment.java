@@ -67,8 +67,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
     Spinner spRange;
     @BindView(R.id.graph_title)
     TextView tvGraph;
-    @BindView(R.id.ic_down)
-    TextView icDown;
     @BindView(R.id.ic_down1)
     TextView icDown1;
     @BindView(R.id.ic_down2)
@@ -83,8 +81,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
     View btnEnergy;
     @BindView(R.id.iv_energy)
     ImageView ivEnergy;
-    @BindView(R.id.sp_home)
-    Spinner spHome;
 
     String homeId;
     private List<Device> devices;
@@ -140,7 +136,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icDown1, iconFont);
-        FontManager.markAsIconContainer(icDown, iconFont);
         FontManager.markAsIconContainer(icDown2, iconFont);
 
         c = Calendar.getInstance();
@@ -162,8 +157,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
         deviceData.add(2, "Device 2");*/
 
         if (getUserVisibleHint()){
-            presenter.getHomes();
             presenter.getDeviceList(homeId);
+            dashboardView.setToolbarText("History");
+            dashboardView.setSettingVisibility(View.GONE);
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getEnergyHistory(startDate,App.DAILY,homeId);
             Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
         }
@@ -175,8 +172,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
-                presenter.getHomes();
                 dashboardView.setToolbarText("History");
+                dashboardView.setSettingVisibility(View.GONE);
+                dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getDeviceList(homeId);
                 presenter.getEnergyHistory(startDate,App.DAILY,homeId);
                 Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
@@ -453,36 +451,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         }
         generateChartEnergy(histories, range);
         tvGraph.setText("Konsumsi Energi per KwH");
-    }
-
-    @Override
-    public void getHomeSuccess(Response<List<Home>> response) {
-        Log.e("HMMMMzzz", String.valueOf(response.code()));
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).edit();
-        /*if(response.code() == 200) {
-            editor.putString(App.ACCESS_TOKEN, response.headers().get("Access-Token"));
-            editor.putString(App.CLIENT, response.headers().get("Client"));
-            editor.putString(App.EXPIRY, response.headers().get("Expiry"));
-            editor.putString(App.UID, response.headers().get("Uid"));
-            editor.commit();
-        }*/
-        Log.e("HMMMMppp222","sss"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
-        homes = response.body();
-        int i = 0;
-        homeNames = new String[homes.size()];
-        int selected = 0;
-        for (Home home: homes){
-            if (String.valueOf(home.getId()).equals(homeId)){
-                selected = homes.indexOf(home);
-            }
-            homeNames[i] = home.getName();
-            i++;
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                homeNames);
-        spHome.setAdapter(adapter);
     }
 
     @Override
