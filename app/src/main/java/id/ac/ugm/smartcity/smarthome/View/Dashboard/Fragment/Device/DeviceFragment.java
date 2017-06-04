@@ -86,12 +86,6 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
         setupRecycleView();
         presenter = new GetDevicePresenter(service, this, getContext());
-        if (getUserVisibleHint()){
-            dashboardView.setToolbarText("Device");
-            dashboardView.setSettingVisibility(View.GONE);
-            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
-            presenter.getDeviceList(homeId);
-        }
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
 
@@ -111,6 +105,12 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onStop();
+    }
+
     private void setupRecycleView(){
         deviceItemList = new ArrayList<>();
 
@@ -128,7 +128,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @Override
     public void showLoading() {
-        if(getUserVisibleHint()){
+        if(getUserVisibleHint() && !progressDialog.isShowing()){
             progressDialog.show();
         }
     }

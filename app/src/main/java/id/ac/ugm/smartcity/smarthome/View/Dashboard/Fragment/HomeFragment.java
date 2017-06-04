@@ -82,6 +82,8 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbBiaya;
     @BindView(R.id.recycler_alert)
     RecyclerView rvAlert;
+    @BindView(R.id.pb_notif)
+    View pbNotif;
 
     private List<DisplayableItem> displayableItems;
     private LinearLayoutManager layoutManager;
@@ -162,6 +164,7 @@ public class HomeFragment extends Fragment implements HomeView {
     public void onDestroyView() {
         super.onDestroyView();
         getContext().unregisterReceiver(updateReceiver);
+        presenter.onStop();
     }
 
     @Override
@@ -182,7 +185,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void showLoading() {
-        if(getUserVisibleHint()){
+        if(getUserVisibleHint() && !progressDialog.isShowing()){
             progressDialog.show();
         }
     }
@@ -224,6 +227,18 @@ public class HomeFragment extends Fragment implements HomeView {
                 pbTegangan.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    @Override
+    public void showNotifProgressBar() {
+        pbNotif.setVisibility(View.VISIBLE);
+        rvAlert.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideNotifProgressBar() {
+        pbNotif.setVisibility(View.GONE);
+        rvAlert.setVisibility(View.VISIBLE);
     }
 
     @Override

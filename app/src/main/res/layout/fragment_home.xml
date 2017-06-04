@@ -8,7 +8,6 @@
     tools:context="id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.HomeFragment">
 
 
-
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
@@ -209,5 +208,18 @@
             android:layout_weight="1">
 
         </android.support.v7.widget.RecyclerView>
+    <FrameLayout
+        android:id="@+id/pb_notif"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_weight="1">
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:text=""/>
+    </FrameLayout>
+
     </LinearLayout>
 

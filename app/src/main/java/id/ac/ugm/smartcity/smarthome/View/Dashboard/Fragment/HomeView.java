@@ -28,6 +28,10 @@ public interface HomeView {
 
     void hideCostProgressBar();
 
+    void showNotifProgressBar();
+
+    void hideNotifProgressBar();
+
     void onFailure(String appErrorMessage);
 
     void showCurrentEnergy(Response<CurrentEnergy> response);

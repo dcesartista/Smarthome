@@ -157,13 +157,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         deviceData.add(1, "Device 1");
         deviceData.add(2, "Device 2");*/
 
-        if (getUserVisibleHint()){
-            dashboardView.setToolbarText("History");
-            dashboardView.setSettingVisibility(View.GONE);
-            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
-            presenter.getEnergyHistory(startDate,App.DAILY,homeId);
-            Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
-        }
 
         return rootView;
     }
@@ -181,6 +174,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onStop();
+    }
 
     @OnClick(R.id.btn_volt)
     void showVoltageGraph(){
@@ -397,7 +395,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showLoading() {
-        if(getUserVisibleHint()){
+        if(getUserVisibleHint() && !progressDialog.isShowing()){
             progressDialog.show();
         }
     }

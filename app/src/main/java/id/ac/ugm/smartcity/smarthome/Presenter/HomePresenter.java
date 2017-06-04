@@ -73,32 +73,12 @@ public class HomePresenter {
         subscriptions.add(subscription);
     }
 
-    public void getDeviceList(String homeId) {
-        view.showLoading();
-        Subscription subscription = service.getDeviceList(new Service.GetDeviceListCallback() {
-            @Override
-            public void onSuccess(Response<List<Device>> deviceList) {
-                view.hideLoading();
-//                view.getDeviceSuccess(deviceList);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                view.hideLoading();
-                Log.d("ERROR", networkError.getThrowable().getMessage());
-            }
-
-        }, headers, homeId);
-
-        subscriptions.add(subscription);
-    }
-
     public void getAlerts(String homeId) {
-        view.showLoading();
+        view.showNotifProgressBar();
         Subscription subscription = service.getAlert(new Service.GetAlertCallback() {
             @Override
             public void onSuccess(Response<List<AlertGroup>> response) {
-                view.hideLoading();
+                view.hideNotifProgressBar();
                 try {
                     view.showAlert(response);
                 } catch (ParseException e) {
@@ -108,7 +88,7 @@ public class HomePresenter {
 
             @Override
             public void onError(NetworkError networkError) {
-                view.hideLoading();
+                view.hideNotifProgressBar();
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
