@@ -36,65 +36,71 @@
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
-        <FrameLayout
-            android:id="@+id/pic"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/light_gray">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_photo_camera_black_24dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tap to add picture"/>
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/iv_device"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
-        </FrameLayout>
 
         <TextView
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="48dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
             android:textSize="16sp"/>
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingLeft="8dp"
-            />
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="10dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="16dp"
+            android:background="@drawable/edittext_white_rounded"
+            android:hint="Device Nomor 1"
+            android:textColorHint="@color/hintColor"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Id"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:text="Device ID"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
             android:textSize="16sp"/>
         <EditText
-            android:id="@+id/et_product_id"
+            android:id="@+id/et_device_id"
             android:layout_width="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingLeft="8dp"
             android:layout_height="wrap_content"
-            />
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="186dp"
+            android:layout_marginTop="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="16dp"
+            android:background="@drawable/edittext_white_rounded"
+            android:hint="123456"
+            android:textColorHint="@color/hintColor"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gambar"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:textSize="16sp"/>
+        <ImageView
+            android:id="@+id/iv_device"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="132dp"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="36dp"
+            android:layout_marginLeft="36dp"
+            android:src="@drawable/ic_placeholder"/>
     </LinearLayout>
     <TextView
         android:id="@+id/btn_save"

@@ -17,7 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,9 +62,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @BindView(R.id.chart_history)
     ColumnChartView chartView;
     @BindView(R.id.sp_value)
-    Spinner spinnerValue;
+    Spinner spValue;
     @BindView(R.id.sp_range)
-    Spinner spinnerRange;
+    Spinner spRange;
     @BindView(R.id.graph_title)
     TextView tvGraph;
     @BindView(R.id.ic_down)
@@ -93,6 +95,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private DashboardView dashboardView;
     private HistoryPresenter presenter;
     private Date date;
+    private Calendar c;
     private String startDate;
     private ProgressDialog progressDialog;
     int type = App.ENERGY;
@@ -140,13 +143,17 @@ public class HistoryFragment extends Fragment implements HistoryView {
         FontManager.markAsIconContainer(icDown, iconFont);
         FontManager.markAsIconContainer(icDown2, iconFont);
 
-        Calendar c = Calendar.getInstance();
+        c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, -7);
         date = c.getTime();
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
         presenter = new HistoryPresenter(service, this, getContext());
 
+        ArrayAdapter adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.range1));
+        spRange.setAdapter(adapter);
         //generateDummyData();
         //generateChart(data1);
         /*ArrayList<String> deviceData = new ArrayList<>();
@@ -220,18 +227,36 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @OnItemSelected(R.id.sp_range)
     void onRangeSelected(int position) {
-        switch (position){
-            case 0:
-                range = App.DAILY;
-                break;
-            case 1:
-                range = App.MONTHLY;
-                break;
-            case 2:
-                range = App.YEARLY;
-                break;
+        switch (type){
+            case App.ENERGY:
+                switch (position){
+                    case 0:
+                        range = App.DAILY;
+                        ArrayAdapter adapter = new ArrayAdapter(getContext(),
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.month));
+                        spValue.setAdapter(adapter);
+                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
+                        break;
+                    case 1:
+                        range = App.MONTHLY;
+                        int year = c.get(Calendar.YEAR);
+                        String[] years = new String[]{String.valueOf(year-6),String.valueOf(year-5),String.valueOf(year-4),
+                                String.valueOf(year-3),String.valueOf(year-2),String.valueOf(year-1),
+                                String.valueOf(year),String.valueOf(year+1),String.valueOf(year+2),
+                                String.valueOf(year+3),String.valueOf(year+4),String.valueOf(year+5)};
+                        ArrayAdapter adapter2 = new ArrayAdapter(getContext(),
+                                android.R.layout.simple_spinner_dropdown_item,
+                                years);
+                        spValue.setAdapter(adapter2);
+                        break;
+                    case 2:
+                        range = App.YEARLY;
+                        break;
+                }
+            presenter.getEnergyHistory(startDate,range,homeId);
         }
-        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
+//        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
 
     private void generateDummyData(){
@@ -307,6 +332,13 @@ public class HistoryFragment extends Fragment implements HistoryView {
         List<SubcolumnValue> values;
         List<AxisValue> axisValues = new ArrayList<>();
         int i = 0;
+        String[] months =getResources().getStringArray(R.array.month);
+        int year = Integer.parseInt(startDate.split("\\-")[0]);
+        Log.e("YEAR!!",year+" "+startDate);
+        String[] years = new String[]{String.valueOf(year-6),String.valueOf(year-5),String.valueOf(year-4),
+                String.valueOf(year-3),String.valueOf(year-2),String.valueOf(year-1),
+                String.valueOf(year),String.valueOf(year+1),String.valueOf(year+2),
+                String.valueOf(year+3),String.valueOf(year+4),String.valueOf(year+5)};
         for (String h : histories) {
             values = new ArrayList<>();
             float value = Float.parseFloat(h);
@@ -324,6 +356,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 } else {
                     axisValue = String.valueOf(histories.indexOf(h)+1);
                 }
+            } else if(range == App.MONTHLY){
+                axisValue = months[i];
+            } else if(range == App.YEARLY){
+                axisValue = years[i];
             }
 
 
@@ -353,8 +389,13 @@ public class HistoryFragment extends Fragment implements HistoryView {
         v.left = 10;
         v.right = 10;
         chartView.setCurrentViewport(v);
-        chartView.setViewportCalculationEnabled(false);
-        chartView.setMaxZoom(5);
+        chartView.setViewportCalculationEnabled(true);
+        if (range == App.DAILY){
+            chartView.setMaxZoom(5);
+        } else {
+            chartView.setMaxZoom(2);
+        }
+
     }
 
     @Override
@@ -370,7 +411,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void onFailure(String appErrorMessage) {
-
+        Toast.makeText(getContext(),appErrorMessage,Toast.LENGTH_SHORT).show();
     }
 
     @Override

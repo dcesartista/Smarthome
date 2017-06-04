@@ -18,6 +18,8 @@ import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -740,9 +742,9 @@ public class Service {
     }
 
     public Subscription addNewDevice(final AddNewDeviceCallback callback, Map<String, String> headers
-            , String homeId, Map<String,String> params) {
+            , String homeId, RequestBody name, RequestBody productID, MultipartBody.Part image) {
 
-        return networkService.addNewDevice(headers, homeId, params)
+        return networkService.addNewDevice(headers, homeId, name, productID, image)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Device>>>() {

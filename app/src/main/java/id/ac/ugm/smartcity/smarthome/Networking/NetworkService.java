@@ -13,11 +13,15 @@ import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -157,12 +161,22 @@ public interface NetworkService {
             @Path("home_id") String homeId
     );
 
+    @Multipart
     @POST("homes/{home_id}/devices")
     Observable<Response<Device>> addNewDevice(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
+            @Part(Device.NAME)RequestBody name,
+            @Part(Device.PRODUCT_ID) RequestBody productId,
+            @Part MultipartBody.Part image
+            );
+
+    /*@POST("homes/{home_id}/devices")
+    Observable<Response<Device>> addNewDevice(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
             @QueryMap Map<String, String> params
-    );
+    );*/
 
     @GET("homes/{home_id}/devices/{device_id}")
     Observable<Response<Device>> getDevice(

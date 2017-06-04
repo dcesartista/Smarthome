@@ -13,6 +13,7 @@ public class Device implements Serializable {
     public static final String NAME = "name";
     public static final String PRODUCT_ID = "productID";
     public static final String ID = "deviceID";
+    public static final String PICTURE = "picture";
 
     @SerializedName("id")
     @Expose

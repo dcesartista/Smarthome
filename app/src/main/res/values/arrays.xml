@@ -7,6 +7,22 @@
         <item>Yearly</item>
     </string-array>
 
+    <string-array name="range1">
+        <item>Daily</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="range2">
+        <item>Hourly</item>
+        <item>Daily</item>
+    </string-array>
+
+    <string-array name="range3">
+        <item>Daily</item>
+        <item>Monthly</item>
+    </string-array>
+
     <string-array name="ac_brand">
         <item>Panasonic</item>
         <item>Samsung</item>
@@ -14,5 +30,20 @@
         <item>LG</item>
         <item>Sharp</item>
         <item>Toshiba</item>
+    </string-array>
+
+    <string-array name="month">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
     </string-array>
 </resources>

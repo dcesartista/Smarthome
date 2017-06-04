@@ -1,15 +1,29 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,24 +41,26 @@ import id.ac.ugm.smartcity.smarthome.View.BaseActivity;
 import retrofit2.Response;
 
 public class AddDeviceActivity extends BaseActivity implements DeviceView {
+    public static final int GALLERY_INTENT = 99;
 
     @BindView(R.id.ic_back)
     TextView icBack;
-    @BindView(R.id.pic)
-    View pic;
     @BindView(R.id.iv_device)
     ImageView ivDevice;
     @BindView(R.id.et_name)
     EditText etName;
-    @BindView(R.id.et_product_id)
-    EditText etProductId;
+    @BindView(R.id.et_device_id)
+    EditText etDeviceId;
 
     @Inject
     public Service service;
 
+    private File image;
+
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId = "1";
     private DevicePresenter presenter;
+    private String b64 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +75,32 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
         FontManager.markAsIconContainer(icBack, iconFont);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
+            Log.e("zzz","lll");
+            final Uri pic = data.getData();
+            image = new File(pic.getPath());
+            /*Picasso.with(this)
+                    .load(pic)
+                    .centerCrop()
+                    .into(ivDevice);*/
+        }
+
+    }
+
     @OnClick(R.id.btn_save)
     void save(){
         if(null!= etName.getText() && !etName.getText().toString().isEmpty()){
-            if(null!= etProductId.getText() && !etProductId.getText().toString().isEmpty()){
+            if(null!= etDeviceId.getText() && !etDeviceId.getText().toString().isEmpty()){
                 Map<String, String> params = new HashMap<>();
                 params.put(Device.NAME,etName.getText().toString());
-                params.put(Device.PRODUCT_ID, etProductId.getText().toString());
-                presenter.addDevice(homeId, params);
+                params.put(Device.PRODUCT_ID, etDeviceId.getText().toString());
+                params.put(Device.PICTURE, b64);
+                presenter.addDevice(homeId, etName.getText().toString(), etDeviceId.getText().toString(), image );
             } else {
-                Toast.makeText(this,"Harap mengisi product id",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Harap mengisi device id",Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this,"Harap mengisi nama device",Toast.LENGTH_SHORT).show();
@@ -78,6 +110,13 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
     @OnClick(R.id.ic_back)
     void back(){
         onBackPressed();
+    }
+
+    @OnClick(R.id.iv_device)
+    void selectImage(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_INTENT);
     }
 
     @Override
@@ -99,4 +138,6 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
     public void addDeviceSuccess(Response<Device> response) {
         finish();
     }
+
+
 }

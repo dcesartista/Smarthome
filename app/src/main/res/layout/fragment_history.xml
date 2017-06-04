@@ -156,15 +156,14 @@
             android:layout_marginLeft="32dp"
             android:layout_marginRight="12dp"
             android:layout_marginBottom="4dp"
-            app:cardCornerRadius="12dp">
+            app:cardCornerRadius="4dp">
             <Spinner
-                android:id="@+id/sp_value"
+                android:id="@+id/sp_range"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:gravity="center"
                 android:layout_marginLeft="5dp"
                 android:spinnerMode="dropdown" />
 
@@ -185,17 +184,26 @@
             android:layout_weight="1"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="32dp"
-            app:cardCornerRadius="12dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="4dp">
             <Spinner
-                android:id="@+id/sp_range"
+                android:id="@+id/sp_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:gravity="center"
                 android:layout_marginLeft="5dp"
                 android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/tv_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="12/06/17"
+                android:layout_marginLeft="8dp"/>
 
             <TextView
                 android:id="@+id/ic_down2"

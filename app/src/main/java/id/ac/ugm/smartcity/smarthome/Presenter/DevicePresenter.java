@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,9 @@ import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.DeviceView;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.GetDeviceView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -39,7 +43,7 @@ public class DevicePresenter {
         this.subscriptions = new CompositeSubscription();
     }
 
-    public void addDevice(String homeId, Map<String,String> params){
+    public void addDevice(String homeId, String name, String productID, File image){
         view.showLoading();
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
@@ -49,6 +53,17 @@ public class DevicePresenter {
         headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
         headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
+
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), image);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("picture", image.getName(), requestFile);
+        RequestBody fullName =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), name);
+        RequestBody deviceId =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), productID);
 
         Subscription subscription = service.addNewDevice(new Service.AddNewDeviceCallback() {
             @Override
@@ -60,10 +75,11 @@ public class DevicePresenter {
             @Override
             public void onError(NetworkError networkError) {
                 view.hideLoading();
+                view.onFailure(networkError.getThrowable().getMessage());
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
-        }, headers, homeId, params);
+        }, headers, homeId, fullName, deviceId, body);
 
         subscriptions.add(subscription);
     }

@@ -110,6 +110,7 @@ public class HistoryPresenter {
             @Override
             public void onError(NetworkError networkError) {
                 view.hideLoading();
+                view.onFailure(networkError.getThrowable().getMessage());
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
