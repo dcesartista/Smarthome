@@ -128,8 +128,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
         ButterKnife.bind(this,rootView);
 
         progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
 
         preferences = getContext().getSharedPreferences(App.USER_PREFERENCE,MODE_PRIVATE);
         homeId = preferences.getString(App.ACTIVE_HOME,"");
@@ -157,7 +158,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         deviceData.add(2, "Device 2");*/
 
         if (getUserVisibleHint()){
-            presenter.getDeviceList(homeId);
             dashboardView.setToolbarText("History");
             dashboardView.setSettingVisibility(View.GONE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
@@ -175,7 +175,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 dashboardView.setToolbarText("History");
                 dashboardView.setSettingVisibility(View.GONE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
-                presenter.getDeviceList(homeId);
                 presenter.getEnergyHistory(startDate,App.DAILY,homeId);
                 Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
             }
@@ -398,13 +397,16 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showLoading() {
-        progressDialog.show();
+        if(getUserVisibleHint()){
+            progressDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-        if (progressDialog.isShowing())
+        if(progressDialog.isShowing()){
             progressDialog.dismiss();
+        }
     }
 
     @Override

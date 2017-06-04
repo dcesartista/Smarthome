@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class ProfileFragment extends Fragment {
     private DashboardView dashboardView;
 
     LoginPresenter presenter;
+    private ProgressDialog progressDialog;
 
     public static ProfileFragment newInstance(int page, Service service, DashboardView dashboardView) {
         Bundle args = new Bundle();
@@ -67,6 +69,12 @@ public class ProfileFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         presenter = new LoginPresenter(service, null, getContext());
         ButterKnife.bind(this,rootView);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
         if (getUserVisibleHint()){
             dashboardView.setToolbarText("Profile");
             dashboardView.setHomeSelectorVisibility(View.GONE);

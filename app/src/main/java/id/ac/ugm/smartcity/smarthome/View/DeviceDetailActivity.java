@@ -164,6 +164,8 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.please_wait));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
 
         device = (Device) getIntent().getSerializableExtra(Device.ID);
         tvTitle.setText(device.getName());

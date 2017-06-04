@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -90,6 +91,7 @@ public class HomeFragment extends Fragment implements HomeView {
     private Service service;
     private DashboardView dashboardView;
     private HomePresenter presenter;
+    private ProgressDialog progressDialog;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -129,6 +131,12 @@ public class HomeFragment extends Fragment implements HomeView {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,rootView);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
         SharedPreferences preferences = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE);
         homeId = preferences.getString(App.ACTIVE_HOME,"");
         presenter = new HomePresenter(service, this, getContext());
@@ -174,12 +182,16 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void showLoading() {
-
+        if(getUserVisibleHint()){
+            progressDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
     @Override

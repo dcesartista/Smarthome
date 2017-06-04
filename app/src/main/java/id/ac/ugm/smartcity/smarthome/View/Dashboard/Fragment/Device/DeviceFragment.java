@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -52,6 +53,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     private DeviceAdapter adapter;
     private LinearLayoutManager layoutManager;
     private GetDevicePresenter presenter;
+    private ProgressDialog progressDialog;
     List<Device> deviceItemList;
 
     public static DeviceFragment newInstance(int page, Service service, DashboardView dashboardView) {
@@ -76,6 +78,12 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_device, container, false);
         ButterKnife.bind(this, rootView);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
         setupRecycleView();
         presenter = new GetDevicePresenter(service, this, getContext());
         if (getUserVisibleHint()){
@@ -120,12 +128,16 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @Override
     public void showLoading() {
-
+        if(getUserVisibleHint()){
+            progressDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
     @Override
