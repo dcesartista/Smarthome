@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import id.ac.ugm.smartcity.smarthome.App;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -69,7 +70,7 @@ public class NetworkModule {
 
         return new Retrofit.Builder()
                 /*.baseUrl("https://evening-mountain-29826.herokuapp.com/")*/
-                .baseUrl("http://smarthome.wg.ugm.ac.id/")
+                .baseUrl(App.BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())

@@ -17,7 +17,7 @@ public class App extends Application {
     public static final int COST = 12;
     public static final int CURRENT = 13;
 
-
+    public static final String BASE_URL = "http://smarthome.wg.ugm.ac.id/";
 
     public static final int DAILY = 0;
     public static final int MONTHLY = 1;
