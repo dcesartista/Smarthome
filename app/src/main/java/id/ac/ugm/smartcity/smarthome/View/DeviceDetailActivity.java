@@ -184,6 +184,7 @@ public class DeviceDetailActivity extends BaseActivity implements DeviceDetailVi
     }
 
     private void updateUI(){
+        tvAc.setText("AC "+device.getName());
         tvRelayNames = new TextView[]{tvRelay1,tvRelay2,tvRelay3,tvRelay4,tvRelay5,tvRelay6,tvRelay7,tvRelay8};
         for(int i=0; i< toggles.length; i++) {
             tvRelayNames[i].setText(relayNameData[i]);

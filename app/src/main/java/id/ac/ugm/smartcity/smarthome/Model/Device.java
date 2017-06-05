@@ -24,9 +24,9 @@ public class Device implements Serializable {
     @SerializedName("productID")
     @Expose
     private String productID;
-    @SerializedName("img")
+    @SerializedName("picture")
     @Expose
-    private Object img;
+    private Picture picture;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -50,16 +50,16 @@ public class Device implements Serializable {
      * @param id
      * @param createdAt
      * @param name
-     * @param img
+     * @param picture
      * @param homeId
      * @param productID
      */
-    public Device(Integer id, String name, String productID, Object img, String createdAt, String updatedAt, Integer homeId) {
+    public Device(Integer id, String name, String productID, Picture picture, String createdAt, String updatedAt, Integer homeId) {
         super();
         this.id = id;
         this.name = name;
         this.productID = productID;
-        this.img = img;
+        this.picture = picture;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.homeId = homeId;
@@ -89,12 +89,12 @@ public class Device implements Serializable {
         this.productID = productID;
     }
 
-    public Object getImg() {
-        return img;
+    public Picture getImg() {
+        return picture;
     }
 
-    public void setImg(Object img) {
-        this.img = img;
+    public void setImg(Picture picture) {
+        this.picture = picture;
     }
 
     public String getCreatedAt() {

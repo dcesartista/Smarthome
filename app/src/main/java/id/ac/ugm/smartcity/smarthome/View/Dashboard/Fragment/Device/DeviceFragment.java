@@ -49,11 +49,12 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     View pbDevice;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    String homeId = "1";
+    private String homeId;
     private Service service;
     private DashboardView dashboardView;
     private DeviceAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private SharedPreferences preferences;
     private GetDevicePresenter presenter;
     private ProgressDialog progressDialog;
     List<Device> deviceItemList;
@@ -88,6 +89,10 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
+
+        preferences = getContext().getSharedPreferences(App.USER_PREFERENCE,MODE_PRIVATE);
+        homeId = preferences.getString(App.ACTIVE_HOME,"");
+
         if(getUserVisibleHint()){
             dashboardView.setSettingVisibility(View.GONE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);

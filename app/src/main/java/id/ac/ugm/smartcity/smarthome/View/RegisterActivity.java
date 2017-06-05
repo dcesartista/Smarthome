@@ -77,7 +77,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
 
     @Override
     public void registerFailed(String appErrorMessage) {
-        Toast.makeText(this, appErrorMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.network_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override

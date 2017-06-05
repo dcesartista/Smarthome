@@ -170,6 +170,15 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
         };
 
+        if(getUserVisibleHint()){
+            dashboardView.setToolbarText("History");
+            dashboardView.setSettingVisibility(View.GONE);
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
+//                presenter.getEnergyHistory(startDate,App.DAILY,homeId);
+            setSelectedHistory(type);
+//            presenter.getDeviceList(homeId);
+        }
+
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icDown1, iconFont);
         FontManager.markAsIconContainer(icDown2, iconFont);
@@ -256,13 +265,12 @@ public class HistoryFragment extends Fragment implements HistoryView {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            if ((null != presenter) && (!initiateFetch)){
-                initiateFetch = true;
+            if (null != presenter){
                 dashboardView.setToolbarText("History");
                 dashboardView.setSettingVisibility(View.GONE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
 //                presenter.getEnergyHistory(startDate,App.DAILY,homeId);
-                setSelectedHistory(selected);
+                setSelectedHistory(type);
             }
         }
     }
@@ -276,7 +284,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private void setStartdateToToday(){
         c = Calendar.getInstance();
         c.setTime(new Date());
-        c.add(Calendar.DATE, -7);
+        c.add(Calendar.DATE, 0);
         date = c.getTime();
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
     }
@@ -363,7 +371,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                                 getResources().getStringArray(R.array.month));
                         cardValue.setVisibility(View.VISIBLE);
                         spValue.setAdapter(adapter);
-                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
+                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1])-1);
                         break;
                     case 1:
                         setStartdateToToday();
@@ -401,7 +409,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                                 getResources().getStringArray(R.array.month));
                         cardValue.setVisibility(View.VISIBLE);
                         spValue.setAdapter(adapter);
-                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
+                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1])-1);
                         break;
                     case 1:
                         setStartdateToToday();
@@ -469,7 +477,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                                 getResources().getStringArray(R.array.month));
                         cardValue.setVisibility(View.VISIBLE);
                         spValue.setAdapter(adapter);
-                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
+                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1])-1);
                         break;
                 }
                 break;
@@ -690,7 +698,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @Override
     public void hideLoading() {
         if(progressDialog.isShowing()){
-            Log.e("DEVICE","DISMISSED");
             progressDialog.dismiss();
 
         }
@@ -700,7 +707,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void onFailure(String appErrorMessage) {
-        Toast.makeText(getContext(),appErrorMessage,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),getResources().getString(R.string.network_error),Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -738,7 +745,14 @@ public class HistoryFragment extends Fragment implements HistoryView {
             editor.commit();*/
         }
         generateChartEnergy(histories, range);
-        tvGraph.setText("Konsumsi Energi per KwH");
+        switch (type){
+            case App.COST:
+                tvGraph.setText("Grafik Biaya");
+                break;
+            case App.ENERGY:
+                tvGraph.setText("Grafik Energi");
+                break;
+        }
     }
 
     @Override

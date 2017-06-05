@@ -1,6 +1,8 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -32,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
@@ -56,9 +59,11 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
     public Service service;
 
     private File image;
+    private ProgressDialog progressDialog;
+    private SharedPreferences preferences;
 
     //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
-    private String homeId = "1";
+    private String homeId;
     private DevicePresenter presenter;
     private String b64 = "";
 
@@ -68,6 +73,14 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
         setContentView(R.layout.activity_add_device);
         ButterKnife.bind(this);
         getDeps().inject(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.please_wait));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
+        preferences = getSharedPreferences(App.USER_PREFERENCE,MODE_PRIVATE);
+        homeId = preferences.getString(App.ACTIVE_HOME,"");
 
         presenter = new DevicePresenter(service, this, this);
 
@@ -82,10 +95,9 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
             Log.e("zzz","lll");
             final Uri pic = data.getData();
             image = new File(pic.getPath());
-            /*Picasso.with(this)
+            Picasso.with(this)
                     .load(pic)
-                    .centerCrop()
-                    .into(ivDevice);*/
+                    .into(ivDevice);
         }
 
     }
@@ -121,12 +133,17 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
 
     @Override
     public void showLoading() {
-
+        if(!progressDialog.isShowing()){
+            progressDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
 
+        }
     }
 
     @Override
