@@ -22,6 +22,7 @@ public class App extends Application {
     public static final int DAILY = 0;
     public static final int MONTHLY = 1;
     public static final int YEARLY = 2;
+    public static final int HOURLY = 3;
 
     public static final String USER_PREFERENCE = "USER";
     public static final String ID = "ID";

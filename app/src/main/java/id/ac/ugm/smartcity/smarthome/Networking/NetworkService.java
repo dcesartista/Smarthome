@@ -70,6 +70,34 @@ public interface NetworkService {
             @Query("start_date") String startDate
     );
 
+    @POST("homes/{home_id}/voltage_hourly")
+    Observable<Response<List<HistoryData>>> getVoltageHourly(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
+    @POST("homes/{home_id}/voltage_daily")
+    Observable<Response<List<HistoryData>>> getVoltageDaily(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
+    @POST("homes/{home_id}/current_hourly")
+    Observable<Response<List<HistoryData>>> getCurrentHourly(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
+    @POST("homes/{home_id}/current_daily")
+    Observable<Response<List<HistoryData>>> getCurrentDaily(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
     @GET("homes/{home_id}/current_energy")
     Observable<Response<CurrentEnergy>> getCurrentEnergy(
             @HeaderMap Map<String, String> headers,

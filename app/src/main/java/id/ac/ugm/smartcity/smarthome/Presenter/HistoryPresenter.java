@@ -49,15 +49,15 @@ public class HistoryPresenter {
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
     }
 
-    public void getHistory(String startDate, final int type, final int range, String homeId,
-                           String deviceId) {
+    public void getCurrentHistory(String startDate, final int range, String homeId,
+                                  final int type) {
         view.showLoading();
 
-        Subscription subscription = service.getHistory(new Service.GetHistoryCallback() {
+        Subscription subscription = service.getCurrentHistory(new Service.GetCurrentHistoryCallback() {
             @Override
             public void onSuccess(Response<List<HistoryData>> response) {
                 view.hideLoading();
-                view.showHistoryData(response, range, type);
+                view.showHistoryData(response,range,type);
             }
 
             @Override
@@ -66,7 +66,29 @@ public class HistoryPresenter {
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
-        }, startDate, headers, type, range, homeId, deviceId);
+        }, startDate, headers, range, homeId);
+
+        subscriptions.add(subscription);
+    }
+
+    public void getVoltageHistory(String startDate, final int range, String homeId,
+                                  final int type) {
+        view.showLoading();
+
+        Subscription subscription = service.getVoltageHistory(new Service.GetVoltageHistoryCallback() {
+            @Override
+            public void onSuccess(Response<List<HistoryData>> response) {
+                view.hideLoading();
+                view.showHistoryData(response,range,type);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, startDate, headers, range, homeId);
 
         subscriptions.add(subscription);
     }
@@ -94,7 +116,7 @@ public class HistoryPresenter {
         subscriptions.add(subscription);
     }
 
-    public void getCostHistory(String startDate, final int range, String homeId, String params) {
+    public void getCostHistory(String startDate, final int range, String homeId) {
         view.showLoading();
         Log.e("HISTORY","CALLED!!");
 

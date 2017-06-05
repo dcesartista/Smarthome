@@ -215,6 +215,132 @@ public class Service {
 
     }
 
+    public Subscription getVoltageHistory(final GetVoltageHistoryCallback callback, String startDate, Map<String, String> headers
+            , int range, String homeId){
+        switch (range){
+            case App.DAILY:
+                return networkService.getVoltageDaily(headers, homeId, startDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
+                            @Override
+                            public Observable<? extends Response<List<HistoryData>>> call(Throwable throwable) {
+                                return Observable.error(throwable);
+                            }
+                        })
+                        .subscribe(new Subscriber<Response<List<HistoryData>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.onError(new NetworkError(e));
+                            }
+
+                            @Override
+                            public void onNext(Response<List<HistoryData>> response) {
+                                callback.onSuccess(response);
+                            }
+
+                        });
+            case App.HOURLY:
+                return networkService.getVoltageHourly(headers, homeId, startDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
+                            @Override
+                            public Observable<? extends Response<List<HistoryData>>> call(Throwable throwable) {
+                                return Observable.error(throwable);
+                            }
+                        })
+                        .subscribe(new Subscriber<Response<List<HistoryData>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.onError(new NetworkError(e));
+                            }
+
+                            @Override
+                            public void onNext(Response<List<HistoryData>> response) {
+                                callback.onSuccess(response);
+                            }
+
+                        });
+            default:
+                return null;
+        }
+
+    }
+
+    public Subscription getCurrentHistory(final GetCurrentHistoryCallback callback, String startDate, Map<String, String> headers
+            , int range, String homeId){
+        switch (range){
+            case App.DAILY:
+                return networkService.getCurrentDaily(headers, homeId, startDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
+                            @Override
+                            public Observable<? extends Response<List<HistoryData>>> call(Throwable throwable) {
+                                return Observable.error(throwable);
+                            }
+                        })
+                        .subscribe(new Subscriber<Response<List<HistoryData>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.onError(new NetworkError(e));
+                            }
+
+                            @Override
+                            public void onNext(Response<List<HistoryData>> response) {
+                                callback.onSuccess(response);
+                            }
+
+                        });
+            case App.HOURLY:
+                return networkService.getCurrentHourly(headers, homeId, startDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<HistoryData>>>>() {
+                            @Override
+                            public Observable<? extends Response<List<HistoryData>>> call(Throwable throwable) {
+                                return Observable.error(throwable);
+                            }
+                        })
+                        .subscribe(new Subscriber<Response<List<HistoryData>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.onError(new NetworkError(e));
+                            }
+
+                            @Override
+                            public void onNext(Response<List<HistoryData>> response) {
+                                callback.onSuccess(response);
+                            }
+
+                        });
+            default:
+                return null;
+        }
+
+    }
+
 
     public Subscription getRelayData(final GetRelayDataCallBack callback, Map<String, String> headers,
                                      String homeId, String deviceId){
@@ -923,6 +1049,18 @@ public class Service {
 
     public interface GetCostHistoryCallback {
         void onSuccess(Response<List<String>> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetVoltageHistoryCallback {
+        void onSuccess(Response<List<HistoryData>> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetCurrentHistoryCallback {
+        void onSuccess(Response<List<HistoryData>> response);
 
         void onError(NetworkError networkError);
     }

@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,12 +10,14 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,6 +46,8 @@ import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 import id.ac.ugm.smartcity.smarthome.Utils.Utils;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
+import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
+import lecho.lib.hellocharts.formatter.SimpleColumnChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -87,6 +92,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     View pbHistory;
     @BindView(R.id.card_value)
     View cardValue;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
 
     String homeId;
     private List<Device> devices;
@@ -104,6 +111,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
     int range = App.DAILY;
     private List<Home> homes;
     private String[] homeNames;
+    private boolean initiateFetch;
+    private DatePickerDialog.OnDateSetListener dateListener;
 
     private ColumnChartData chartData;
     private double[] data1 = new double[7];
@@ -141,20 +150,32 @@ public class HistoryFragment extends Fragment implements HistoryView {
         preferences = getContext().getSharedPreferences(App.USER_PREFERENCE,MODE_PRIVATE);
         homeId = preferences.getString(App.ACTIVE_HOME,"");
 
+        dateListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                startDate = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
+                tvDate.setText(startDate);
+                Log.e("DATE SELECTED",startDate);
+                switch (type){
+                    case App.CURRENT:
+                        presenter.getCurrentHistory(startDate,range, homeId, type);
+                        break;
+                    case App.VOLTAGE:
+                        presenter.getVoltageHistory(startDate,range, homeId, type);
+                        break;
+                }
+            }
+
+        };
+
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icDown1, iconFont);
         FontManager.markAsIconContainer(icDown2, iconFont);
 
         setStartdateToToday();
         presenter = new HistoryPresenter(service, this, getContext());
-
-        if(getUserVisibleHint()){
-            dashboardView.setToolbarText("History");
-            dashboardView.setSettingVisibility(View.GONE);
-            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
-            presenter.getEnergyHistory(startDate,App.DAILY,homeId);
-            setSelectedHistory(selected);
-        }
 
         setupSpinnerRange(type, true);
 
@@ -174,6 +195,9 @@ public class HistoryFragment extends Fragment implements HistoryView {
         int s;
         switch (t){
             case App.ENERGY:
+                tvDate.setOnClickListener(null);
+                tvDate.setVisibility(View.GONE);
+                spValue.setVisibility(View.VISIBLE);
                 if(!first)
                     s = spRange.getSelectedItemPosition();
                 else
@@ -183,24 +207,27 @@ public class HistoryFragment extends Fragment implements HistoryView {
                         getResources().getStringArray(R.array.range1));
                 spRange.setAdapter(adapter);
                 if(type == App.CURRENT || type == App.VOLTAGE){
-                    type = App.ENERGY;
+                    type = t;
                     spRange.setSelection(0);
                 } else {
+                    type = t;
                     spRange.setSelection(s);
-                    type = App.ENERGY;
                 }
                 break;
             case App.COST:
+                tvDate.setOnClickListener(null);
+                tvDate.setVisibility(View.GONE);
+                spValue.setVisibility(View.VISIBLE);
                 s = spRange.getSelectedItemPosition();
                 adapter = new ArrayAdapter(getContext(),
                         android.R.layout.simple_spinner_dropdown_item,
                         getResources().getStringArray(R.array.range3));
                 spRange.setAdapter(adapter);
                 if(type == App.CURRENT || type == App.VOLTAGE){
-                    type = App.ENERGY;
+                    type = t;
                     spRange.setSelection(0);
                 } else {
-                    type = App.ENERGY;
+                    type = t;
                     if(range == App.YEARLY){
                         spRange.setSelection(0);
                     } else {
@@ -209,7 +236,18 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 }
                 break;
             default:
-                
+                s = spRange.getSelectedItemPosition();
+                adapter = new ArrayAdapter(getContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        getResources().getStringArray(R.array.range2));
+                spRange.setAdapter(adapter);
+                type = t;
+                if (s == 0){
+                    spRange.setSelection(1);
+                } else {
+                    spRange.setSelection(0);
+                }
+                break;
         }
 
     }
@@ -218,11 +256,12 @@ public class HistoryFragment extends Fragment implements HistoryView {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            if (null != presenter){
+            if ((null != presenter) && (!initiateFetch)){
+                initiateFetch = true;
                 dashboardView.setToolbarText("History");
                 dashboardView.setSettingVisibility(View.GONE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
-                presenter.getEnergyHistory(startDate,App.DAILY,homeId);
+//                presenter.getEnergyHistory(startDate,App.DAILY,homeId);
                 setSelectedHistory(selected);
             }
         }
@@ -275,16 +314,17 @@ public class HistoryFragment extends Fragment implements HistoryView {
     void showVoltageGraph(){
         /*type = App.TEMPERATURE;
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
-        selected = App.VOLTAGE;
-        setSelectedHistory(selected);
+        type = App.VOLTAGE;
+        setSelectedHistory(type);
+        setupSpinnerRange(App.VOLTAGE, false);;
     }
 
     @OnClick(R.id.btn_energy)
     void showEnergyGraph(){
 
         setupSpinnerRange(App.ENERGY, false);
-        selected = App.ENERGY;
-        setSelectedHistory(selected);
+        type = App.ENERGY;
+        setSelectedHistory(type);
        /* type = App.HUMIDITIY;
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
     }
@@ -294,21 +334,24 @@ public class HistoryFragment extends Fragment implements HistoryView {
         setupSpinnerRange(App.COST, false);
         /*type = App.CARBONDIOXIDE;
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
-        selected = App.COST;
-        setSelectedHistory(selected);
+        type = App.COST;
+        setSelectedHistory(type);
     }
 
     @OnClick(R.id.btn_current)
     void showCurrentGraph(){
         /*type = App.ENERGY;
         presenter.getEnergyHistory(startDate,range, homeId);*/
-        selected = App.CURRENT;
-        setSelectedHistory(selected);
+        type = App.CURRENT;
+        setSelectedHistory(type);
+        setupSpinnerRange(App.CURRENT, false);
 
     }
 
     @OnItemSelected(R.id.sp_range)
     void onRangeSelected(int position) {
+        Log.e("UYUYUY",""+type);
+        Log.e("UYUYUY2",""+position);
         switch (type){
             case App.ENERGY:
                 switch (position){
@@ -347,7 +390,89 @@ public class HistoryFragment extends Fragment implements HistoryView {
                         presenter.getEnergyHistory(startDate,range,homeId);
                         break;
                 }
+                break;
+            case App.COST:
+                switch (position) {
+                    case 0:
+                        setStartdateToToday();
+                        range = App.DAILY;
+                        ArrayAdapter adapter = new ArrayAdapter(getContext(),
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.month));
+                        cardValue.setVisibility(View.VISIBLE);
+                        spValue.setAdapter(adapter);
+                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
+                        break;
+                    case 1:
+                        setStartdateToToday();
+                        range = App.MONTHLY;
+                        int year = c.get(Calendar.YEAR);
+                        String[] years = new String[]{String.valueOf(year - 6), String.valueOf(year - 5), String.valueOf(year - 4),
+                                String.valueOf(year - 3), String.valueOf(year - 2), String.valueOf(year - 1),
+                                String.valueOf(year), String.valueOf(year + 1), String.valueOf(year + 2),
+                                String.valueOf(year + 3), String.valueOf(year + 4), String.valueOf(year + 5)};
+                        for (String y : years) {
+                            Log.e("YYY", y);
+                        }
+                        ArrayAdapter adapter2 = new ArrayAdapter(getContext(),
+                                android.R.layout.simple_spinner_dropdown_item,
+                                years);
+                        cardValue.setVisibility(View.VISIBLE);
+                        spValue.setAdapter(adapter2);
+                        spValue.setSelection(Arrays.asList(years).indexOf(startDate.split("\\-")[0]));
+                        break;
+                }
+                break;
+            default:
+                switch (position) {
+                    case 0:
+                        range = App.HOURLY;
+                        Log.e("CALLED HOURLY","CALLED!!");
+                        spValue.setVisibility(View.INVISIBLE);
+                        tvDate.setVisibility(View.VISIBLE);
+                        tvDate.setText(startDate);
+                        tvDate.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Calendar cal = Calendar.getInstance();
+                                Date d = cal.getTime();
+                                try {
+                                    d = DateFormatter.formatDate(startDate,"yyyy-MM-dd");
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                cal.setTime(d);
+                                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateListener
+                                        , cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
+                                datePickerDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime());
+                                datePickerDialog.show();
+                            }
+                        });
+                        switch (type){
+                            case App.CURRENT:
+                                presenter.getCurrentHistory(startDate,range, homeId, type);
+                                break;
+                            case App.VOLTAGE:
+                                presenter.getVoltageHistory(startDate,range, homeId, type);
+                                break;
+                        }
+                        break;
+                    case 1:
+                        tvDate.setOnClickListener(null);
+                        spValue.setVisibility(View.VISIBLE);
+                        tvDate.setVisibility(View.GONE);
+                        setStartdateToToday();
+                        range = App.DAILY;
+                        ArrayAdapter adapter = new ArrayAdapter(getContext(),
+                                android.R.layout.simple_spinner_dropdown_item,
+                                getResources().getStringArray(R.array.month));
+                        cardValue.setVisibility(View.VISIBLE);
+                        spValue.setAdapter(adapter);
+                        spValue.setSelection(Integer.parseInt(startDate.split("\\-")[1]));
+                        break;
+                }
+                break;
         }
 //        presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));
     }
@@ -366,8 +491,34 @@ public class HistoryFragment extends Fragment implements HistoryView {
                         Log.e("TAHUN: ", startDate);
                         break;
                 }
+                presenter.getEnergyHistory(startDate,range,homeId);
+                break;
+            case App.COST:
+                switch (range){
+                    case App.DAILY:
+                        startDate = startDate.split("\\-")[0]+"-"+(position+1)+"-"+startDate.split("\\-")[2];
+                        Log.e("BULAN: ", startDate);
+                        break;
+                    case App.MONTHLY:
+                        startDate = parent.getItemAtPosition(position)+"-"+startDate.split("\\-")[1]+"-"+startDate.split("\\-")[2];
+                        Log.e("TAHUN: ", startDate);
+                        break;
+                }
+                presenter.getCostHistory(startDate,range,homeId);
+                break;
+            default:
+                switch (range){
+                    case App.DAILY:
+                        startDate = startDate.split("\\-")[0]+"-"+(position+1)+"-"+startDate.split("\\-")[2];
+                        Log.e("BULAN: ", startDate);
+                        break;
+                    case App.HOURLY:
+                        Log.e("TAHUN: ", startDate);
+                        break;
+                }
+                presenter.getCurrentHistory(startDate,range,homeId,type);
         }
-        presenter.getEnergyHistory(startDate,range,homeId);
+
     }
 
     private void generateDummyData(){
@@ -385,16 +536,17 @@ public class HistoryFragment extends Fragment implements HistoryView {
         List<AxisValue> axisValues = new ArrayList<>();
         int i = 0;
         for (HistoryData h : histories) {
-            Log.e("DATA", h.getValue());
+
             values = new ArrayList<>();
             float value = Float.parseFloat(h.getValue());
+            Log.e("DATA!!!!", value+"");
             int color;
             /*if (value >= 40)
                 values.add(new SubcolumnValue(value, ChartUtils.COLOR_RED ));
             else if (value >=20)
                 values.add(new SubcolumnValue(value, ChartUtils.COLOR_ORANGE ));
             else*/
-                values.add(new SubcolumnValue(value, ChartUtils.COLOR_GREEN ));
+                values.add(new SubcolumnValue(value, getResources().getColor(R.color.colorAccent) ));
             String axisValue = h.getDate();
             if (range == App.DAILY){
                 Date date = null;
@@ -404,13 +556,26 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
                 }
                 axisValue = DateFormatter.formatDateToString(date, "dd");
+            } else if(range == App.HOURLY){
+                Date date = null;
+                try {
+                    date = DateFormatter.formatDate(h.getDate(), "yyyy-MM-dd");
+                } catch (ParseException e) {
+
+                }
+                Log.e("DATE!!",h.getDate());
+                axisValue = h.getDate().substring(12,14);
             }
 
 
             Column column = new Column(values);
             column.setHasLabels(true);
+            SimpleColumnChartValueFormatter formatter = new SimpleColumnChartValueFormatter();
+            formatter.setDecimalDigitsNumber(2);
+            column.setFormatter(formatter);
             columns.add(column);
             axisValues.add(new AxisValue(i, axisValue.toCharArray()));
+
             i++;
         }
 
@@ -425,6 +590,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         axisY.setLineColor(R.color.textPrimary);
         chartData.setAxisXBottom(axisX);
         chartData.setAxisYLeft(axisY);
+        chartView.setViewportCalculationEnabled(true);
         chartView.setZoomEnabled(false);
         chartView.setInteractive(true);
         chartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
@@ -433,8 +599,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         v.left = 0;
         v.right = 10;
         chartView.setCurrentViewport(v);
-        chartView.setViewportCalculationEnabled(false);
-        chartView.setMaxZoom(3);
+        chartView.setMaxZoom(4);
     }
 
     private void generateChartEnergy(List<String> histories, int range){
@@ -452,6 +617,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 String.valueOf(year+3),String.valueOf(year+4),String.valueOf(year+5)};
         for (String h : histories) {
             values = new ArrayList<>();
+
             float value = Float.parseFloat(h);
             int color;
             /*if (value >= 40)
@@ -492,6 +658,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         axisY.setLineColor(R.color.textPrimary);
         chartData.setAxisXBottom(axisX);
         chartData.setAxisYLeft(axisY);
+        chartView.setViewportCalculationEnabled(true);
         chartView.setZoomEnabled(false);
         chartView.setInteractive(true);
         chartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
@@ -500,10 +667,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
         v.left = 10;
         v.right = 10;
         chartView.setCurrentViewport(v);
-        chartView.setViewportCalculationEnabled(true);
         if (range == App.DAILY){
+            Log.e("SETZOOM","ZOOM!!");
             chartView.setMaxZoom(5);
         } else {
+            Log.e("SETZOOM2","ZOOM2!!");
             chartView.setMaxZoom(2);
         }
 
@@ -511,22 +679,23 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void showLoading() {
-        /*if(getUserVisibleHint() && !progressDialog.isShowing()){
+        if(getUserVisibleHint() && !progressDialog.isShowing()){
             Log.e("HISTORY","CALLED");
             progressDialog.show();
-        }*/
-        chartView.setVisibility(View.GONE);
-        pbHistory.setVisibility(View.VISIBLE);
+        }
+        /*chartView.setVisibility(View.GONE);
+        pbHistory.setVisibility(View.VISIBLE);*/
     }
 
     @Override
     public void hideLoading() {
-        /*if(progressDialog.isShowing()){
+        if(progressDialog.isShowing()){
             Log.e("DEVICE","DISMISSED");
             progressDialog.dismiss();
-        }*/
-        chartView.setVisibility(View.VISIBLE);
-        pbHistory.setVisibility(View.GONE);
+
+        }
+        /*chartView.setVisibility(View.VISIBLE);
+        pbHistory.setVisibility(View.GONE);*/
     }
 
     @Override
@@ -548,14 +717,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
         }
         generateChart(histories, range);
         switch (type){
-            case App.TEMPERATURE:
-                tvGraph.setText("Grafik Temperatur");
+            case App.VOLTAGE:
+                tvGraph.setText("Grafik Tegangan");
                 break;
-            case App.HUMIDITIY:
-                tvGraph.setText("Grafik Kelembaban");
-                break;
-            case App.CARBONDIOXIDE:
-                tvGraph.setText("Grafik CO2");
+            case App.CURRENT:
+                tvGraph.setText("Grafik Arus");
                 break;
         }
     }
