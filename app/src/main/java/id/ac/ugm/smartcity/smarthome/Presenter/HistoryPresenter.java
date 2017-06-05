@@ -12,7 +12,6 @@ import java.util.Map;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.HistoryData;
-import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
@@ -77,6 +76,29 @@ public class HistoryPresenter {
         Log.e("HISTORY","CALLED!!");
 
         Subscription subscription = service.getEnergyHistory(new Service.GetEnergyHistoryCallback() {
+            @Override
+            public void onSuccess(Response<List<String>> response) {
+                view.hideLoading();
+                view.showHistoryEnergy(response, range);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                view.onFailure(networkError.getThrowable().getMessage());
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, startDate, headers, range, homeId);
+
+        subscriptions.add(subscription);
+    }
+
+    public void getCostHistory(String startDate, final int range, String homeId, String params) {
+        view.showLoading();
+        Log.e("HISTORY","CALLED!!");
+
+        Subscription subscription = service.getCostHistory(new Service.GetCostHistoryCallback() {
             @Override
             public void onSuccess(Response<List<String>> response) {
                 view.hideLoading();

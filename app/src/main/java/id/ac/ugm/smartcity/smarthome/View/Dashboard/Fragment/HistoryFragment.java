@@ -92,7 +92,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     private List<Device> devices;
     private String[] devicesName;
     private SharedPreferences preferences;
-    private Device selectedDevice;
+    private int selected = App.ENERGY;
     private Service service;
     private DashboardView dashboardView;
     private HistoryPresenter presenter;
@@ -153,13 +153,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
             dashboardView.setSettingVisibility(View.GONE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getEnergyHistory(startDate,App.DAILY,homeId);
-            Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
+            setSelectedHistory(selected);
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                getResources().getStringArray(R.array.range1));
-        spRange.setAdapter(adapter);
+        setupSpinnerRange(type, true);
+
         //generateDummyData();
         //generateChart(data1);
         /*ArrayList<String> deviceData = new ArrayList<>();
@@ -170,6 +168,52 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
         return rootView;
     }
+
+    private void setupSpinnerRange(int t, boolean first){
+        ArrayAdapter adapter;
+        int s;
+        switch (t){
+            case App.ENERGY:
+                if(!first)
+                    s = spRange.getSelectedItemPosition();
+                else
+                    s = 0;
+                adapter = new ArrayAdapter(getContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        getResources().getStringArray(R.array.range1));
+                spRange.setAdapter(adapter);
+                if(type == App.CURRENT || type == App.VOLTAGE){
+                    type = App.ENERGY;
+                    spRange.setSelection(0);
+                } else {
+                    spRange.setSelection(s);
+                    type = App.ENERGY;
+                }
+                break;
+            case App.COST:
+                s = spRange.getSelectedItemPosition();
+                adapter = new ArrayAdapter(getContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        getResources().getStringArray(R.array.range3));
+                spRange.setAdapter(adapter);
+                if(type == App.CURRENT || type == App.VOLTAGE){
+                    type = App.ENERGY;
+                    spRange.setSelection(0);
+                } else {
+                    type = App.ENERGY;
+                    if(range == App.YEARLY){
+                        spRange.setSelection(0);
+                    } else {
+                        spRange.setSelection(s);
+                    }
+                }
+                break;
+            default:
+                
+        }
+
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -179,7 +223,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 dashboardView.setSettingVisibility(View.GONE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getEnergyHistory(startDate,App.DAILY,homeId);
-                Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
+                setSelectedHistory(selected);
             }
         }
     }
@@ -198,44 +242,69 @@ public class HistoryFragment extends Fragment implements HistoryView {
         startDate = DateFormatter.formatDateToString(date, "yyyy-MM-dd");
     }
 
+    private void setSelectedHistory(int selected){
+        switch (selected){
+            case App.ENERGY:
+                Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
+                Utils.setUnselected(tvCurrent, getContext());
+                Utils.setUnselected(tvCost, getContext());
+                Utils.setUnselected(tvVolt, getContext());
+                break;
+            case App.COST:
+                Utils.setSelected(tvCost, getContext());
+                Utils.setUnselected(tvVolt, getContext());
+                Utils.setUnselected(tvCurrent, getContext());
+                Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
+                break;
+            case App.VOLTAGE:
+                Utils.setSelected(tvVolt, getContext());
+                Utils.setUnselected(tvCurrent, getContext());
+                Utils.setUnselected(tvCost, getContext());
+                Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
+                break;
+            case App.CURRENT:
+                Utils.setSelected(tvCurrent, getContext());
+                Utils.setUnselected(tvCost, getContext());
+                Utils.setUnselected(tvVolt, getContext());
+                Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
+                break;
+        }
+    }
+
     @OnClick(R.id.btn_volt)
     void showVoltageGraph(){
         /*type = App.TEMPERATURE;
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
-        Utils.setSelected(tvVolt, getContext());
-        Utils.setUnselected(tvCurrent, getContext());
-        Utils.setUnselected(tvCost, getContext());
-        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
+        selected = App.VOLTAGE;
+        setSelectedHistory(selected);
     }
 
     @OnClick(R.id.btn_energy)
     void showEnergyGraph(){
-        Utils.setSelected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_white);
-        Utils.setUnselected(tvCurrent, getContext());
-        Utils.setUnselected(tvCost, getContext());
-        Utils.setUnselected(tvVolt, getContext());
+
+        setupSpinnerRange(App.ENERGY, false);
+        selected = App.ENERGY;
+        setSelectedHistory(selected);
        /* type = App.HUMIDITIY;
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
     }
 
     @OnClick(R.id.btn_cost)
     void showCostGraph(){
+        setupSpinnerRange(App.COST, false);
         /*type = App.CARBONDIOXIDE;
         presenter.getHistory(startDate,type,range, homeId, String.valueOf(selectedDevice.getId()));*/
-        Utils.setSelected(tvCost, getContext());
-        Utils.setUnselected(tvVolt, getContext());
-        Utils.setUnselected(tvCurrent, getContext());
-        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
+        selected = App.COST;
+        setSelectedHistory(selected);
     }
 
     @OnClick(R.id.btn_current)
     void showCurrentGraph(){
         /*type = App.ENERGY;
         presenter.getEnergyHistory(startDate,range, homeId);*/
-        Utils.setSelected(tvCurrent, getContext());
-        Utils.setUnselected(tvCost, getContext());
-        Utils.setUnselected(tvVolt, getContext());
-        Utils.setUnselected(btnEnergy,ivEnergy, getContext(),R.drawable.ic_energy_yellow);
+        selected = App.CURRENT;
+        setSelectedHistory(selected);
+
     }
 
     @OnItemSelected(R.id.sp_range)

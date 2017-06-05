@@ -152,6 +152,69 @@ public class Service {
                 });
     }
 
+    public Subscription getCostHistory(final GetCostHistoryCallback callback, String startDate, Map<String, String> headers
+            , int range, String homeId){
+        switch (range){
+            case App.DAILY:
+                return networkService.getCostDaily(headers, homeId, startDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<String>>>>() {
+                            @Override
+                            public Observable<? extends Response<List<String>>> call(Throwable throwable) {
+                                return Observable.error(throwable);
+                            }
+                        })
+                        .subscribe(new Subscriber<Response<List<String>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.onError(new NetworkError(e));
+                            }
+
+                            @Override
+                            public void onNext(Response<List<String>> response) {
+                                callback.onSuccess(response);
+                            }
+
+                        });
+            case App.MONTHLY:
+                return networkService.getCostMonthly(headers, homeId, startDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<String>>>>() {
+                            @Override
+                            public Observable<? extends Response<List<String>>> call(Throwable throwable) {
+                                return Observable.error(throwable);
+                            }
+                        })
+                        .subscribe(new Subscriber<Response<List<String>>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.onError(new NetworkError(e));
+                            }
+
+                            @Override
+                            public void onNext(Response<List<String>> response) {
+                                callback.onSuccess(response);
+                            }
+
+                        });
+            default:
+                return null;
+        }
+
+    }
+
 
     public Subscription getRelayData(final GetRelayDataCallBack callback, Map<String, String> headers,
                                      String homeId, String deviceId){
@@ -854,6 +917,12 @@ public class Service {
 
     public interface GetCurrentCostCallback{
         void onSuccess(Response<String> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetCostHistoryCallback {
+        void onSuccess(Response<List<String>> response);
 
         void onError(NetworkError networkError);
     }

@@ -56,6 +56,20 @@ public interface NetworkService {
             @Path("home_id") String homeId
     );
 
+    @POST("homes/{home_id}/cost_daily")
+    Observable<Response<List<String>>> getCostDaily(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
+    @POST("homes/{home_id}/cost_monthly")
+    Observable<Response<List<String>>> getCostMonthly(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Query("start_date") String startDate
+    );
+
     @GET("homes/{home_id}/current_energy")
     Observable<Response<CurrentEnergy>> getCurrentEnergy(
             @HeaderMap Map<String, String> headers,
