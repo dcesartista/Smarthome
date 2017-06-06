@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
@@ -146,6 +147,35 @@ public class Service {
 
                     @Override
                     public void onNext(Response<List<AlertGroup>> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
+    public Subscription getCurrentAlert(final GetCurrentAlertCallback callback, Map<String, String> headers, String homeId){
+        return networkService.getCurrentAlert(headers, homeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<Alert>>>>() {
+                    @Override
+                    public Observable<? extends Response<List<Alert>>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<List<Alert>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<List<Alert>> response) {
                         callback.onSuccess(response);
                     }
 
@@ -1072,6 +1102,12 @@ public class Service {
 
     public interface GetAlertCallback{
         void onSuccess(Response<List<AlertGroup>> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetCurrentAlertCallback{
+        void onSuccess(Response<List<Alert>> response);
 
         void onError(NetworkError networkError);
     }

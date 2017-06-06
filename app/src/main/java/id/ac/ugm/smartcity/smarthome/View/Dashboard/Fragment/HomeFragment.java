@@ -16,8 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -33,21 +33,16 @@ import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
-import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
-import id.ac.ugm.smartcity.smarthome.Model.Device;
-import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
-import id.ac.ugm.smartcity.smarthome.Model.Home;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertOld;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
-import id.ac.ugm.smartcity.smarthome.Utils.Utils;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
+import id.ac.ugm.smartcity.smarthome.adapter.CurrentAlertAdapter;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -80,14 +75,14 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbTegangan;
     @BindView(R.id.pb_biaya)
     View pbBiaya;
-    @BindView(R.id.recycler_alert)
-    RecyclerView rvAlert;
+    @BindView(R.id.alert_container)
+    LinearLayout alertContainer;
     @BindView(R.id.pb_notif)
     View pbNotif;
 
-    private List<DisplayableItem> displayableItems;
+    private List<Alert> alerts;
     private LinearLayoutManager layoutManager;
-    private AlertAdapter adapter;
+    private CurrentAlertAdapter adapter;
     private String homeId;
     private View rootView;
     private Service service;
@@ -117,16 +112,6 @@ public class HomeFragment extends Fragment implements HomeView {
         // Required empty public constructor
     }
 
-    private void setupRecyclerView() {
-        displayableItems = new ArrayList<>();
-
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rvAlert.setLayoutManager(layoutManager);
-        adapter = new AlertAdapter(displayableItems, getContext());
-        rvAlert.setAdapter(adapter);
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -151,8 +136,6 @@ public class HomeFragment extends Fragment implements HomeView {
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
         }
-
-        setupRecyclerView();
 
         Typeface iconFont = FontManager.getTypeface(getContext(), FontManager.FONTAWESOME);
 
@@ -232,13 +215,13 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void showNotifProgressBar() {
         pbNotif.setVisibility(View.VISIBLE);
-        rvAlert.setVisibility(View.GONE);
+        alertContainer.setVisibility(View.GONE);
     }
 
     @Override
     public void hideNotifProgressBar() {
         pbNotif.setVisibility(View.GONE);
-        rvAlert.setVisibility(View.VISIBLE);
+        alertContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -257,36 +240,43 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void showAlert(Response<List<AlertGroup>> response) throws ParseException {
-        Log.e("ASDASDASDASDAS", "HAHAHEHEIHUHU");
-        List<AlertGroup> alertGroups = response.body();
-        displayableItems.clear();
+    public void showAlert(Response<List<Alert>> response) throws ParseException {
+        alerts = response.body();
+        alertContainer.removeAllViews();
+        for(Alert alert : alerts){
+            View layout = LayoutInflater.from(getContext()).inflate(R.layout.alert_log, alertContainer, false);
+            ImageView ivAlert = (ImageView) layout.findViewById(R.id.icon_alert);
+            TextView tvTitle = (TextView)layout.findViewById(R.id.tv_alert_title);
+            TextView tvDesc = (TextView)layout.findViewById(R.id.tv_alert_desc);
+            TextView tvTime = (TextView)layout.findViewById(R.id.tv_time);
 
-        for (AlertGroup alertGroup : alertGroups){
-            Log.e("ASDASDASDASDAS", alertGroup.getDate());
-            Calendar c = Calendar.getInstance();
-            c.setTimeZone(new SimpleTimeZone(7, "GMT"));
-            c.set(Calendar.HOUR_OF_DAY, 0-7);
-            c.set(Calendar.MINUTE, 0);
-            c.set(Calendar.SECOND, 0+1);
-            c.set(Calendar.MILLISECOND, 0);
-            Date date = c.getTime();
-            Log.e("DATE1",date.toString());
-            Date alertDate = DateFormatter.convertServerDateFormat(alertGroup.getDate());
-            Log.e("DATE2",alertDate.toString());
-            if(alertDate.equals(date)){
-                displayableItems.add(new AlertDay("hari ini"));
-            } else {
-                displayableItems.add(new AlertDay(DateFormatter.convertDateToStringDate(alertGroup.getDate())));
-            }
-            List<Alert> alerts = alertGroup.getValue();
-            if(null != alerts && alerts.size()>0){
-                for (Alert alert : alerts){
-                    Log.e("ASDASDASDASDAS", alert.getStatus());
-                    displayableItems.add(alert);
+            if(alert.getAlertType() != null ){
+                switch (alert.getAlertType()){
+                    case "Energy":
+                        ivAlert.setImageResource(R.drawable.ic_energy_yellow);
+                        break;
+                    case "Temperature":
+                        ivAlert.setImageResource(R.drawable.icon_temp);
+                        break;
+                    case "Humidity":
+                        ivAlert.setImageResource(R.drawable.icon_humidity);
+                        break;
+                    case "Cost":
+                        break;
+                    case "Light":
+                        break;
+                    case "Carbondioxide":
+                        break;
+                    default:
+                        ivAlert.setImageResource(R.drawable.ic_energy_yellow);
+                        break;
                 }
             }
+            tvTitle.setText(alert.getAlertType());
+            tvDesc.setText(alert.getStatus());
+            tvTime.setText(DateFormatter.convertDateToStringTime(alert.getCreatedAt()));
 
+            alertContainer.addView(layout);
         }
         adapter.notifyDataSetChanged();
     }

@@ -3,6 +3,7 @@ package id.ac.ugm.smartcity.smarthome.Networking;
 import java.util.List;
 import java.util.Map;
 
+import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentSensor;
@@ -52,6 +53,12 @@ public interface NetworkService {
     );
 
     @GET("homes/{home_id}/alert")
+    Observable<Response<List<Alert>>> getCurrentAlert(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId
+    );
+
+    @GET("homes/{home_id}/alert_details")
     Observable<Response<List<AlertGroup>>> getAlert(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId

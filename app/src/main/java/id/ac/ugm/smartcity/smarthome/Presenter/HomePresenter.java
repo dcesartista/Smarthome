@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
+import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
@@ -75,9 +76,9 @@ public class HomePresenter {
 
     public void getAlerts(String homeId) {
         view.showNotifProgressBar();
-        Subscription subscription = service.getAlert(new Service.GetAlertCallback() {
+        Subscription subscription = service.getCurrentAlert(new Service.GetCurrentAlertCallback() {
             @Override
-            public void onSuccess(Response<List<AlertGroup>> response) {
+            public void onSuccess(Response<List<Alert>> response) {
                 view.hideNotifProgressBar();
                 try {
                     view.showAlert(response);

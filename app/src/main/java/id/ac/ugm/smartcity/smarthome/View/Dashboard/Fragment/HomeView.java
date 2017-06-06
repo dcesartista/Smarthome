@@ -3,6 +3,7 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 import java.text.ParseException;
 import java.util.List;
 
+import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentDeviceData;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
@@ -36,7 +37,7 @@ public interface HomeView {
 
     void showCurrentEnergy(Response<CurrentEnergy> response);
 
-    void showAlert(Response<List<AlertGroup>> response) throws ParseException;
+    void showAlert(Response<List<Alert>> response) throws ParseException;
 
     void showCost(Response<String> response);
 
