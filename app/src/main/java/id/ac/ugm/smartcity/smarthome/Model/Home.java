@@ -3,14 +3,26 @@ package id.ac.ugm.smartcity.smarthome.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by dito on 29/05/17.
  */
 
-public class Home {
+public class Home implements Serializable {
     public static final String NAME = "name";
     public static final String GATEWAY = "gateway_id";
     public static final String ID = "devid";
+    public static final String ENERGY = "upperenergy";
+    public static final String COST = "cost_limit";
+    public static final String UPPER_TEMPERATURE = "uppertemp";
+    public static final String LOWER_TEMPERATURE = "lowertemp";
+    public static final String UPPER_HUMIDITY = "upperhum";
+    public static final String LOWER_HUMIDITY = "lowerhum";
+    public static final String UPPER_CO2 = "upperco";
+    public static final String LOWER_CO2 = "lowerco";
+    public static final String UPPER_LIGHT = "upperflux";
+    public static final String LOWER_LIGHT = "lowerflux";
 
     @SerializedName("id")
     @Expose
@@ -26,31 +38,31 @@ public class Home {
     private String updatedAt;
     @SerializedName("lowertemp")
     @Expose
-    private Object lowertemp;
+    private String lowertemp;
     @SerializedName("uppertemp")
     @Expose
-    private Object uppertemp;
+    private String uppertemp;
     @SerializedName("lowerhum")
     @Expose
-    private Object lowerhum;
+    private String lowerhum;
     @SerializedName("upperhum")
     @Expose
-    private Object upperhum;
+    private String upperhum;
     @SerializedName("lowerco")
     @Expose
-    private Object lowerco;
+    private String lowerco;
     @SerializedName("upperco")
     @Expose
-    private Object upperco;
+    private String upperco;
     @SerializedName("lowerflux")
     @Expose
-    private Object lowerflux;
+    private String lowerflux;
     @SerializedName("upperflux")
     @Expose
-    private Object upperflux;
+    private String upperflux;
     @SerializedName("upperenergy")
     @Expose
-    private Object upperenergy;
+    private String upperenergy;
     @SerializedName("devid")
     @Expose
     private String devid;
@@ -84,6 +96,9 @@ public class Home {
     @SerializedName("upperflux_flag")
     @Expose
     private Object upperfluxFlag;
+    @SerializedName("cost_limit")
+    @Expose
+    private String costLimit;
 
     public Integer getId() {
         return id;
@@ -117,75 +132,75 @@ public class Home {
         this.updatedAt = updatedAt;
     }
 
-    public Object getLowertemp() {
+    public String getLowertemp() {
         return lowertemp;
     }
 
-    public void setLowertemp(Object lowertemp) {
+    public void setLowertemp(String lowertemp) {
         this.lowertemp = lowertemp;
     }
 
-    public Object getUppertemp() {
+    public String getUppertemp() {
         return uppertemp;
     }
 
-    public void setUppertemp(Object uppertemp) {
+    public void setUppertemp(String uppertemp) {
         this.uppertemp = uppertemp;
     }
 
-    public Object getLowerhum() {
+    public String getLowerhum() {
         return lowerhum;
     }
 
-    public void setLowerhum(Object lowerhum) {
+    public void setLowerhum(String lowerhum) {
         this.lowerhum = lowerhum;
     }
 
-    public Object getUpperhum() {
+    public String getUpperhum() {
         return upperhum;
     }
 
-    public void setUpperhum(Object upperhum) {
+    public void setUpperhum(String upperhum) {
         this.upperhum = upperhum;
     }
 
-    public Object getLowerco() {
+    public String getLowerco() {
         return lowerco;
     }
 
-    public void setLowerco(Object lowerco) {
+    public void setLowerco(String lowerco) {
         this.lowerco = lowerco;
     }
 
-    public Object getUpperco() {
+    public String getUpperco() {
         return upperco;
     }
 
-    public void setUpperco(Object upperco) {
+    public void setUpperco(String upperco) {
         this.upperco = upperco;
     }
 
-    public Object getLowerflux() {
+    public String getLowerflux() {
         return lowerflux;
     }
 
-    public void setLowerflux(Object lowerflux) {
+    public void setLowerflux(String lowerflux) {
         this.lowerflux = lowerflux;
     }
 
-    public Object getUpperflux() {
+    public String getUpperflux() {
         return upperflux;
     }
 
-    public void setUpperflux(Object upperflux) {
+    public void setUpperflux(String upperflux) {
         this.upperflux = upperflux;
     }
 
-    public Object getUpperenergy() {
+    public String getUpperenergy() {
         return upperenergy;
     }
 
-    public void setUpperenergy(Object upperenergy) {
+    public void setUpperenergy(String upperenergy) {
         this.upperenergy = upperenergy;
     }
 
@@ -275,5 +290,13 @@ public class Home {
 
     public void setUpperfluxFlag(Object upperfluxFlag) {
         this.upperfluxFlag = upperfluxFlag;
+    }
+
+    public String getCostLimit() {
+        return costLimit;
+    }
+
+    public void setCostLimit(String costLimit) {
+        this.costLimit = costLimit;
     }
 }

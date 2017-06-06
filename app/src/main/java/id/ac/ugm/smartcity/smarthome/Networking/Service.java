@@ -94,6 +94,35 @@ public class Service {
                 });
     }
 
+    public Subscription changeHome(final ChangeHomeCallback callback, Map<String, String> headers, String homeId, Map<String, String> params){
+        return networkService.changeHome(headers, homeId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Home>>>() {
+                    @Override
+                    public Observable<? extends Response<Home>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Home>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<Home> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription getAlert(final GetAlertCallback callback, Map<String, String> headers, String homeId){
         return networkService.getAlert(headers, homeId)
                 .subscribeOn(Schedulers.io())
@@ -1030,6 +1059,12 @@ public class Service {
     }
 
     public interface PostNewHomeCallback{
+        void onSuccess(Response<Home> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface ChangeHomeCallback{
         void onSuccess(Response<Home> response);
 
         void onError(NetworkError networkError);

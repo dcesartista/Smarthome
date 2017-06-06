@@ -1,5 +1,6 @@
 package id.ac.ugm.smartcity.smarthome.View.Dashboard;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
@@ -13,12 +14,14 @@ import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
@@ -28,6 +31,7 @@ import id.ac.ugm.smartcity.smarthome.View.Dashboard.adapter.DashboardFragmentAda
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.BaseActivity;
+import id.ac.ugm.smartcity.smarthome.View.HomeSettingActivity;
 import retrofit2.Response;
 
 public class DashBoardActivity extends BaseActivity implements DashboardView {
@@ -55,6 +59,7 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
     private List<Home> homes;
     private String[] homeNames;
     private String homeId;
+    private Home selectedHome;
     private SharedPreferences preferences;
     private DashboardPresenter presenter;
 
@@ -94,10 +99,18 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
 
     @OnItemSelected(R.id.sp_home)
     void selectHome(int position){
+        selectedHome = homes.get(position);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(App.ACTIVE_HOME,String.valueOf(homes.get(position).getId()));
+        editor.putString(App.ACTIVE_HOME,String.valueOf(selectedHome.getId()));
         editor.commit();
         setupView();
+    }
+
+    @OnClick(R.id.card_setting)
+    void goToSetting(){
+        Intent intent = new Intent(this, HomeSettingActivity.class);
+        intent.putExtra(Home.ID, selectedHome);
+        startActivity(intent);
     }
 
     @Override

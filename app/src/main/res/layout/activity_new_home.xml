@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="36dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="Name"/>
@@ -42,8 +42,8 @@
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginTop="10dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -57,16 +57,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="36dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="Home ID"/>
     <EditText
         android:id="@+id/et_home_id"
-        android:layout_width="match_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="64dp"
-        android:layout_marginRight="186dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="10dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -80,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="36dp"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="Gateway"/>
@@ -89,8 +88,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginLeft="64dp">
+        android:layout_marginRight="36dp"
+        android:layout_marginLeft="36dp">
 
         <EditText
             android:id="@+id/et_gateway1"
@@ -98,6 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="8dp"
+            android:layout_marginBottom="4dp"
             android:paddingBottom="8dp"
             android:paddingRight="8dp"
             android:paddingLeft="16dp"
@@ -130,8 +130,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginLeft="64dp">
+        android:layout_marginRight="36dp"
+        android:layout_marginLeft="36dp">
 
         <EditText
             android:id="@+id/et_gateway3"
@@ -140,6 +140,7 @@
             android:layout_weight="1"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:paddingRight="8dp"
             android:paddingLeft="16dp"
             android:background="@drawable/edittext_white_rounded"
@@ -169,7 +170,7 @@
 
     <TextView
         android:id="@+id/btn_save"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textSize="16sp"

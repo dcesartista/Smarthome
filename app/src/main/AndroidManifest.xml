@@ -43,7 +43,8 @@
         <activity android:name=".View.RelayActivity" />
         <activity android:name=".View.NewHomeActivity" />
         <activity android:name=".View.DeviceDetailActivity" />
-        <activity android:name=".View.ACActivity"></activity>
+        <activity android:name=".View.ACActivity" />
+        <activity android:name=".View.HomeSettingActivity"></activity>
     </application>
 
 </manifest>

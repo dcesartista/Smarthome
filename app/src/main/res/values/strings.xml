@@ -19,6 +19,31 @@
     <string name="please_wait">Please Wait...</string>
     <string name="network_error">Failed to Connect to Server! Please Check your internet connection!</string>
 
+    <!--HOME SETTING-->
+    <string name="name">Name</string>
+    <string name="home_id">Home ID</string>
+    <string name="gateway">Gateway</string>
+    <string name="notif_setting">Notification setting</string>
+    <string name="cost">Cost</string>
+    <string name="energy">Energy</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="co2">CO2</string>
+    <string name="light">Light</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="prompt_name">Change Home Name</string>
+    <string name="prompt_home_id">Change Home ID</string>
+    <string name="prompt_gateway">Change Gateway</string>
+    <string name="prompt_energy">Change Energy Limit</string>
+    <string name="prompt_cost">Change Cost Limit</string>
+    <string name="prompt_temp">Change Temperature Limit</string>
+    <string name="prompt_hum">Change Humidity Limit</string>
+    <string name="prompt_co2">Change CO2 Limit</string>
+    <string name="prompt_light">Change Light Limit</string>
+    <string name="upper_limit">Upper Limit</string>
+    <string name="lower_limit">Lower Limit</string>
+
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_caret_down">&#xf0d7;</string>
     <string name="fa_gear">&#xf013;</string>

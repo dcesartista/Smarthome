@@ -44,6 +44,13 @@ public interface NetworkService {
             @QueryMap Map<String, String> params
     );
 
+    @PATCH("homes/{home_id}")
+    Observable<Response<Home>> changeHome(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @QueryMap Map<String, String> params
+    );
+
     @GET("homes/{home_id}/alert")
     Observable<Response<List<AlertGroup>>> getAlert(
             @HeaderMap Map<String, String> headers,

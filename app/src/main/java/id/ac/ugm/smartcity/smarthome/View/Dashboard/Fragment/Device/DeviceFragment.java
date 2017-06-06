@@ -109,7 +109,9 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
+            Log.e("VISIBLE","CALLED!");
             if (null != presenter){
+                Log.e("PRESENTER","NOT NULL!");
                 dashboardView.setSettingVisibility(View.GONE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 dashboardView.setToolbarText("Device");

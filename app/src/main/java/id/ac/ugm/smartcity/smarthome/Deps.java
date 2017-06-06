@@ -13,6 +13,7 @@ import id.ac.ugm.smartcity.smarthome.View.ACActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
 import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
+import id.ac.ugm.smartcity.smarthome.View.HomeSettingActivity;
 import id.ac.ugm.smartcity.smarthome.View.LoginActivity;
 import id.ac.ugm.smartcity.smarthome.View.NewHomeActivity;
 import id.ac.ugm.smartcity.smarthome.View.RegisterActivity;
@@ -30,4 +31,5 @@ public interface Deps {
     void inject(NewHomeActivity newHomeActivity);
     void inject(DeviceDetailActivity deviceDetailActivity);
     void inject(ACActivity acActivity);
+    void inject(HomeSettingActivity homeSettingActivity);
 }
