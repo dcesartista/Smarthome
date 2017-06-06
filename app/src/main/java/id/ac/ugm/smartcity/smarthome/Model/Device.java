@@ -15,6 +15,8 @@ public class Device implements Serializable {
     public static final String ID = "deviceID";
     public static final String PICTURE = "picture";
 
+    public static final String EDIT = "EDIT_DEVICE";
+
     @SerializedName("id")
     @Expose
     private Integer id;

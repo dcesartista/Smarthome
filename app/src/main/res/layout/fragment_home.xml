@@ -208,6 +208,15 @@
             android:orientation="vertical">
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_show_notif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_all_notif"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/colorAccent"/>
     <FrameLayout
         android:id="@+id/pb_notif"
         android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import dagger.Component;
 import id.ac.ugm.smartcity.smarthome.Networking.Firebase.MyFirebaseInstanceIDService;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkModule;
 import id.ac.ugm.smartcity.smarthome.View.ACActivity;
+import id.ac.ugm.smartcity.smarthome.View.AlertDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
 import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
@@ -32,4 +33,5 @@ public interface Deps {
     void inject(DeviceDetailActivity deviceDetailActivity);
     void inject(ACActivity acActivity);
     void inject(HomeSettingActivity homeSettingActivity);
+    void inject(AlertDetailActivity alertDetailActivity);
 }

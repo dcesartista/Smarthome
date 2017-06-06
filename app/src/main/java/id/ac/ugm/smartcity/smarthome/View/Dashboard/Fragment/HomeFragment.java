@@ -29,17 +29,20 @@ import java.util.SimpleTimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.CurrentEnergy;
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.HomePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 import id.ac.ugm.smartcity.smarthome.Utils.NumberFormatter;
+import id.ac.ugm.smartcity.smarthome.View.AlertDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
 import id.ac.ugm.smartcity.smarthome.adapter.CurrentAlertAdapter;
@@ -163,6 +166,13 @@ public class HomeFragment extends Fragment implements HomeView {
                 presenter.getCurrentCost(homeId);
             }
         }
+    }
+
+    @OnClick(R.id.tv_show_notif)
+    void goToNotif(){
+        Intent intent = new Intent(getContext(), AlertDetailActivity.class);
+        intent.putExtra(Home.ID, homeId);
+        startActivity(intent);
     }
 
 

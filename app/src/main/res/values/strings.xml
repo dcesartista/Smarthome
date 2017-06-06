@@ -44,6 +44,9 @@
     <string name="upper_limit">Upper Limit</string>
     <string name="lower_limit">Lower Limit</string>
 
+    <string name="notifications">Notifications</string>
+    <string name="show_all_notif"><u>Show all notifications</u></string>
+
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_caret_down">&#xf0d7;</string>
     <string name="fa_gear">&#xf013;</string>

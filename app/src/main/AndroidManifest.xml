@@ -44,7 +44,8 @@
         <activity android:name=".View.NewHomeActivity" />
         <activity android:name=".View.DeviceDetailActivity" />
         <activity android:name=".View.ACActivity" />
-        <activity android:name=".View.HomeSettingActivity"></activity>
+        <activity android:name=".View.HomeSettingActivity" />
+        <activity android:name=".View.AlertDetailActivity"></activity>
     </application>
 
 </manifest>
