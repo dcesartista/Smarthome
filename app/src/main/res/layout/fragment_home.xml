@@ -177,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textSize="16sp"
-                        android:text="tegangan" />
+                        android:text="@string/daya_terpasang" />
 
                     <TextView
                         android:id="@+id/tv_daya"

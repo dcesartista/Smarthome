@@ -18,7 +18,11 @@
 
     <string name="please_wait">Please Wait...</string>
     <string name="network_error">Failed to Connect to Server! Please Check your internet connection!</string>
-
+    
+    <!--HOME-->
+    <string name="daya_terpasang">Daya Terpasang</string>
+    <s
+    
     <!--HOME SETTING-->
     <string name="name">Name</string>
     <string name="home_id">Home ID</string>
