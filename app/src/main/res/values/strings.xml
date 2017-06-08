@@ -44,8 +44,16 @@
     <string name="upper_limit">Upper Limit</string>
     <string name="lower_limit">Lower Limit</string>
 
+    <string name="message_delete">Are you sure want to delete</string>
+
     <string name="notifications">Notifications</string>
     <string name="show_all_notif"><u>Show all notifications</u></string>
+    <string name="failed_delete">Incorrect Password! Failed to delete device!</string>
+
+    <string name="edit_device">Edit Device</string>
+    <string name="delete">Delete</string>
+
+    <string name="blank_password">Please enter password</string>
 
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_caret_down">&#xf0d7;</string>

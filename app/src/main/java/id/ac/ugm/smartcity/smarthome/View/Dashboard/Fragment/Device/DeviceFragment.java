@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     private void setupRecycleView(){
         deviceItemList = new ArrayList<>();
 
-        adapter = new DeviceAdapter(deviceItemList, getContext());
+        adapter = new DeviceAdapter(deviceItemList, getContext(), service, presenter, homeId, getActivity());
         layoutManager = new LinearLayoutManager(getContext());
         rvDevice.setLayoutManager(layoutManager);
         rvDevice.setAdapter(adapter);
@@ -143,22 +144,30 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
 
     @Override
     public void showLoading() {
-        /*if(getUserVisibleHint() && !progressDialog.isShowing()){
-            Log.e("DEVICE","CALLED");
-            progressDialog.show();
-        }*/
         pbDevice.setVisibility(View.VISIBLE);
         rvDevice.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-        /*if(progressDialog.isShowing()){
-            Log.e("DEVICE","DISMISSED");
-            progressDialog.dismiss();
-        }*/
         pbDevice.setVisibility(View.GONE);
         rvDevice.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showLoading2() {
+        if(getUserVisibleHint() && !progressDialog.isShowing()){
+            Log.e("DEVICE","CALLED");
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void hideLoading2() {
+        if(progressDialog.isShowing()){
+            Log.e("DEVICE","DISMISSED");
+            progressDialog.dismiss();
+        }
     }
 
     @Override
@@ -183,5 +192,14 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
             Log.d("DATA DEVICE",device.getName());
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDeviceDelete(Response<Boolean> response) {
+        if(response.body()){
+            presenter.getDeviceList(homeId);
+        } else {
+            Toast.makeText(getContext(),getResources().getString(R.string.failed_delete),Toast.LENGTH_SHORT).show();
+        }
     }
 }

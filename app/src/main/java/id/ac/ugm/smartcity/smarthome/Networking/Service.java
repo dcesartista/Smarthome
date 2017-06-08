@@ -1021,6 +1021,102 @@ public class Service {
                 });
     }
 
+    public Subscription addNewDevice(final AddNewDeviceCallback callback, Map<String, String> headers
+            , String homeId, Map<String, String> params) {
+
+        return networkService.addNewDevice(headers, homeId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Device>>>() {
+                    @Override
+                    public Observable<? extends Response<Device>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Device>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Device> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
+    public Subscription editDevice(final EditDeviceCallback callback, Map<String, String> headers
+            , String homeId, String deviceId, RequestBody name, RequestBody productID, MultipartBody.Part image) {
+
+        return networkService.editDevice(headers, homeId, deviceId, name, productID, image)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Device>>>() {
+                    @Override
+                    public Observable<? extends Response<Device>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Device>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Device> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
+    public Subscription deleteDevice(final DeleteDeviceCallback callback, Map<String, String> headers
+            , String homeId, String deviceId, Map<String, String> params) {
+
+        return networkService.deleteDevice(headers, homeId, deviceId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Boolean>>>() {
+                    @Override
+                    public Observable<? extends Response<Boolean>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Boolean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Boolean> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription signIn(final SignInCallback callback, Map<String, String> loginParams){
 
         return networkService.signIn(loginParams)
@@ -1174,6 +1270,18 @@ public class Service {
 
     public interface GetDeviceCallback{
         void onSuccess(Response<Device> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface EditDeviceCallback{
+        void onSuccess(Response<Device> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface DeleteDeviceCallback{
+        void onSuccess(Response<Boolean> response);
 
         void onError(NetworkError networkError);
     }

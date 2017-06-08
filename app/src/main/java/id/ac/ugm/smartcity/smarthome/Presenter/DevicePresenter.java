@@ -35,25 +35,25 @@ public class DevicePresenter {
     private Context context;
     private SharedPreferences preferences;
     private Resources resources;
+    private Map<String, String> headers;
 
     public DevicePresenter(Service service, DeviceView view, Context context) {
         this.service = service;
         this.view = view;
         this.context = context;
         this.subscriptions = new CompositeSubscription();
-    }
-
-    public void addDevice(String homeId, String name, String productID, File image){
-        view.showLoading();
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
-        Map<String, String> headers = new HashMap<>();
+        headers = new HashMap<>();
         headers.put(resources.getString(R.string.access_token), preferences.getString(App.ACCESS_TOKEN,""));
         headers.put(resources.getString(R.string.token_type), resources.getString(R.string.bearer));
         headers.put(resources.getString(R.string.client), preferences.getString(App.CLIENT,""));
         headers.put(resources.getString(R.string.expiry), preferences.getString(App.EXPIRY,""));
         headers.put(resources.getString(R.string.uid), preferences.getString(App.UID,""));
+    }
 
+    public void addDevice(String homeId, String name, String productID, File image){
+        view.showLoading();
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), image);
         MultipartBody.Part body =
@@ -80,6 +80,28 @@ public class DevicePresenter {
             }
 
         }, headers, homeId, fullName, deviceId, body);
+
+        subscriptions.add(subscription);
+    }
+
+    public void addDevice(String homeId, Map<String, String> params){
+        view.showLoading();
+
+        Subscription subscription = service.addNewDevice(new Service.AddNewDeviceCallback() {
+            @Override
+            public void onSuccess(Response<Device> response) {
+                view.hideLoading();
+                view.addDeviceSuccess(response);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                view.onFailure(networkError.getThrowable().getMessage());
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId, params);
 
         subscriptions.add(subscription);
     }

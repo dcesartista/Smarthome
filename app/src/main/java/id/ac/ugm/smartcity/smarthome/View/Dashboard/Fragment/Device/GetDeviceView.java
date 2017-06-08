@@ -15,8 +15,14 @@ public interface GetDeviceView {
 
     void hideLoading();
 
+    void showLoading2();
+
+    void hideLoading2();
+
     void onFailure(String appErrorMessage);
 
     void getDeviceSuccess(Response<List<Device>> deviceList);
+
+    void onDeviceDelete(Response<Boolean> response);
 
 }

@@ -17,6 +17,7 @@ import id.ac.ugm.smartcity.smarthome.Model.User_Model.Register.RegisterUser;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Multipart;
@@ -226,6 +227,32 @@ public interface NetworkService {
             @Part(Device.PRODUCT_ID) RequestBody productId,
             @Part MultipartBody.Part image
             );
+
+    @POST("homes/{home_id}/devices")
+    Observable<Response<Device>> addNewDevice(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @QueryMap Map<String, String> params
+    );
+
+    @Multipart
+    @POST("homes/{home_id}/devices/{device_id}")
+    Observable<Response<Device>> editDevice(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId,
+            @Part(Device.NAME)RequestBody name,
+            @Part(Device.PRODUCT_ID) RequestBody productId,
+            @Part MultipartBody.Part image
+    );
+
+    @DELETE("homes/{home_id}/devices/{device_id}")
+    Observable<Response<Boolean>> deleteDevice(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId,
+            @QueryMap Map<String, String> password
+    );
 
     /*@POST("homes/{home_id}/devices")
     Observable<Response<Device>> addNewDevice(

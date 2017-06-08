@@ -61,11 +61,10 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
     private File image;
     private ProgressDialog progressDialog;
     private SharedPreferences preferences;
+    private boolean imagePresent = false;
 
-    //TODO : HOME ID DIBIKIN GAK STATIS, BIKIN HOME SELECTION ACTIVITY
     private String homeId;
     private DevicePresenter presenter;
-    private String b64 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +97,7 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
             Picasso.with(this)
                     .load(pic)
                     .into(ivDevice);
+            imagePresent = true;
         }
 
     }
@@ -106,11 +106,15 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
     void save(){
         if(null!= etName.getText() && !etName.getText().toString().isEmpty()){
             if(null!= etDeviceId.getText() && !etDeviceId.getText().toString().isEmpty()){
-                Map<String, String> params = new HashMap<>();
-                params.put(Device.NAME,etName.getText().toString());
-                params.put(Device.PRODUCT_ID, etDeviceId.getText().toString());
-                params.put(Device.PICTURE, b64);
-                presenter.addDevice(homeId, etName.getText().toString(), etDeviceId.getText().toString(), image );
+                if(imagePresent) {
+                    presenter.addDevice(homeId, etName.getText().toString(), etDeviceId.getText().toString(), image);
+                } else {
+                    Map<String, String> params = new HashMap<>();
+                    params.put(Device.NAME,etName.getText().toString());
+                    params.put(Device.PRODUCT_ID,etDeviceId.getText().toString());
+                    presenter.addDevice(homeId, params);
+                }
+
             } else {
                 Toast.makeText(this,"Harap mengisi device id",Toast.LENGTH_SHORT).show();
             }
