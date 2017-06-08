@@ -61,7 +61,7 @@ public class DevicePresenter {
         RequestBody fullName =
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), name);
-        RequestBody deviceId =
+        RequestBody id =
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), productID);
 
@@ -79,7 +79,7 @@ public class DevicePresenter {
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 
-        }, headers, homeId, fullName, deviceId, body);
+        }, headers, homeId, fullName, id, body);
 
         subscriptions.add(subscription);
     }
@@ -102,6 +102,60 @@ public class DevicePresenter {
             }
 
         }, headers, homeId, params);
+
+        subscriptions.add(subscription);
+    }
+
+    public void editDevice(String homeId, String deviceId, String name, String productID, File image){
+        view.showLoading();
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), image);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("picture", image.getName(), requestFile);
+        RequestBody fullName =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), name);
+        RequestBody id =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), productID);
+
+        Subscription subscription = service.editDevice(new Service.EditDeviceCallback() {
+            @Override
+            public void onSuccess(Response<Device> response) {
+                view.hideLoading();
+                view.addDeviceSuccess(response);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                view.onFailure(networkError.getThrowable().getMessage());
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId, deviceId, fullName, id, body);
+
+        subscriptions.add(subscription);
+    }
+
+    public void editDevice(String homeId, String deviceId, Map<String, String> params){
+        view.showLoading();
+
+        Subscription subscription = service.editDevice(new Service.EditDeviceCallback() {
+            @Override
+            public void onSuccess(Response<Device> response) {
+                view.hideLoading();
+                view.addDeviceSuccess(response);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.hideLoading();
+                view.onFailure(networkError.getThrowable().getMessage());
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId, deviceId, params);
 
         subscriptions.add(subscription);
     }

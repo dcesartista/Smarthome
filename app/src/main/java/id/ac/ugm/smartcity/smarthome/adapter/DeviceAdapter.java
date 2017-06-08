@@ -27,6 +27,7 @@ import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.GetDevicePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
 import id.ac.ugm.smartcity.smarthome.View.DeleteDeviceDialog;
 import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.RelayActivity;
@@ -72,10 +73,17 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.delete){
-                    DeleteDeviceDialog dialog = new DeleteDeviceDialog(activity, homeId, device.getId().toString(),service,presenter);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.show();
+                switch (item.getItemId()){
+                    case R.id.delete:
+                        DeleteDeviceDialog dialog = new DeleteDeviceDialog(activity, homeId, device.getId().toString(),service,presenter);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+                        break;
+                    case R.id.edit:
+                        Intent intent = new Intent(context,AddDeviceActivity.class);
+                        intent.putExtra(Device.ID,device);
+                        intent.putExtra(AddDeviceActivity.EDIT,true);
+                        context.startActivity(intent);
                 }
                 return false;
             }

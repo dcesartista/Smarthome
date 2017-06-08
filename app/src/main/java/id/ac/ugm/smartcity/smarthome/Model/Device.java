@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class Device implements Serializable {
     public static final String NAME = "name";
-    public static final String PRODUCT_ID = "productID";
+    public static final String PRODUCT_ID = "product_id";
     public static final String ID = "deviceID";
     public static final String PICTURE = "picture";
 
@@ -23,7 +23,7 @@ public class Device implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("productID")
+    @SerializedName("product_id")
     @Expose
     private String productID;
     @SerializedName("picture")

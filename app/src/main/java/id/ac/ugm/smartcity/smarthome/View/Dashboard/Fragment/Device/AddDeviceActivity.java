@@ -45,6 +45,7 @@ import retrofit2.Response;
 
 public class AddDeviceActivity extends BaseActivity implements DeviceView {
     public static final int GALLERY_INTENT = 99;
+    public static final String EDIT = "EDIT_DEVICE";
 
     @BindView(R.id.ic_back)
     TextView icBack;
@@ -64,7 +65,9 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
     private boolean imagePresent = false;
 
     private String homeId;
+    private Device device;
     private DevicePresenter presenter;
+    private boolean edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,18 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
         setContentView(R.layout.activity_add_device);
         ButterKnife.bind(this);
         getDeps().inject(this);
+
+        edit = getIntent().getBooleanExtra(EDIT,false);
+        if (edit){
+            device = (Device) getIntent().getSerializableExtra(Device.ID);
+            etName.setText(device.getName());
+            etDeviceId.setText(device.getProductID());
+            if (null != device.getImg().getUrl() && device.getImg().getUrl().length() > 0){
+                Picasso.with(this)
+                        .load(App.BASE_URL+device.getImg().getUrl())
+                        .into(ivDevice);
+            }
+        }
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.please_wait));
@@ -107,12 +122,20 @@ public class AddDeviceActivity extends BaseActivity implements DeviceView {
         if(null!= etName.getText() && !etName.getText().toString().isEmpty()){
             if(null!= etDeviceId.getText() && !etDeviceId.getText().toString().isEmpty()){
                 if(imagePresent) {
-                    presenter.addDevice(homeId, etName.getText().toString(), etDeviceId.getText().toString(), image);
+                    if(edit){
+                        presenter.editDevice(homeId, device.getId().toString(), etName.getText().toString(), etDeviceId.getText().toString(), image);
+                    } else {
+                        presenter.addDevice(homeId, etName.getText().toString(), etDeviceId.getText().toString(), image);
+                    }
                 } else {
                     Map<String, String> params = new HashMap<>();
                     params.put(Device.NAME,etName.getText().toString());
                     params.put(Device.PRODUCT_ID,etDeviceId.getText().toString());
-                    presenter.addDevice(homeId, params);
+                    if (edit){
+                        presenter.editDevice(homeId, device.getId().toString(), params);
+                    } else {
+                        presenter.addDevice(homeId, params);
+                    }
                 }
 
             } else {

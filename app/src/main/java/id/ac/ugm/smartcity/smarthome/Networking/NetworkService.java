@@ -236,7 +236,7 @@ public interface NetworkService {
     );
 
     @Multipart
-    @POST("homes/{home_id}/devices/{device_id}")
+    @PATCH("homes/{home_id}/devices/{device_id}")
     Observable<Response<Device>> editDevice(
             @HeaderMap Map<String, String> headers,
             @Path("home_id") String homeId,
@@ -244,6 +244,14 @@ public interface NetworkService {
             @Part(Device.NAME)RequestBody name,
             @Part(Device.PRODUCT_ID) RequestBody productId,
             @Part MultipartBody.Part image
+    );
+
+    @PATCH("homes/{home_id}/devices/{device_id}")
+    Observable<Response<Device>> editDevice(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId,
+            @Path("device_id") String deviceId,
+            @QueryMap Map<String, String> params
     );
 
     @DELETE("homes/{home_id}/devices/{device_id}")

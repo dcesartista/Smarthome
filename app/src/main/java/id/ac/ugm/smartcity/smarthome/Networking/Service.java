@@ -1085,6 +1085,38 @@ public class Service {
                 });
     }
 
+    public Subscription editDevice(final EditDeviceCallback callback, Map<String, String> headers
+            , String homeId, String deviceId, Map<String, String> params) {
+
+        return networkService.editDevice(headers, homeId, deviceId, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Device>>>() {
+                    @Override
+                    public Observable<? extends Response<Device>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Device>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(Response<Device> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription deleteDevice(final DeleteDeviceCallback callback, Map<String, String> headers
             , String homeId, String deviceId, Map<String, String> params) {
 
