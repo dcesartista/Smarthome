@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +79,8 @@ public class HomeFragment extends Fragment implements HomeView {
     View pbTegangan;
     @BindView(R.id.pb_biaya)
     View pbBiaya;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
     @BindView(R.id.alert_container)
     LinearLayout alertContainer;
     @BindView(R.id.pb_notif)
@@ -126,6 +129,13 @@ public class HomeFragment extends Fragment implements HomeView {
         progressDialog.setMessage(getResources().getString(R.string.please_wait));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(new SimpleTimeZone(7, "GMT"));
+
+        String currentDate = calendar.get(Calendar.DAY_OF_MONTH)+"/"+calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.YEAR);
+
+        tvDate.setText(currentDate);
 
         SharedPreferences preferences = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE);
         homeId = preferences.getString(App.ACTIVE_HOME,"");
