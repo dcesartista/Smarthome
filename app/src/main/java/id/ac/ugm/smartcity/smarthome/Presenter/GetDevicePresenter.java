@@ -97,6 +97,10 @@ public class GetDevicePresenter {
 
         }, headers, homeId, deviceId, params);
 
+        if (null == subscription){
+            Log.e("SUB NULL", "SUBSCRIPTION NULL");
+        }
+
         subscriptions.add(subscription);
     }
 

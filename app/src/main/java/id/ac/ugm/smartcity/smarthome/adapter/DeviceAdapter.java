@@ -28,6 +28,7 @@ import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.GetDevicePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.AddDeviceActivity;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.GetDeviceView;
 import id.ac.ugm.smartcity.smarthome.View.DeleteDeviceDialog;
 import id.ac.ugm.smartcity.smarthome.View.DeviceDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.RelayActivity;
@@ -41,16 +42,16 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
     private Context context;
     private List<Device> deviceList;
     private Service service;
-    private GetDevicePresenter presenter;
+    private GetDeviceView view;
     private String homeId;
     private Activity activity;
 
     public DeviceAdapter(List<Device> deviceList, Context context, Service service
-            , GetDevicePresenter presenter, String homeId, Activity activity) {
+            , GetDeviceView view, String homeId, Activity activity) {
         this.deviceList = deviceList;
         this.context = context;
         this.service = service;
-        this.presenter = presenter;
+        this.view = view;
         this.homeId = homeId;
         this.activity = activity;
     }
@@ -75,7 +76,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.delete:
-                        DeleteDeviceDialog dialog = new DeleteDeviceDialog(activity, homeId, device.getId().toString(),service,presenter);
+                        DeleteDeviceDialog dialog = new DeleteDeviceDialog(activity, homeId, device.getId().toString(),service,view);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
                         break;

@@ -4,6 +4,8 @@ package id.ac.ugm.smartcity.smarthome.Networking;
  * Created by dito on 09/02/17.
  */
 
+import android.util.Log;
+
 import java.util.List;
 import java.util.Map;
 
@@ -1119,6 +1121,8 @@ public class Service {
 
     public Subscription deleteDevice(final DeleteDeviceCallback callback, Map<String, String> headers
             , String homeId, String deviceId, Map<String, String> params) {
+
+        Log.e("DELETE SERVICE", "CALLED");
 
         return networkService.deleteDevice(headers, homeId, deviceId, params)
                 .subscribeOn(Schedulers.io())

@@ -130,7 +130,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     private void setupRecycleView(){
         deviceItemList = new ArrayList<>();
 
-        adapter = new DeviceAdapter(deviceItemList, getContext(), service, presenter, homeId, getActivity());
+        adapter = new DeviceAdapter(deviceItemList, getContext(), service, this, homeId, getActivity());
         layoutManager = new LinearLayoutManager(getContext());
         rvDevice.setLayoutManager(layoutManager);
         rvDevice.setAdapter(adapter);
