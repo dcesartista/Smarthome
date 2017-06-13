@@ -524,7 +524,14 @@ public class HistoryFragment extends Fragment implements HistoryView {
                         Log.e("TAHUN: ", startDate);
                         break;
                 }
-                presenter.getCurrentHistory(startDate,range,homeId,type);
+                switch (type){
+                    case App.CURRENT:
+                        presenter.getCurrentHistory(startDate,range, homeId, type);
+                        break;
+                    case App.VOLTAGE:
+                        presenter.getVoltageHistory(startDate,range, homeId, type);
+                        break;
+                }
         }
 
     }
