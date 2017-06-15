@@ -41,6 +41,8 @@ public interface HomeView {
 
     void showEnergyChart(Response<List<Integer>> response);
 
+    void showCostChart(Response<List<Double>> response);
+
     void showCost(Response<String> response);
 
 }

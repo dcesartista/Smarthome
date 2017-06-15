@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -93,26 +94,48 @@ public class HomeFragment extends Fragment implements HomeView {
     ProgressBar progressBar;
     @BindView(R.id.line_chart)
     LineChartView lineChartView;
+    @BindView(R.id.tv_rp)
+    TextView tvRp;
+    @BindView(R.id.tv_kwh)
+    TextView tvKwh;
+    @BindView(R.id.tv_energy_consumption)
+    TextView tvEnergyConsumption;
+    @BindView(R.id.iv_rupiah)
+    ImageView ivRupiah;
+    @BindView(R.id.empty_chart)
+    View emptyChart;
 
     private List<Alert> alerts;
     private LineChartData lineChartData;
     private LinearLayoutManager layoutManager;
     private CurrentAlertAdapter adapter;
+    private List<Integer> energyChartData;
+    private List<Integer> costChartData;
     private PieChartData data;
     private String homeId;
     private View rootView;
     private Service service;
+    private CurrentEnergy currentEnergy;
+    private String cost;
     private DashboardView dashboardView;
     private HomePresenter presenter;
     private ProgressDialog progressDialog;
     private Home home;
     private Date currentDate;
+    private int currentShown = App.ENERGY;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            switch (currentShown){
+                case App.ENERGY:
+                    presenter.getEnergyChart(homeId);
+                    break;
+                case App.COST:
+                    //TODO:ADD GET COST CHART
+                    break;
+            }
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
-            presenter.getEnergyChart(homeId);
         }
     };
 
@@ -208,6 +231,19 @@ public class HomeFragment extends Fragment implements HomeView {
                 presenter.getCurrentCost(homeId);
             }
         }
+    }
+
+    @OnClick(R.id.btn_change)
+    void change(){
+        switch (currentShown){
+            case App.ENERGY:
+                currentShown = App.COST;
+                break;
+            case App.COST:
+                currentShown = App.ENERGY;
+                break;
+        }
+        updateUICostEnergy();
     }
 
     private void generateChartData(List<Integer> chartData){
@@ -336,20 +372,74 @@ public class HomeFragment extends Fragment implements HomeView {
 
     }
 
+    private void updateUICostEnergy(){
+        switch (currentShown){
+            case App.ENERGY:
+                generateChartData(energyChartData);
+                dashboardView.changeColor(getResources().getColor(R.color.blueDark));
+                tvEnergyConsumption.setTextColor(getResources().getColor(R.color.blueLight));
+                tvEnergyConsumption.setText("Energy Consumption");
+                tvEnergyLimit.setTextColor(getResources().getColor(R.color.blueLight));
+                tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue()/1000));
+                arcView.deleteAll();
+                arcView.addSeries(new SeriesItem.Builder(getResources().getColor(R.color.blueLight))
+                        .setRange(0, Float.parseFloat(home.getUpperenergy()), (float) currentEnergy.getValue())
+                        .setLineWidth(Utils.pxFromDp(getContext(), 16))
+                        .setCapRounded(false)
+                        .build());
+                tvEnergyLimit.setText("Monthly limit : " + (Float.parseFloat(home.getUpperenergy()) / 1000) + "Kwh");
+                tvRp.setVisibility(View.GONE);
+                tvKwh.setVisibility(View.VISIBLE);
+                tvBiaya.setText("Total Cost Rp " +NumberFormatter.formatWithDots(Integer.parseInt(cost.split("\\.")[0])));
+                tvBiaya.setTextColor(getResources().getColor(R.color.greenDark));
+                Picasso.with(getContext())
+                        .load(R.drawable.ic_rupiah)
+                        .into(ivRupiah);
+                tvCostLimit.setText("Monthly limit Rp "+home.getCostLimit());
+                int costbar = Integer.parseInt(cost.split("\\.")[0]);
+                int costLimit = Integer.parseInt(home.getCostLimit().split("\\.")[0]);
+                progressBar.setProgress(costbar/costLimit);
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progressbar_green));
+                emptyChart.setBackgroundDrawable(getResources().getDrawable(R.drawable.chart_back_blue));
+                break;
+            case App.COST:
+                generateChartData(costChartData);
+                dashboardView.changeColor(getResources().getColor(R.color.greenDark));
+                tvEnergyConsumption.setTextColor(getResources().getColor(R.color.greenLight));
+                tvEnergyConsumption.setText("Total Cost");
+                tvEnergyLimit.setTextColor(getResources().getColor(R.color.greenLight));
+                tvBiaya.setText("Energy Consumption " +NumberFormatter.formatWithDots(currentEnergy.getValue()/1000) + " Kwh");
+                tvBiaya.setTextColor(getResources().getColor(R.color.blueDark));
+                Picasso.with(getContext())
+                        .load(R.drawable.ic_energy_consumption_blue)
+                        .into(ivRupiah);
+                tvCostLimit.setText("Monthly limit "+(Float.parseFloat(home.getUpperenergy()) / 1000) + " Kwh");
+                int energy = (int)currentEnergy.getValue();
+                int energyLimit = Integer.parseInt(home.getUpperenergy().split("\\.")[0]);
+                progressBar.setProgress(energy/energyLimit);
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progressbar_blue));
+                tvEnergy.setText(NumberFormatter.formatWithDots(Integer.parseInt(cost.split("\\.")[0])));
+                arcView.deleteAll();
+                arcView.addSeries(new SeriesItem.Builder(getResources().getColor(R.color.greenLight))
+                        .setRange(0, Float.parseFloat(home.getCostLimit()), Float.parseFloat(cost))
+                        .setLineWidth(Utils.pxFromDp(getContext(), 16))
+                        .setCapRounded(false)
+                        .build());
+                tvEnergyLimit.setText("Monthly limit : " + NumberFormatter.formatWithDots(Integer.parseInt(home.getCostLimit().split("\\.")[0])));
+                tvRp.setVisibility(View.VISIBLE);
+                tvKwh.setVisibility(View.GONE);
+                emptyChart.setBackgroundDrawable(getResources().getDrawable(R.drawable.chart_back_green));
+                break;
+        }
+    }
+
     @Override
     public void showCurrentEnergy(Response<CurrentEnergy> response) {
         Log.e("LALALA",response.body().toString());
-        CurrentEnergy currentEnergy = response.body();
-        tvEnergy.setText(NumberFormatter.formatWithDots(currentEnergy.getValue()/1000));
-//        tvDaya.setText(NumberFormatter.formatWithDots(currentEnergy.getPower()));
+        currentEnergy = response.body();
         Log.e("ENERGY SEKARANG",""+(float)currentEnergy.getValue());
         Log.e("ENERGY LIMIT",""+Float.parseFloat(home.getUpperenergy()));
-        arcView.addSeries(new SeriesItem.Builder(getResources().getColor(R.color.blueLight))
-                .setRange(0, Float.parseFloat(home.getUpperenergy()),(float)currentEnergy.getValue())
-                .setLineWidth(Utils.pxFromDp(getContext(),16))
-                .setCapRounded(false)
-                .build());
-        tvEnergyLimit.setText("Monthly limit : "+(Float.parseFloat(home.getUpperenergy())/1000)+"Kwh");
+        updateUICostEnergy();
     }
 
     @Override
@@ -408,18 +498,30 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void showCost(Response<String> response) {
-        String r = response.body();
-        tvBiaya.setText("Total Cost Rp " +NumberFormatter.formatWithDots(Integer.parseInt(r.split("\\.")[0])));
-        tvCostLimit.setText("Monthly limit Rp "+home.getCostLimit());
-        int cost = Integer.parseInt(r.split("\\.")[0]);
-        int costLimit = Integer.parseInt(home.getCostLimit().split("\\.")[0]);
-        Log.e("COST", ""+cost);
-        Log.e("COST LIMIT", ""+costLimit);
-        progressBar.setProgress(cost/costLimit);
+        cost = response.body();
+        updateUICostEnergy();
+        switch (currentShown){
+            case App.ENERGY:
+
+                break;
+            case App.COST:
+
+                break;
+        }
+
     }
 
     @Override
     public void showEnergyChart(Response<List<Integer>> response) {
-        generateChartData(response.body());
+        energyChartData = response.body();
+        updateUICostEnergy();
+    }
+
+    @Override
+    public void showCostChart(Response<List<Double>> response) {
+        for (Double d : response.body()){
+            costChartData.add((int) Math.round(d));
+        }
+        updateUICostEnergy();
     }
 }

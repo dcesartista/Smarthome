@@ -19,4 +19,6 @@ public interface DashboardView {
     void setSettingVisibility(int visibility);
 
     void setHomeSelectorVisibility(int visibility);
+
+    void changeColor(int color);
 }

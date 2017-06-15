@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
     TextView icGear;
     @BindView(R.id.ic_down)
     TextView icDown;
+    @BindView(R.id.activity_dash_board)
+    LinearLayout root;
 
     DashboardFragmentAdapter adapter;
     @Inject
@@ -153,5 +156,10 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
     @Override
     public void setHomeSelectorVisibility(int visibility) {
 //        homeSelector.setVisibility(visibility);
+    }
+
+    @Override
+    public void changeColor(int color) {
+        root.setBackgroundColor(color);
     }
 }
