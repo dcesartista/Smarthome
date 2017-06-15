@@ -155,6 +155,35 @@ public class Service {
                 });
     }
 
+    public Subscription getEnergyChart(final GetEnergyChartCallback callback, Map<String, String> headers, String homeId){
+        return networkService.getEnergyChart(headers, homeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<List<Integer>>>>() {
+                    @Override
+                    public Observable<? extends Response<List<Integer>>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<List<Integer>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<List<Integer>> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription getCurrentAlert(final GetCurrentAlertCallback callback, Map<String, String> headers, String homeId){
         return networkService.getCurrentAlert(headers, homeId)
                 .subscribeOn(Schedulers.io())
@@ -1234,6 +1263,12 @@ public class Service {
 
     public interface GetAlertCallback{
         void onSuccess(Response<List<AlertGroup>> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetEnergyChartCallback{
+        void onSuccess(Response<List<Integer>> response);
 
         void onError(NetworkError networkError);
     }

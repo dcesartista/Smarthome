@@ -51,8 +51,14 @@ import id.ac.ugm.smartcity.smarthome.Utils.Utils;
 import id.ac.ugm.smartcity.smarthome.View.AlertDetailActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
 import id.ac.ugm.smartcity.smarthome.adapter.CurrentAlertAdapter;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.LineChartView;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -73,6 +79,8 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvDate;
     @BindView(R.id.alert_container)
     LinearLayout alertContainer;
+    @BindView(R.id.chart_container)
+    LinearLayout chartContainer;
     @BindView(R.id.pb_notif)
     View pbNotif;
     @BindView(R.id.arc_view)
@@ -83,8 +91,11 @@ public class HomeFragment extends Fragment implements HomeView {
     TextView tvCostLimit;
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
+    @BindView(R.id.line_chart)
+    LineChartView lineChartView;
 
     private List<Alert> alerts;
+    private LineChartData lineChartData;
     private LinearLayoutManager layoutManager;
     private CurrentAlertAdapter adapter;
     private PieChartData data;
@@ -95,11 +106,13 @@ public class HomeFragment extends Fragment implements HomeView {
     private HomePresenter presenter;
     private ProgressDialog progressDialog;
     private Home home;
+    private Date currentDate;
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
+            presenter.getEnergyChart(homeId);
         }
     };
 
@@ -141,8 +154,8 @@ public class HomeFragment extends Fragment implements HomeView {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(new SimpleTimeZone(7, "GMT"));
 
-        Date currentDate = calendar.getTime();
-        tvDate.setText(DateFormatter.formatDateToString(currentDate,"dd MMM yyyy"));
+        currentDate = calendar.getTime();
+        tvDate.setText(DateFormatter.formatDateToString(currentDate,"dd MMMM yyyy"));
 
         SharedPreferences preferences = getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE);
         homeId = preferences.getString(App.ACTIVE_HOME,"");
@@ -153,6 +166,7 @@ public class HomeFragment extends Fragment implements HomeView {
             dashboardView.setSettingVisibility(View.VISIBLE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getAlerts(homeId);
+            presenter.getEnergyChart(homeId);
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
         }
@@ -189,10 +203,63 @@ public class HomeFragment extends Fragment implements HomeView {
                 dashboardView.setSettingVisibility(View.VISIBLE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getAlerts(homeId);
+                presenter.getEnergyChart(homeId);
                 presenter.getCurrentEnergy(homeId);
                 presenter.getCurrentCost(homeId);
             }
         }
+    }
+
+    private void generateChartData(List<Integer> chartData){
+        List<Line> lines = new ArrayList<>();
+
+
+        for(int i =0;i<3;i++){
+            List<PointValue> values = new ArrayList<>();
+            for (int j = 0; j < 24; j++) {
+                switch (i){
+                    case 0:
+                        values.add(new PointValue(j, chartData.get(j)));
+                        break;
+                    case 1:
+                        if((Calendar.getInstance().get(Calendar.HOUR_OF_DAY)-1) == j) {
+                            values.add(new PointValue(j, chartData.get(j)));
+                        }
+                        break;
+                    case 2:
+                        if(j <= (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)-1)){
+                            values.add(new PointValue(j, chartData.get(j)));
+                        }
+                        break;
+                }
+            }
+
+            Line line = new Line(values);
+            switch (i){
+                case 0:
+                    line.setHasLines(false);
+                    line.setHasPoints(false);
+                    break;
+                case 1:
+                    line.setHasLines(false);
+                    line.setHasPoints(true);
+                    break;
+                case 2:
+                    line.setHasLines(true);
+                    line.setHasPoints(false);
+            }
+            line.setColor(getResources().getColor(R.color.white));
+            line.setShape(ValueShape.CIRCLE);
+            line.setCubic(false);
+            line.setFilled(false);
+            line.setHasLabels(false);
+            line.setHasLabelsOnlyForSelected(false);
+            lines.add(line);
+        }
+
+        lineChartData = new LineChartData(lines);
+        lineChartData.setBaseValue(0f);
+        lineChartView.setLineChartData(lineChartData);
     }
 
     private void generateData() {
@@ -349,5 +416,10 @@ public class HomeFragment extends Fragment implements HomeView {
         Log.e("COST", ""+cost);
         Log.e("COST LIMIT", ""+costLimit);
         progressBar.setProgress(cost/costLimit);
+    }
+
+    @Override
+    public void showEnergyChart(Response<List<Integer>> response) {
+        generateChartData(response.body());
     }
 }

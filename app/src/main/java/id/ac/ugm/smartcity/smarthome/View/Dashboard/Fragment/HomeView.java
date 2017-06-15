@@ -39,6 +39,8 @@ public interface HomeView {
 
     void showAlert(Response<List<Alert>> response) throws ParseException;
 
+    void showEnergyChart(Response<List<Integer>> response);
+
     void showCost(Response<String> response);
 
 }

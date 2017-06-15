@@ -26,6 +26,7 @@
     <string name="monthly_limit">Monthly Limit</string>
     <string name="kwh">Kwh</string>
     <string name="rp">Rp</string>
+    <string name="show_full_history">show full history</string>
     
     <!--HOME SETTING-->
     <string name="name">Name</string>

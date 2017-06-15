@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.Presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
@@ -90,6 +91,25 @@ public class HomePresenter {
             @Override
             public void onError(NetworkError networkError) {
                 view.hideNotifProgressBar();
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId);
+
+        subscriptions.add(subscription);
+    }
+
+    public void getEnergyChart(String homeId) {
+        view.showNotifProgressBar();
+        Subscription subscription = service.getEnergyChart(new Service.GetEnergyChartCallback() {
+            @Override
+            public void onSuccess(Response<List<Integer>> response) {
+                view.showEnergyChart(response);
+
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
                 Log.d("ERROR", networkError.getThrowable().getMessage());
             }
 

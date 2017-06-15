@@ -65,6 +65,12 @@ public interface NetworkService {
             @Path("home_id") String homeId
     );
 
+    @GET("homes/{home_id}/energy_chart")
+    Observable<Response<List<Integer>>> getEnergyChart(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId
+    );
+
     @GET("homes/{home_id}/cost")
     Observable<Response<String>> getCurrentCost(
             @HeaderMap Map<String, String> headers,

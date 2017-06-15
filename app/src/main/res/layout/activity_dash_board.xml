@@ -26,6 +26,10 @@
             android:gravity="center"
             />
     </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"/>
 
         <LinearLayout
             android:id="@+id/ll_home_selector"
