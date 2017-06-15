@@ -79,11 +79,11 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
         Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
         FontManager.markAsIconContainer(icGear, iconFont);
         FontManager.markAsIconContainer(icDown, iconFont);
-        setupView();
+
     }
 
     private void setupView(){
-        adapter = new DashboardFragmentAdapter(getSupportFragmentManager(), DashBoardActivity.this, this, service);
+        adapter = new DashboardFragmentAdapter(getSupportFragmentManager(), DashBoardActivity.this, this, service, selectedHome);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -138,19 +138,20 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.spinner_center_item,
                 homeNames);
+        adapter.setDropDownViewResource(R.layout.spinner_center_item);
         spHome.setAdapter(adapter);
         spHome.setSelection(selected);
     }
 
     @Override
     public void setSettingVisibility(int visibility) {
-        cardSetting.setVisibility(visibility);
+//        cardSetting.setVisibility(visibility);
     }
 
     @Override
     public void setHomeSelectorVisibility(int visibility) {
-        homeSelector.setVisibility(visibility);
+//        homeSelector.setVisibility(visibility);
     }
 }

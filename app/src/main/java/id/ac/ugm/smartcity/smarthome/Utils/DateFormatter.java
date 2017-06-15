@@ -19,7 +19,6 @@ public class DateFormatter {
             dateTime = null;
         }
 
-
         return dateTime;
     }
 

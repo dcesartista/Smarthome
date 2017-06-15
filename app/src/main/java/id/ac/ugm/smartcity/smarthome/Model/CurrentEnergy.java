@@ -25,7 +25,7 @@ public class CurrentEnergy {
     private String date;
     @SerializedName("value")
     @Expose
-    private Double value;
+    private double value;
 
     public String getDate() {
         return date;
@@ -35,11 +35,11 @@ public class CurrentEnergy {
         this.date = date;
     }
 
-    public Double getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(double value) {
         this.value = value;
     }
 

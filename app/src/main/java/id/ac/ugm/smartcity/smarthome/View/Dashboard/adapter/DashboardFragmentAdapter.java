@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
@@ -30,11 +31,13 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
     private Context context;
     private Service service;
     private DashboardView dashboardView;
+    private Home home;
 
-    public DashboardFragmentAdapter(FragmentManager fm, DashboardView dashboardView, Context context, Service service) {
+    public DashboardFragmentAdapter(FragmentManager fm, DashboardView dashboardView, Context context, Service service, Home home) {
         super(fm);
         this.context = context;
         this.service = service;
+        this.home = home;
         this.dashboardView = dashboardView;
     }
 
@@ -53,7 +56,7 @@ public class DashboardFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return HomeFragment.newInstance(position + 1, service, dashboardView);
+                return HomeFragment.newInstance(position + 1, service, dashboardView, home);
             case 1:
                 return DeviceFragment.newInstance(position + 1, service, dashboardView);
             case 2:

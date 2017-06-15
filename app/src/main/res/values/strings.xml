@@ -21,6 +21,11 @@
     
     <!--HOME-->
     <string name="daya_terpasang">Daya Terpasang</string>
+    <string name="energy_consumption">Energy Consumption</string>
+    <string name="monthly_usage">Monthly Usage</string>
+    <string name="monthly_limit">Monthly Limit</string>
+    <string name="kwh">Kwh</string>
+    <string name="rp">Rp</string>
     
     <!--HOME SETTING-->
     <string name="name">Name</string>
@@ -60,6 +65,7 @@
 
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_caret_down">&#xf0d7;</string>
+    <string name="fa_chevron_down">&#xf078;</string>
     <string name="fa_gear">&#xf013;</string>
     <string name="fa_home">&#xf015;</string>
 </resources>
