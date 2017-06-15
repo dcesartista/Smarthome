@@ -126,14 +126,8 @@ public class HomeFragment extends Fragment implements HomeView {
     private final BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (currentShown){
-                case App.ENERGY:
-                    presenter.getEnergyChart(homeId);
-                    break;
-                case App.COST:
-                    //TODO:ADD GET COST CHART
-                    break;
-            }
+            presenter.getEnergyChart(homeId);
+            presenter.getCostChart(homeId);
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
         }
@@ -161,6 +155,9 @@ public class HomeFragment extends Fragment implements HomeView {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,rootView);
+
+        energyChartData = new ArrayList<>();
+        costChartData = new ArrayList<>();
 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage(getResources().getString(R.string.please_wait));
@@ -190,6 +187,7 @@ public class HomeFragment extends Fragment implements HomeView {
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getAlerts(homeId);
             presenter.getEnergyChart(homeId);
+            presenter.getCostChart(homeId);
             presenter.getCurrentEnergy(homeId);
             presenter.getCurrentCost(homeId);
         }
@@ -227,6 +225,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getAlerts(homeId);
                 presenter.getEnergyChart(homeId);
+                presenter.getCostChart(homeId);
                 presenter.getCurrentEnergy(homeId);
                 presenter.getCurrentCost(homeId);
             }
@@ -247,6 +246,7 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     private void generateChartData(List<Integer> chartData){
+        lineChartView.setLineChartData(null);
         List<Line> lines = new ArrayList<>();
 
 
@@ -375,6 +375,12 @@ public class HomeFragment extends Fragment implements HomeView {
     private void updateUICostEnergy(){
         switch (currentShown){
             case App.ENERGY:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getActivity().getWindow();
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(ContextCompat.getColor(getActivity(),R.color.blueDark));
+                }
                 generateChartData(energyChartData);
                 dashboardView.changeColor(getResources().getColor(R.color.blueDark));
                 tvEnergyConsumption.setTextColor(getResources().getColor(R.color.blueLight));
@@ -387,7 +393,7 @@ public class HomeFragment extends Fragment implements HomeView {
                         .setLineWidth(Utils.pxFromDp(getContext(), 16))
                         .setCapRounded(false)
                         .build());
-                tvEnergyLimit.setText("Monthly limit : " + (Float.parseFloat(home.getUpperenergy()) / 1000) + "Kwh");
+                tvEnergyLimit.setText("Monthly limit : " + (Float.parseFloat(home.getUpperenergy()) / 1000) + " Kwh");
                 tvRp.setVisibility(View.GONE);
                 tvKwh.setVisibility(View.VISIBLE);
                 tvBiaya.setText("Total Cost Rp " +NumberFormatter.formatWithDots(Integer.parseInt(cost.split("\\.")[0])));
@@ -398,11 +404,18 @@ public class HomeFragment extends Fragment implements HomeView {
                 tvCostLimit.setText("Monthly limit Rp "+home.getCostLimit());
                 int costbar = Integer.parseInt(cost.split("\\.")[0]);
                 int costLimit = Integer.parseInt(home.getCostLimit().split("\\.")[0]);
-                progressBar.setProgress(costbar/costLimit);
+                tvDate.setTextColor(getResources().getColor(R.color.blueDark));
+                progressBar.setProgress(costbar*100/costLimit);
                 progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progressbar_green));
                 emptyChart.setBackgroundDrawable(getResources().getDrawable(R.drawable.chart_back_blue));
                 break;
             case App.COST:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getActivity().getWindow();
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(ContextCompat.getColor(getActivity(),R.color.greenDark));
+                }
                 generateChartData(costChartData);
                 dashboardView.changeColor(getResources().getColor(R.color.greenDark));
                 tvEnergyConsumption.setTextColor(getResources().getColor(R.color.greenLight));
@@ -416,7 +429,8 @@ public class HomeFragment extends Fragment implements HomeView {
                 tvCostLimit.setText("Monthly limit "+(Float.parseFloat(home.getUpperenergy()) / 1000) + " Kwh");
                 int energy = (int)currentEnergy.getValue();
                 int energyLimit = Integer.parseInt(home.getUpperenergy().split("\\.")[0]);
-                progressBar.setProgress(energy/energyLimit);
+                tvDate.setTextColor(getResources().getColor(R.color.greenDark));
+                progressBar.setProgress(energy*100/energyLimit);
                 progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progressbar_blue));
                 tvEnergy.setText(NumberFormatter.formatWithDots(Integer.parseInt(cost.split("\\.")[0])));
                 arcView.deleteAll();
@@ -425,7 +439,7 @@ public class HomeFragment extends Fragment implements HomeView {
                         .setLineWidth(Utils.pxFromDp(getContext(), 16))
                         .setCapRounded(false)
                         .build());
-                tvEnergyLimit.setText("Monthly limit : " + NumberFormatter.formatWithDots(Integer.parseInt(home.getCostLimit().split("\\.")[0])));
+                tvEnergyLimit.setText("Monthly limit : Rp " + NumberFormatter.formatWithDots(Integer.parseInt(home.getCostLimit().split("\\.")[0])));
                 tvRp.setVisibility(View.VISIBLE);
                 tvKwh.setVisibility(View.GONE);
                 emptyChart.setBackgroundDrawable(getResources().getDrawable(R.drawable.chart_back_green));

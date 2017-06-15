@@ -13,9 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
-import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,9 +59,11 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
     private List<Home> homes;
     private String[] homeNames;
     private String homeId;
+    int selected;
     private Home selectedHome;
     private SharedPreferences preferences;
     private DashboardPresenter presenter;
+    private boolean reset = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +101,16 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
 
     @OnItemSelected(R.id.sp_home)
     void selectHome(int position){
-        selectedHome = homes.get(position);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(App.ACTIVE_HOME,String.valueOf(selectedHome.getId()));
-        editor.commit();
-        setupView();
+        if(reset) {
+            selectedHome = homes.get(position);
+            selected = position;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(App.ACTIVE_HOME, String.valueOf(selectedHome.getId()));
+            editor.commit();
+            setupView();
+        } else {
+            reset = true;
+        }
     }
 
     @OnClick(R.id.card_setting)
@@ -131,7 +135,7 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
         homes = response.body();
         int i = 0;
         homeNames = new String[homes.size()];
-        int selected = 0;
+        selected = 0;
         for (Home home: homes){
             if (String.valueOf(home.getId()).equals(homeId)){
                 selected = homes.indexOf(home);
@@ -141,9 +145,9 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this,
-                R.layout.spinner_center_item,
+                R.layout.spinner_center_item_blue,
                 homeNames);
-        adapter.setDropDownViewResource(R.layout.spinner_center_item);
+        adapter.setDropDownViewResource(R.layout.spinner_center_item_blue);
         spHome.setAdapter(adapter);
         spHome.setSelection(selected);
     }
@@ -160,6 +164,22 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
 
     @Override
     public void changeColor(int color) {
+        reset = false;
         root.setBackgroundColor(color);
+        icDown.setTextColor(color);
+        ArrayAdapter adapter;
+        if (color == getResources().getColor(R.color.greenDark)){
+             adapter = new ArrayAdapter(this,
+                    R.layout.spinner_center_item_green,
+                    homeNames);
+            adapter.setDropDownViewResource(R.layout.spinner_center_item_green);
+        } else {
+            adapter = new ArrayAdapter(this,
+                    R.layout.spinner_center_item_blue,
+                    homeNames);
+            adapter.setDropDownViewResource(R.layout.spinner_center_item_blue);
+        }
+        spHome.setAdapter(adapter);
+        spHome.setSelection(selected);
     }
 }

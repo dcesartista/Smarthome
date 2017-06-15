@@ -118,6 +118,25 @@ public class HomePresenter {
         subscriptions.add(subscription);
     }
 
+    public void getCostChart(String homeId) {
+        view.showNotifProgressBar();
+        Subscription subscription = service.getCostChart(new Service.GetCostChartCallback() {
+            @Override
+            public void onSuccess(Response<List<Double>> response) {
+                view.showCostChart(response);
+
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                Log.d("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId);
+
+        subscriptions.add(subscription);
+    }
+
     public void getCurrentCost(String homeId) {
         view.showCostProgressBar();
         Subscription subscription = service.getCurrentCost(new Service.GetCurrentCostCallback() {
