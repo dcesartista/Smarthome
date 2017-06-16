@@ -18,6 +18,16 @@
 
     <string name="please_wait">Please Wait...</string>
     <string name="network_error">Failed to Connect to Server! Please Check your internet connection!</string>
+
+    <!--PROFILE-->
+    <string name="account">Account</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="home_setting">Home Setting</string>
+    <string name="add_device">Add device</string>
+    <string name="add_house">Add House</string>
+    <string name="sign_out">Sign Out</string>
     
     <!--HOME-->
     <string name="daya_terpasang">Daya Terpasang</string>
@@ -29,7 +39,6 @@
     <string name="show_full_history">show full history</string>
     
     <!--HOME SETTING-->
-    <string name="name">Name</string>
     <string name="home_id">Home ID</string>
     <string name="gateway">Gateway</string>
     <string name="notif_setting">Notification setting</string>

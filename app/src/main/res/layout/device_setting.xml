@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginLeft="32dp"
+    android:layout_marginBottom="12dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:textColor="@color/textPrimary"
+            android:src="@drawable/ic_device_setting_yellow"/>
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/textSecondary"
+            android:textSize="16sp"
+            tools:text="Rumah JohnDoe1"/>
+        <TextView
+            android:id="@+id/ic_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:text="@string/fa_chevron_right"
+            android:textColor="@color/textSecondary"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"/>
+</LinearLayout>

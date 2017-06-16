@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome.adapter.delegates;
+package id.ac.ugm.smartcity.smarthome.adapter.alert_delegates;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.Alert;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
 import id.ac.ugm.smartcity.smarthome.R;
 import id.ac.ugm.smartcity.smarthome.Utils.DateFormatter;
 

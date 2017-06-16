@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by dito on 25/04/17.
  */
 
-public class User {
+public class User implements DisplayableItem{
     public static final String FCM_TOKEN = "fcm_token";
 
     @SerializedName("id")
@@ -130,5 +130,12 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public User(Integer id, String email, String name, String image) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.image = image;
     }
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by dito on 29/05/17.
  */
 
-public class Home implements Serializable {
+public class Home implements Serializable, DisplayableItem {
     public static final String NAME = "name";
     public static final String GATEWAY = "gateway_id";
     public static final String ID = "devid";

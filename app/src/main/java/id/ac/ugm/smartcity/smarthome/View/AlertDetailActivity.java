@@ -1,7 +1,6 @@
 package id.ac.ugm.smartcity.smarthome.View;
 
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import id.ac.ugm.smartcity.smarthome.Model.Alert;
 import id.ac.ugm.smartcity.smarthome.Model.AlertGroup;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertDay;
+import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert.AlertDay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.AlertDetailPresenter;
 import id.ac.ugm.smartcity.smarthome.R;

@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome.Model.recycleritem;
+package id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

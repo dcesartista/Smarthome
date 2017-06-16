@@ -2,7 +2,7 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 import java.util.List;
 
-import id.ac.ugm.smartcity.smarthome.Model.recycleritem.AlertOld;
+import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Alert.AlertOld;
 
 /**
  * Created by dito on 09/02/17.

@@ -9,7 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Device implements Serializable {
+public class Device implements Serializable,
+                                DisplayableItem{
     public static final String NAME = "name";
     public static final String PRODUCT_ID = "product_id";
     public static final String ID = "deviceID";
