@@ -34,14 +34,14 @@ public class DeviceDelegate extends AdapterDelegate<List<DisplayableItem>> {
 
     @Override
     protected boolean isForViewType(@NonNull List<DisplayableItem> items, int position) {
-        return items.get(position) instanceof Home;
+        return items.get(position) instanceof Device;
     }
 
     @NonNull
     @Override
     protected RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         return new DeviceViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.device, parent, false));
+                .inflate(R.layout.device_setting, parent, false));
     }
 
     @Override

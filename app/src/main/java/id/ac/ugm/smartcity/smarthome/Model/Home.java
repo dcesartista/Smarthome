@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by dito on 29/05/17.
@@ -99,6 +100,8 @@ public class Home implements Serializable, DisplayableItem {
     @SerializedName("cost_limit")
     @Expose
     private String costLimit;
+
+    private List<Device> devices;
 
     public Integer getId() {
         return id;
@@ -298,5 +301,13 @@ public class Home implements Serializable, DisplayableItem {
 
     public void setCostLimit(String costLimit) {
         this.costLimit = costLimit;
+    }
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
     }
 }

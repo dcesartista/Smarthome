@@ -1,6 +1,7 @@
 package id.ac.ugm.smartcity.smarthome.adapter.profile_delegate;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.User;
 import id.ac.ugm.smartcity.smarthome.R;
@@ -61,10 +63,20 @@ public class ProfileDelegate extends AdapterDelegate<List<DisplayableItem>> {
         TextView tvName;
         @BindView(R.id.tv_email)
         TextView tvEmail;
+        @BindView(R.id.ic_right1)
+        TextView icRight1;
+        @BindView(R.id.ic_right2)
+        TextView icRight2;
+        @BindView(R.id.ic_right3)
+        TextView icRight3;
 
         public ProfileViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
+            FontManager.markAsIconContainer(icRight1,iconFont);
+            FontManager.markAsIconContainer(icRight2,iconFont);
+            FontManager.markAsIconContainer(icRight3,iconFont);
         }
 
         public void bindItem(User user) {
