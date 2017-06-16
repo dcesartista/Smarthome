@@ -32,6 +32,7 @@ import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.Presenter.GetDevicePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
@@ -151,16 +152,10 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     private void setupRecycleView(){
         deviceItemList = new ArrayList<>();
 
-        adapter = new DeviceAdapter(deviceItemList, getContext(), service, this, homeId, getActivity());
+        adapter = new DeviceAdapter(deviceItemList, getContext());
         layoutManager = new LinearLayoutManager(getContext());
         rvDevice.setLayoutManager(layoutManager);
         rvDevice.setAdapter(adapter);
-    }
-
-    @OnClick(R.id.btn_add_device)
-    void addDevice(){
-        Intent intent = new Intent(getContext(), AddDeviceActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -211,6 +206,7 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         for (Device device : deviceList){
             deviceItemList.add(device);
             Log.d("DATA DEVICE",device.getName());
+            presenter.getRelayData(String.valueOf(device.getId()),deviceItemList.indexOf(device));
         }
         adapter.notifyDataSetChanged();
     }
@@ -222,5 +218,12 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         } else {
             Toast.makeText(getContext(),getResources().getString(R.string.failed_delete),Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void getRelaySuccess(Response<Relay> response, int index) {
+        Log.e("HUUU1","SUKSES!");
+        deviceItemList.get(index).setRelay(response.body());
+        adapter.notifyDataSetChanged();
     }
 }

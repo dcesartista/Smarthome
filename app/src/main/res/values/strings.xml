@@ -67,6 +67,7 @@
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_caret_down">&#xf0d7;</string>
     <string name="fa_chevron_down">&#xf078;</string>
+    <string name="fa_chevron_right">&#xf054;</string>
     <string name="fa_gear">&#xf013;</string>
     <string name="fa_home">&#xf015;</string>
 </resources>

@@ -38,6 +38,7 @@ public class Device implements Serializable {
     @SerializedName("home_id")
     @Expose
     private Integer homeId;
+    private Relay relay;
 
     /**
      * No args constructor for use in serialization
@@ -123,4 +124,11 @@ public class Device implements Serializable {
         this.homeId = homeId;
     }
 
+    public Relay getRelay() {
+        return relay;
+    }
+
+    public void setRelay(Relay relay) {
+        this.relay = relay;
+    }
 }

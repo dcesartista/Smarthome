@@ -12,6 +12,7 @@ import java.util.Map;
 
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
@@ -33,6 +34,7 @@ public class DevicePresenter {
     private final DeviceView view;
     private CompositeSubscription subscriptions;
     private Context context;
+    private String homeId;
     private SharedPreferences preferences;
     private Resources resources;
     private Map<String, String> headers;
@@ -44,6 +46,7 @@ public class DevicePresenter {
         this.subscriptions = new CompositeSubscription();
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
+        homeId = preferences.getString(App.ACTIVE_HOME,"");
         headers = new HashMap<>();
         headers.put(resources.getString(R.string.access_token), preferences.getString(App.ACCESS_TOKEN,""));
         headers.put(resources.getString(R.string.token_type), resources.getString(R.string.bearer));
@@ -159,6 +162,8 @@ public class DevicePresenter {
 
         subscriptions.add(subscription);
     }
+
+
 
     public void onStop() {
         subscriptions.unsubscribe();

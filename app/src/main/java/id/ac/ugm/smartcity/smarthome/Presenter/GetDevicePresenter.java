@@ -12,6 +12,7 @@ import java.util.Map;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
@@ -30,6 +31,7 @@ public class GetDevicePresenter {
     private CompositeSubscription subscriptions;
     private Context context;
     private SharedPreferences preferences;
+    private String homeId;
     private Resources resources;
     private Map<String, String> headers;
 
@@ -40,6 +42,7 @@ public class GetDevicePresenter {
         this.subscriptions = new CompositeSubscription();
         resources = context.getResources();
         preferences = context.getSharedPreferences(App.USER_PREFERENCE, Context.MODE_PRIVATE);
+        homeId = preferences.getString(App.ACTIVE_HOME,"");
         headers = new HashMap<>();
         headers.put(resources.getString(R.string.access_token), preferences.getString(App.ACCESS_TOKEN,""));
         headers.put(resources.getString(R.string.token_type), resources.getString(R.string.bearer));
@@ -100,6 +103,26 @@ public class GetDevicePresenter {
         if (null == subscription){
             Log.e("SUB NULL", "SUBSCRIPTION NULL");
         }
+
+        subscriptions.add(subscription);
+    }
+
+    public void getRelayData(String deviceId, final int index){
+//        view.showLoading();
+        Subscription subscription = service.getRelayData(new Service.GetRelayDataCallBack() {
+            @Override
+            public void onSuccess(Response<Relay> response) {
+//                view.hideLoading();
+                view.getRelaySuccess(response, index);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+//                view.hideLoading();
+                Log.e("ERROR", networkError.getThrowable().getMessage());
+            }
+
+        }, headers, homeId, deviceId);
 
         subscriptions.add(subscription);
     }

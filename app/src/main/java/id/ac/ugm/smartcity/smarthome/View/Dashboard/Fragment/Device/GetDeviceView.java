@@ -4,6 +4,7 @@ import java.util.List;
 
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
+import id.ac.ugm.smartcity.smarthome.Model.Relay;
 import retrofit2.Response;
 
 /**
@@ -24,5 +25,7 @@ public interface GetDeviceView {
     void getDeviceSuccess(Response<List<Device>> deviceList);
 
     void onDeviceDelete(Response<Boolean> response);
+
+    void getRelaySuccess(Response<Relay> response, int index);
 
 }
