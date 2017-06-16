@@ -171,6 +171,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
         };
 
         if(getUserVisibleHint()){
+            dashboardView.changeColor(getResources().getColor(R.color.blueDark));
+            dashboardView.changeHomeSelectorBackground(getResources().getColor(R.color.white));
             dashboardView.setToolbarText("History");
             dashboardView.setSettingVisibility(View.GONE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
@@ -266,6 +268,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if (null != presenter){
+                dashboardView.changeColor(getResources().getColor(R.color.blueDark));
+                dashboardView.changeHomeSelectorBackground(getResources().getColor(R.color.white));
                 dashboardView.setToolbarText("History");
                 dashboardView.setSettingVisibility(View.GONE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);

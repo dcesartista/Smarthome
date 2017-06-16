@@ -76,6 +76,7 @@ public class ProfileFragment extends Fragment {
         progressDialog.setCancelable(false);
 
         if (getUserVisibleHint()){
+            dashboardView.changeColor(getResources().getColor(R.color.blueDark));
             dashboardView.setToolbarText("Profile");
             dashboardView.setHomeSelectorVisibility(View.GONE);
         }
@@ -86,8 +87,11 @@ public class ProfileFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            dashboardView.setToolbarText("Profile");
-            dashboardView.setHomeSelectorVisibility(View.GONE);
+            if(null != presenter) {
+                dashboardView.changeColor(getResources().getColor(R.color.blueDark));
+                dashboardView.setToolbarText("Profile");
+                dashboardView.setHomeSelectorVisibility(View.GONE);
+            }
         }
     }
 

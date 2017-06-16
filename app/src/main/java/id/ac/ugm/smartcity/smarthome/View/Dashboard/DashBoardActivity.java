@@ -51,6 +51,8 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
     TextView icDown;
     @BindView(R.id.activity_dash_board)
     LinearLayout root;
+    @BindView(R.id.sp_background)
+    View spBackground;
 
     DashboardFragmentAdapter adapter;
     @Inject
@@ -159,7 +161,7 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
 
     @Override
     public void setHomeSelectorVisibility(int visibility) {
-//        homeSelector.setVisibility(visibility);
+        homeSelector.setVisibility(visibility);
     }
 
     @Override
@@ -173,13 +175,20 @@ public class DashBoardActivity extends BaseActivity implements DashboardView {
                     R.layout.spinner_center_item_green,
                     homeNames);
             adapter.setDropDownViewResource(R.layout.spinner_center_item_green);
+            spBackground.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_green_outline_semirounded));
         } else {
             adapter = new ArrayAdapter(this,
                     R.layout.spinner_center_item_blue,
                     homeNames);
             adapter.setDropDownViewResource(R.layout.spinner_center_item_blue);
+            spBackground.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_blue_outline_semirounded));
         }
         spHome.setAdapter(adapter);
         spHome.setSelection(selected);
+    }
+
+    @Override
+    public void changeHomeSelectorBackground(int color) {
+        homeSelector.setBackgroundColor(color);
     }
 }

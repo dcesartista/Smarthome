@@ -182,8 +182,8 @@ public class HomeFragment extends Fragment implements HomeView {
         presenter = new HomePresenter(service, this, getContext());
         Log.e("HMMMMppp222","sss1"+getContext().getSharedPreferences(App.USER_PREFERENCE, MODE_PRIVATE).getString(App.ACCESS_TOKEN,""));
         if (getUserVisibleHint()){
+            dashboardView.changeHomeSelectorBackground(getResources().getColor(android.R.color.transparent));
             dashboardView.setToolbarText("SmartHome");
-            dashboardView.setSettingVisibility(View.VISIBLE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             presenter.getAlerts(homeId);
             presenter.getEnergyChart(homeId);
@@ -219,9 +219,10 @@ public class HomeFragment extends Fragment implements HomeView {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
+
             if (null != presenter){
+                dashboardView.changeHomeSelectorBackground(getResources().getColor(android.R.color.transparent));
                 dashboardView.setToolbarText("SmartHome");
-                dashboardView.setSettingVisibility(View.VISIBLE);
                 dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getAlerts(homeId);
                 presenter.getEnergyChart(homeId);

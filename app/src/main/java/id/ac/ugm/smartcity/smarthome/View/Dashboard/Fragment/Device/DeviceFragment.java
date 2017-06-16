@@ -5,14 +5,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -95,6 +99,16 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
         homeId = preferences.getString(App.ACTIVE_HOME,"");
 
         if(getUserVisibleHint()){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getActivity().getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getActivity(),R.color.blueDark));
+            }
+            dashboardView.changeColor(getResources().getColor(R.color.blueDark));
+            dashboardView.changeHomeSelectorBackground(getResources().getColor(R.color.white));
+            dashboardView.setToolbarText("SmartHome");
+            dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             dashboardView.setSettingVisibility(View.GONE);
             dashboardView.setHomeSelectorVisibility(View.VISIBLE);
             dashboardView.setToolbarText("Device");
@@ -110,12 +124,19 @@ public class DeviceFragment extends Fragment implements GetDeviceView {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            Log.e("VISIBLE","CALLED!");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getActivity().getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getActivity(),R.color.blueDark));
+            }
+
             if (null != presenter){
+                dashboardView.changeColor(getResources().getColor(R.color.blueDark));
                 Log.e("PRESENTER","NOT NULL!");
-                dashboardView.setSettingVisibility(View.GONE);
-                dashboardView.setHomeSelectorVisibility(View.VISIBLE);
+                dashboardView.changeHomeSelectorBackground(getResources().getColor(R.color.white));
                 dashboardView.setToolbarText("Device");
+                dashboardView.setHomeSelectorVisibility(View.VISIBLE);
                 presenter.getDeviceList(homeId);
             }
         }
