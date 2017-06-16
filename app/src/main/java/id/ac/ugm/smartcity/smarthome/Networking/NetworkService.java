@@ -53,6 +53,12 @@ public interface NetworkService {
             @QueryMap Map<String, String> params
     );
 
+    @GET("homes/{home_id}/admin_filter")
+    Observable<Response<Boolean>> checkAdmin(
+            @HeaderMap Map<String, String> headers,
+            @Path("home_id") String homeId
+    );
+
     @GET("homes/{home_id}/alert")
     Observable<Response<List<Alert>>> getCurrentAlert(
             @HeaderMap Map<String, String> headers,

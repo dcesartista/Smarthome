@@ -28,6 +28,7 @@
     <string name="add_device">Add device</string>
     <string name="add_house">Add House</string>
     <string name="sign_out">Sign Out</string>
+    <string name="not_admin">You are not an admin of this house. Settings can only be accessed by house admin.</string>
     
     <!--HOME-->
     <string name="daya_terpasang">Daya Terpasang</string>

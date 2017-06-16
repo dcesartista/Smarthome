@@ -13,12 +13,10 @@ import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
 import id.ac.ugm.smartcity.smarthome.Model.User;
-import id.ac.ugm.smartcity.smarthome.Model.User_Model.Login.LoginUser;
 import id.ac.ugm.smartcity.smarthome.Networking.NetworkError;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
 import id.ac.ugm.smartcity.smarthome.R;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.ProfileView;
-import id.ac.ugm.smartcity.smarthome.View.LoginView;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileView;
 import retrofit2.Response;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -104,6 +102,23 @@ public class ProfilePresenter {
 
         subscriptions.add(subscription);
     }
+
+    public void checkAdmin(String homeId){
+        Subscription subscription = service.checkAdmin(new Service.GetAdminStatusCallback() {
+            @Override
+            public void onSuccess(Response<Boolean> response) {
+                view.checkAdminSuccess(response);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+
+            }
+        }, headers, homeId);
+
+        subscriptions.add(subscription);
+    }
+
     public void onStop() {
         subscriptions.unsubscribe();
     }

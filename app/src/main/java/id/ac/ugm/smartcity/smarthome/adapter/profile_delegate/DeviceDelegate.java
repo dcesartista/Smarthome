@@ -18,8 +18,10 @@ import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
-import id.ac.ugm.smartcity.smarthome.Model.Home;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.Presenter.ProfilePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileView;
 
 /**
  * Created by dito on 09/02/17.
@@ -27,9 +29,11 @@ import id.ac.ugm.smartcity.smarthome.R;
 
 public class DeviceDelegate extends AdapterDelegate<List<DisplayableItem>> {
     private Context context;
+    private ProfilePresenter presenter;
 
-    public DeviceDelegate(Context context){
+    public DeviceDelegate(Context context, Service service, ProfileView view){
         this.context = context;
+        presenter = new ProfilePresenter(service, view, context);
     }
 
     @Override
@@ -57,11 +61,12 @@ public class DeviceDelegate extends AdapterDelegate<List<DisplayableItem>> {
 
     public class DeviceViewHolder extends RecyclerView.ViewHolder {
 
-
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.ic_right)
         TextView icRight;
+        @BindView(R.id.root)
+        View root;
 
         public DeviceViewHolder(View itemView) {
             super(itemView);
@@ -70,8 +75,14 @@ public class DeviceDelegate extends AdapterDelegate<List<DisplayableItem>> {
             FontManager.markAsIconContainer(icRight,iconFont);
         }
 
-        public void bindItem(Device device) {
+        public void bindItem(final Device device) {
             tvName.setText(device.getName());
+            root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.checkAdmin(String.valueOf(device.getHomeId()));
+                }
+            });
         }
     }
 }

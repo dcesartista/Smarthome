@@ -13,10 +13,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Profile.AddDevice;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.Presenter.ProfilePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileView;
 
 /**
  * Created by dito on 09/02/17.
@@ -24,9 +26,11 @@ import id.ac.ugm.smartcity.smarthome.R;
 
 public class AddDeviceDelegate extends AdapterDelegate<List<DisplayableItem>> {
     private Context context;
+    private ProfilePresenter presenter;
 
-    public AddDeviceDelegate(Context context){
+    public AddDeviceDelegate(Context context, Service service, ProfileView view){
         this.context = context;
+        presenter = new ProfilePresenter(service, view, context);
     }
 
     @Override

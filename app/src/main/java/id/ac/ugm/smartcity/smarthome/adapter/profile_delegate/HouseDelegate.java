@@ -18,7 +18,10 @@ import butterknife.ButterKnife;
 import id.ac.ugm.smartcity.smarthome.FontManager;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
 import id.ac.ugm.smartcity.smarthome.Model.Home;
+import id.ac.ugm.smartcity.smarthome.Networking.Service;
+import id.ac.ugm.smartcity.smarthome.Presenter.ProfilePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
+import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.ProfileView;
 
 /**
  * Created by dito on 09/02/17.
@@ -26,9 +29,11 @@ import id.ac.ugm.smartcity.smarthome.R;
 
 public class HouseDelegate extends AdapterDelegate<List<DisplayableItem>> {
     private Context context;
+    private ProfilePresenter presenter;
 
-    public HouseDelegate(Context context){
+    public HouseDelegate(Context context, Service service, ProfileView view){
         this.context = context;
+        presenter = new ProfilePresenter(service, view, context);
     }
 
     @Override
@@ -71,12 +76,12 @@ public class HouseDelegate extends AdapterDelegate<List<DisplayableItem>> {
             FontManager.markAsIconContainer(icRight,iconFont);
         }
 
-        public void bindItem(Home home) {
+        public void bindItem(final Home home) {
             tvName.setText(home.getName());
             root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+                    presenter.checkAdmin(String.valueOf(home.getId()));
                 }
             });
         }

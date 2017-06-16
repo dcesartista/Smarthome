@@ -1,4 +1,4 @@
-package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device;
+package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 import java.util.List;
 
@@ -21,5 +21,7 @@ public interface ProfileView {
     void getHomeSuccess(Response<List<Home>> response);
 
     void getDeviceSuccess(Response<List<Device>> response, int index);
+
+    void checkAdminSuccess(Response<Boolean> response);
 
 }

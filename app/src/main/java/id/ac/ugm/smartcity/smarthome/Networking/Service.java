@@ -126,6 +126,35 @@ public class Service {
                 });
     }
 
+    public Subscription checkAdmin(final GetAdminStatusCallback callback, Map<String, String> headers, String homeId){
+        return networkService.checkAdmin(headers, homeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Boolean>>>() {
+                    @Override
+                    public Observable<? extends Response<Boolean>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<Response<Boolean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(Response<Boolean> response) {
+                        callback.onSuccess(response);
+                    }
+
+                });
+    }
+
     public Subscription getAlert(final GetAlertCallback callback, Map<String, String> headers, String homeId){
         return networkService.getAlert(headers, homeId)
                 .subscribeOn(Schedulers.io())
@@ -1286,6 +1315,12 @@ public class Service {
 
     public interface ChangeHomeCallback{
         void onSuccess(Response<Home> response);
+
+        void onError(NetworkError networkError);
+    }
+
+    public interface GetAdminStatusCallback{
+        void onSuccess(Response<Boolean> response);
 
         void onError(NetworkError networkError);
     }

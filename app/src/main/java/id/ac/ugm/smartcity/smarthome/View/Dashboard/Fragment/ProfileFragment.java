@@ -2,28 +2,23 @@ package id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import id.ac.ugm.smartcity.smarthome.App;
 import id.ac.ugm.smartcity.smarthome.Model.Device;
 import id.ac.ugm.smartcity.smarthome.Model.DisplayableItem;
@@ -34,14 +29,9 @@ import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Profile.AddHouse;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Profile.HomeSetting;
 import id.ac.ugm.smartcity.smarthome.Model.recycleritem.Profile.SignOut;
 import id.ac.ugm.smartcity.smarthome.Networking.Service;
-import id.ac.ugm.smartcity.smarthome.Presenter.LoginPresenter;
 import id.ac.ugm.smartcity.smarthome.Presenter.ProfilePresenter;
 import id.ac.ugm.smartcity.smarthome.R;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashBoardActivity;
 import id.ac.ugm.smartcity.smarthome.View.Dashboard.DashboardView;
-import id.ac.ugm.smartcity.smarthome.View.Dashboard.Fragment.Device.ProfileView;
-import id.ac.ugm.smartcity.smarthome.View.LoginActivity;
-import id.ac.ugm.smartcity.smarthome.adapter.AlertAdapter;
 import id.ac.ugm.smartcity.smarthome.adapter.ProfileAdapter;
 import retrofit2.Response;
 
@@ -174,8 +164,33 @@ public class ProfileFragment extends Fragment implements ProfileView {
 
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvProfile.setLayoutManager(layoutManager);
-        adapter = new ProfileAdapter(displayableItems, getContext());
+        adapter = new ProfileAdapter(displayableItems, getContext(), service, this);
         rvProfile.setAdapter(adapter);
+    }
+
+    @Override
+    public void checkAdminSuccess(Response<Boolean> response) {
+        boolean isAdmin = response.body();
+        if (isAdmin){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("ADMIN YEAY !!")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+        }else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage(getResources().getString(R.string.not_admin))
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+        }
+
     }
 
     /*@OnClick(R.id.tv_logout)
